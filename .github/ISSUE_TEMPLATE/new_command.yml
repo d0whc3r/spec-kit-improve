@@ -1,0 +1,70 @@
+name: New command proposal
+description: Propose a new /speckit.improve.* command. Adding a command is a breaking change and requires updates across all agent surfaces.
+title: "feat(command): <command name>"
+labels: ["enhancement", "command", "needs-triage", "breaking"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Adding a command touches the canonical file, the agent mirrors, `extension.yml`, and `catalog.json`. Read `AGENTS.md` before filing.
+
+  - type: input
+    id: command-name
+    attributes:
+      label: Proposed command name
+      placeholder: speckit.improve.<verb>
+    validations:
+      required: true
+
+  - type: textarea
+    id: purpose
+    attributes:
+      label: Purpose
+      description: One paragraph. Why does this command need to exist? Which audience is it for?
+    validations:
+      required: true
+
+  - type: textarea
+    id: inputs-outputs
+    attributes:
+      label: Inputs and outputs
+      description: Which files does it read, which files does it write under `specs/<spec-name>/improve/`, and what format does it produce?
+      placeholder: |
+        Reads: the repository (read-only), specs/*/improve/*.md
+        Writes: specs/<spec-name>/improve/<plan-name>.md
+        Format: spec prompt per templates/improve-spec-prompt-template.md
+    validations:
+      required: true
+
+  - type: textarea
+    id: advisor-boundary
+    attributes:
+      label: Advisor boundary
+      description: Confirm the command keeps the extension's founding rule. It never modifies source code and only writes under `specs/<spec-name>/improve/`; implementation belongs to the spec-kit lifecycle.
+    validations:
+      required: true
+
+  - type: textarea
+    id: agent-mirrors
+    attributes:
+      label: Agent mirror plan
+      description: Confirm you will update the canonical file and the mirrors, plus `extension.yml` and `catalog.json`.
+      value: |
+        - [ ] commands/speckit.improve.<verb>.md (canonical)
+        - [ ] .claude/skills/speckit-improve-<verb>/SKILL.md
+        - [ ] .agents/skills/speckit-improve-<verb>/SKILL.md
+        - [ ] extension.yml provides.commands
+        - [ ] catalog.json provides.commands count
+        - [ ] .github/scripts/validate-manifest.mjs REQUIRED list
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-flight checks
+      options:
+        - label: I confirm this command does not duplicate an existing one.
+          required: true
+        - label: I understand a new command is a breaking change requiring a `feat!` or `BREAKING CHANGE` commit.
+          required: true
