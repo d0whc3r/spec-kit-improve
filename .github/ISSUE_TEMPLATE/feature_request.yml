@@ -47,14 +47,6 @@ body:
     validations:
       required: true
 
-  - type: textarea
-    id: agent-coverage
-    attributes:
-      label: Agent surfaces touched
-      description: Command-level changes must mirror across the Claude Code skill surface and the Spec Kit canonical commands. Confirm whether this proposal requires changes to both, or is documentation-only.
-    validations:
-      required: true
-
   - type: checkboxes
     id: checks
     attributes:

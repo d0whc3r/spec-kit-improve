@@ -1,12 +1,12 @@
 name: New command proposal
-description: Propose a new /speckit.improve.* command. Adding a command is a breaking change and requires updates across all agent surfaces.
+description: Propose a new /speckit.improve.* command. Adding a command is a breaking change and requires lockstep updates to the canonical file, extension.yml, and catalog.json.
 title: "feat(command): <command name>"
 labels: ["enhancement", "command", "needs-triage", "breaking"]
 body:
   - type: markdown
     attributes:
       value: |
-        Adding a command touches the canonical file, the agent mirrors, `extension.yml`, and `catalog.json`. Read `AGENTS.md` before filing.
+        Adding a command touches the canonical file, `extension.yml`, and `catalog.json`. Read `AGENTS.md` before filing.
 
   - type: input
     id: command-name
@@ -45,14 +45,12 @@ body:
       required: true
 
   - type: textarea
-    id: agent-mirrors
+    id: lockstep-plan
     attributes:
-      label: Agent mirror plan
-      description: Confirm you will update the canonical file and the mirrors, plus `extension.yml` and `catalog.json`.
+      label: Lockstep update plan
+      description: Confirm you will update the canonical file plus `extension.yml`, `catalog.json`, and the manifest validator.
       value: |
         - [ ] commands/speckit.improve.<verb>.md (canonical)
-        - [ ] .claude/skills/speckit-improve-<verb>/SKILL.md
-        - [ ] .agents/skills/speckit-improve-<verb>/SKILL.md
         - [ ] extension.yml provides.commands
         - [ ] catalog.json provides.commands count
         - [ ] .github/scripts/validate-manifest.mjs REQUIRED list

@@ -18,23 +18,20 @@
 <!-- Tick everything this PR touches. -->
 
 - [ ] Canonical command file in `commands/`
-- [ ] Claude skill in `.claude/skills/`
-- [ ] Copilot agent or prompt in `.github/agents/` or `.github/prompts/`
-- [ ] Spec Kit manifest in `.specify/integrations/`
 - [ ] `extension.yml` or `catalog.json`
 - [ ] Templates in `templates/`
 - [ ] Scripts in `.github/scripts/`
 - [ ] Documentation only
 
-## Constitution and agent-boundary checklist
+## Agent-boundary checklist
 
-<!-- All command-level changes must mirror across every agent surface. See AGENTS.md and the constitution §V. -->
+<!-- See the "Agent Boundaries" section of AGENTS.md. -->
 
-- [ ] Canonical file in `commands/` is the source of truth.
-- [ ] All four agent surfaces (Claude, Copilot, Codex, Spec Kit core) are updated or unaffected.
+- [ ] `commands/speckit.improve.md` is the single source of truth for the command.
 - [ ] `extension.yml` `provides.commands` matches the canonical command set.
 - [ ] `catalog.json` `provides.commands` count matches.
-- [ ] Generated artifact style obeys constitution §III: plain English, no em dashes, PRFAQ/JTBD/Gherkin/Lean PRD conventions preserved, `[NEEDS CLARIFICATION]` markers untouched.
+- [ ] The advisor boundary holds: the command writes only under `specs/<spec-name>/improve/` and never edits source code.
+- [ ] Shipped content (command, templates) is plain English with no em dashes.
 
 ## Verification
 

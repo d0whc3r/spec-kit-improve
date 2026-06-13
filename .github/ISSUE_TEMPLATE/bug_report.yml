@@ -33,7 +33,7 @@ body:
     id: agent
     attributes:
       label: AI agent
-      description: Which agent surface were you using when the bug occurred?
+      description: Which host agent were you using when the bug occurred?
       options:
         - Claude Code
         - Spec Kit core CLI

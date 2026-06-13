@@ -27,8 +27,7 @@ The release zip installs the canonical content under
 
 The installer also registers the extension in `.specify/extensions/.registry`
 and exposes the command to the host agent in that agent's own command surface
-format. Every surface is mirrored from the canonical command file and never
-diverges in intent from it.
+format.
 
 ## How a command runs
 

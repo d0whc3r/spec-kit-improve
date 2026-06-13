@@ -8,7 +8,6 @@ The repo root IS the extension root, per the canonical Spec Kit extension layout
 
 - `extension.yml`, `README.md`, `LICENSE`, `CHANGELOG.md` at the repo root.
 - `commands/` holds the canonical command prompt; `templates/` holds the references it reads (audit playbook, spec prompt template, closing-the-loop).
-- `.claude/skills/speckit-improve-*/` and `.agents/skills/speckit-improve-*/` are agent mirrors generated from the canonical commands; see `AGENTS.md` for the boundary rules.
 - `catalog.json` is the single-entry catalog file. Pipeline-owned fields (`version`, `download_url`, `requires.speckit_version`, `updated_at`, `created_at`) are updated by CI on every release; do not edit them by hand.
 - `.github/workflows/release.yml` is the release pipeline.
 - `.github/scripts/` holds pipeline helpers (`validate-manifest.mjs`, `build-zip.mjs`, `sync-metadata.mjs`, `lint-content.mjs`).
@@ -31,8 +30,6 @@ The slash command is a markdown prompt at `commands/speckit.improve.md`. Edit it
 1. Run `/speckit.improve quick` against a real repository (this one works).
 2. Judge the output against the contract: findings carry `file:line` evidence, the table is leverage-ordered, and every written spec prompt passes the "Quality bar" section of `templates/improve-spec-prompt-template.md`.
 3. The strongest signal is processing a generated spec prompt through `/speckit.specify` in a fresh session with zero context. Where the generated spec drops or distorts a requirement, the command prompt or the template needs tightening.
-
-When you change a canonical command, regenerate both mirrors (`.claude/skills/` and `.agents/skills/`); the mirror body must stay identical to the command body.
 
 ## Local Pipeline Checks
 
@@ -142,10 +139,10 @@ Use feature branches named `NNN-short-description` (sequential numbering).
 
 ## Style Rules for Shipped Content
 
-The extension's value is the advisor voice and the processability of its spec prompts. Style rules are enforced by `.github/scripts/lint-content.mjs` on `templates/*.md` and checked in review for `commands/*.md`:
+The extension's value is the advisor voice and the processability of its spec prompts. Style rules are enforced by `.github/scripts/lint-content.mjs` on `commands/*.md` and `templates/*.md`:
 
 1. English only, plain English, active voice.
-2. No em dash character in shipped templates.
+2. No em dash character in shipped commands or templates.
 3. Findings always carry `file:line` evidence; spec prompts always carry machine-checkable acceptance criteria with expected results.
 4. The advisor boundary stays intact: no command may instruct an agent to edit source code; the only writes go under `specs/<spec-name>/improve/`.
 

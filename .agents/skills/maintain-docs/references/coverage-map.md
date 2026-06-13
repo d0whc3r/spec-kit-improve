@@ -153,8 +153,8 @@ what the extension is (text, no runtime), how a command resolves and what
 it reads and writes, and the advisor boundary. It does **not** cover the
 repo source tree, the release pipeline, `semantic-release`, CI, or repo
 governance. Those are contributor concerns in `CONTRIBUTING.md`. It also
-does not enumerate per-agent mirror surfaces or name specific assistants;
-refer generically to "the host agent" when needed.
+does not name specific assistants; refer generically to "the host agent"
+when needed.
 
 Asserts:
 
@@ -270,7 +270,7 @@ Re-check whenever: a command is added or removed; the description in
   branch naming. User-facing pages link here for contributor questions;
   the skill does not edit it.
 - `AGENTS.md` / `CLAUDE.md` — agent behavioral guidelines and the
-  command mirror boundary rule. Repo governance, not user docs.
+  advisor boundary rule. Repo governance, not user docs.
 - `SECURITY.md`, `SUPPORT.md`, `CODE_OF_CONDUCT.md` — standard repo
   files. Leave alone unless explicitly asked.
 

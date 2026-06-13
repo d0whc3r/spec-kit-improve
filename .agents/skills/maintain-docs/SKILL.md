@@ -94,10 +94,9 @@ instead:
 - The contributor repo layout (the source tree, where `commands/` and
   `templates/` live as files to edit), dev install
   (`specify extension add --dev`), branch naming.
-- The command mirror rule, the per-agent surfaces (`.claude/skills/`,
-  `.agents/skills/`), assistant names as maintainers, and the repo
-  governance in `AGENTS.md` (renames as breaking changes, the "change
-  these files together" coupling).
+- Assistant names as maintainers, and the repo governance in `AGENTS.md`
+  (renames as breaking changes, the "change these files together"
+  coupling).
 - `CONTRIBUTING.md` and `AGENTS.md`/`CLAUDE.md` themselves. They are the
   contributor home and the agent-behavior file. This skill does not edit
   them. When a user-facing page needs to hand a reader off to contributor
@@ -151,10 +150,6 @@ Commands actually shipped:
 Hooks declared: none
 Version: 0.1.0  Requires: speckit >= 0.2.0
 ```
-
-The manifests under `.specify/integrations/` are a contributor concern
-(they keep the command mirrored across host agents). They are not a
-user-facing doc input, so do not inventory them here.
 
 ### Phase 2: Inventory the user-facing layer
 
@@ -217,8 +212,8 @@ After the script, do a second-pass semantic audit it cannot do:
    a short subset of the wiki, so it need not cover every page, but nothing
    it states may contradict the canonical sources.
 8. **Scope audit.** Scan every in-scope page for out-of-scope content
-   (release pipeline, CI, `.github/`, dev install, repo tree, the
-   command mirror rule, repo governance). Flag each occurrence. The
+   (release pipeline, CI, `.github/`, dev install, repo tree, repo
+   governance). Flag each occurrence. The
    fix is to remove it and, if a reader genuinely needs that information,
    leave a single link to `CONTRIBUTING.md`.
 
@@ -311,8 +306,8 @@ checks are clean. Do not commit; the user controls commits.
 ## What this skill must not do
 
 - Do not edit `commands/`, `templates/`, `extension.yml`, `catalog.json`,
-  `.specify/integrations/`, the workflows under `.github/`, or
-  `.specify/memory/constitution.md`. They are canonical.
+  the workflows under `.github/`, or `.specify/memory/constitution.md`.
+  They are canonical.
 - Do not edit `CONTRIBUTING.md` or `AGENTS.md`/`CLAUDE.md`. They are the
   contributor and agent-behavior homes.
 - Do not add release, CI, dev-install, repo-tree, or governance content
