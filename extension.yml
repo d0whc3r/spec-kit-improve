@@ -1,0 +1,36 @@
+schema_version: "1.0"
+
+extension:
+  id: improve
+  name: "Improve Extension"
+  version: "0.1.0"
+  description: "Audits any codebase as a senior advisor and writes prioritized, self-contained spec prompts under specs/ that the spec-kit lifecycle can process."
+  author: d0whc3r
+  repository: https://github.com/d0whc3r/spec-kit-improve
+  homepage: https://d0whc3r.github.io/spec-kit-improve/
+  license: MIT
+
+requires:
+  speckit_version: ">=0.2.0"
+
+provides:
+  commands:
+    - name: speckit.improve
+      file: commands/speckit.improve.md
+      description: "Audit any codebase as a senior advisor and write self-contained spec prompts under specs/<spec>/improve/ for the spec-kit lifecycle to process: surface prioritized findings with evidence, write a single prompt for a specific change, or re-run to refresh prompts whose code has drifted"
+
+tags:
+  - advisor
+  - audit
+  - code-quality
+  - code-review
+  - improvement
+  - performance
+  - planning
+  - refactoring
+  - security
+  - spec-kit
+  - spec-kit-extension
+  - specs
+  - tech-debt
+  - testing
