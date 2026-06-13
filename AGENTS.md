@@ -82,18 +82,16 @@ This repository ships the Improve Extension for Spec Kit: a read-only senior
 advisor that audits a codebase and writes self-contained spec prompts under
 `specs/<spec-name>/improve/` for the spec-kit lifecycle (`/speckit.specify`
 through `/speckit.implement`) to process. It exposes a single command,
-`/speckit.improve`, mirrored across two integration surfaces.
+`/speckit.improve`.
 
 | Agent         | Skill Surface                             | Notes                                         |
 | ------------- | ----------------------------------------- | --------------------------------------------- |
 | Spec Kit core | `commands/speckit.improve.md` (canonical) | Shipped in the release zip with `templates/`. |
-| Claude Code   | `.claude/skills/speckit-improve/SKILL.md` | Body identical to the canonical command.      |
-| Agent Skills  | `.agents/skills/speckit-improve/SKILL.md` | Same content as the Claude mirror.            |
 
 Rules:
 
-1. Canonical command file lives at `commands/speckit.improve.md`. Mirrors derive from it; they must not diverge in intent.
-2. Changing the command surface requires updating in lockstep: the canonical file, both mirror surfaces, `extension.yml` `provides.commands`, the `catalog.json` `provides.commands` count, and the `REQUIRED` list in `.github/scripts/validate-manifest.mjs`.
+1. Canonical command file lives at `commands/speckit.improve.md`.
+2. Changing the command surface requires updating in lockstep: the canonical file, `extension.yml` `provides.commands`, the `catalog.json` `provides.commands` count, and the `REQUIRED` list in `.github/scripts/validate-manifest.mjs`.
 3. Renaming or removing the command is a breaking change and requires a `feat!:` or `BREAKING CHANGE:` commit.
 4. The advisor boundary is non-negotiable: the command never instructs an agent to modify source code; the only writes go to `specs/<spec-name>/improve/`. Turning a prompt into source changes belongs to the spec-kit core lifecycle (`/speckit.specify` generates the spec, `/speckit.implement` executes it). The single command can also re-run to refresh prompts whose code has drifted. Shipped content (command, templates) uses plain English and no em dashes; `.github/scripts/lint-content.mjs` enforces this.
 

@@ -7,6 +7,8 @@
 //     declared order. Optional headings may carry a " _(optional)_" suffix.
 //   - The command file references the template and any extra refs.
 //   - No banned AI-tell phrases.
+// Each shipped command is linted for the same prose rules (no em dash, no
+// banned phrases).
 // Then an oxfmt --check pass over commands, templates, and README.
 //
 // Usage: node lint-content.mjs
@@ -22,16 +24,9 @@ const BANNED_PHRASES = ["delve", "tapestry", "in essence", "navigate the landsca
 const SPEC_PROMPT_TEMPLATE = "templates/improve-spec-prompt-template.md";
 const CLOSING_THE_LOOP = "templates/improve-closing-the-loop.md";
 
-// The canonical command and its skill mirror(s). Their bodies must stay
-// identical (AGENTS.md "Agent Boundaries"); only the frontmatter may differ
-// (mirrors add name/compatibility/metadata). .claude/skills/* are symlinks to
-// .agents/skills/*, so only the .agents mirror needs comparing.
-const COMMAND_MIRRORS = [
-  {
-    canonical: "commands/speckit.improve.md",
-    mirror: ".agents/skills/speckit-improve/SKILL.md",
-  },
-];
+// Shipped command bodies are linted for the same prose rules as templates
+// (AGENTS.md "Agent Boundaries" rule 4: no em dashes, plain English).
+const COMMANDS = ["commands/speckit.improve.md"];
 
 // Each entry pairs a shipped reference template with the command that must
 // point executors at it. `mandatory` lists the template's stable top-level
@@ -80,31 +75,12 @@ const TEMPLATES = [
 const read = (rel) => fs.readFileSync(path.join(repoRoot, rel), "utf8");
 const exists = (rel) => fs.existsSync(path.join(repoRoot, rel));
 
-// Drop a leading YAML frontmatter block (from the first `---` line to the next
-// `---` line). The body uses `---` as a markdown rule, so only the leading
-// block is stripped. Files without frontmatter are returned unchanged.
-function stripFrontmatter(text) {
-  const lines = text.split("\n");
-  if (lines[0] !== "---") return text;
-  let i = 1;
-  while (i < lines.length && lines[i] !== "---") i++;
-  if (i >= lines.length) return text; // no closing fence: treat all as body
-  return lines.slice(i + 1).join("\n");
-}
-
-// Fail when a mirror's body diverges from its canonical command's body.
-function lintMirrors(fail) {
-  for (const { canonical, mirror } of COMMAND_MIRRORS) {
-    if (!exists(canonical)) {
-      fail(`${canonical} missing`);
-      continue;
-    }
-    if (!exists(mirror)) {
-      fail(`${mirror} missing (mirror of ${canonical})`);
-      continue;
-    }
-    if (stripFrontmatter(read(canonical)).trim() !== stripFrontmatter(read(mirror)).trim()) {
-      fail(`mirror body diverged: ${mirror} does not match ${canonical} (frontmatter aside)`);
+// Shared prose rules for shipped content: no em dash, no banned AI-tell phrases.
+function lintProse(rel, text, fail) {
+  if (text.includes("—")) fail(`em dash found in ${rel}`);
+  for (const phrase of BANNED_PHRASES) {
+    if (text.toLowerCase().includes(phrase)) {
+      fail(`banned phrase "${phrase}" found in ${rel}`);
     }
   }
 }
@@ -123,7 +99,7 @@ function lintTemplate(spec, fail) {
   const text = read(spec.template);
   const lines = text.split("\n");
 
-  if (text.includes("—")) fail(`em dash found in ${spec.template}`);
+  lintProse(spec.template, text, fail);
 
   // Single ordered cursor across mandatory then optional headings.
   let last = 0;
@@ -154,12 +130,6 @@ function lintTemplate(spec, fail) {
       if (!cmd.includes(ref)) fail(`${spec.command} does not reference ${ref}`);
     }
   }
-
-  for (const phrase of BANNED_PHRASES) {
-    if (text.toLowerCase().includes(phrase)) {
-      fail(`banned phrase "${phrase}" found in ${spec.template}`);
-    }
-  }
 }
 
 export async function lintContent() {
@@ -171,7 +141,10 @@ export async function lintContent() {
 
   for (const spec of TEMPLATES) lintTemplate(spec, fail);
 
-  lintMirrors(fail);
+  for (const cmd of COMMANDS) {
+    if (!exists(cmd)) fail(`${cmd} missing`);
+    else lintProse(cmd, read(cmd), fail);
+  }
 
   // oxfmt pass over the shipped markdown.
   const oxfmt = path.join(repoRoot, "node_modules/.bin/oxfmt");
