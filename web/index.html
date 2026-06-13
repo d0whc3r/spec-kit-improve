@@ -1,0 +1,690 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Improve Extension for Spec Kit</title>
+    <meta
+      name="description"
+      content="A Spec Kit extension that audits any codebase as a senior advisor and writes prioritized, self-contained spec prompts under specs/ that the spec-kit lifecycle can process."
+    />
+    <meta property="og:title" content="Improve Extension for Spec Kit" />
+    <meta
+      property="og:description"
+      content="Audits any codebase as a senior advisor and writes prioritized, self-contained spec prompts under specs/ that the spec-kit lifecycle can process."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://d0whc3r.github.io/spec-kit-improve/" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <nav class="nav" aria-label="Primary">
+        <a class="brand" href="#top">
+          <span class="brand-mark" aria-hidden="true">/</span>
+          <span>Improve Extension</span>
+          <span class="brand-version">v0.1.0</span>
+        </a>
+        <button
+          class="nav-toggle"
+          aria-expanded="false"
+          aria-controls="nav-links"
+          aria-label="Toggle navigation"
+        >
+          <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links" id="nav-links">
+          <li><a href="#what">What it does</a></li>
+          <li><a href="#commands">Commands</a></li>
+          <li><a href="#examples">Examples</a></li>
+          <li><a href="#start">Get started</a></li>
+          <li><a href="#install-help">Install help</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li>
+            <a class="nav-cta" href="https://github.com/d0whc3r/spec-kit-improve">GitHub</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top">
+        <div class="container hero-inner">
+          <p class="eyebrow">A Spec Kit extension</p>
+          <h1>
+            The expensive model writes the spec prompt. The spec-kit lifecycle writes the code.
+          </h1>
+          <p class="lede">
+            Improve Extension audits your codebase as a read-only senior advisor. It presents a
+            leverage-ordered findings table with file:line evidence, and turns the findings you pick
+            into self-contained spec prompts under <code>specs/&lt;spec&gt;/improve/</code> that the
+            spec-kit lifecycle can process. It never modifies source code itself. The prompt is the
+            product.
+          </p>
+
+          <div class="install">
+            <div class="install-head">
+              <span class="install-label">Install with Spec Kit</span>
+              <div class="tabs" role="tablist" aria-label="Install method">
+                <button
+                  id="tab-install-direct"
+                  class="tab is-active"
+                  role="tab"
+                  aria-selected="true"
+                  aria-controls="panel-install-direct"
+                >
+                  Direct install
+                </button>
+                <button
+                  id="tab-install-catalog"
+                  class="tab"
+                  role="tab"
+                  aria-selected="false"
+                  aria-controls="panel-install-catalog"
+                >
+                  Via catalog
+                </button>
+              </div>
+            </div>
+
+            <div
+              id="panel-install-direct"
+              class="tab-panel is-active"
+              role="tabpanel"
+              aria-labelledby="tab-install-direct"
+            >
+              <pre data-copy><code>specify extension add improve \
+  --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v0.1.0/improve-0.1.0.zip</code></pre>
+              <p class="install-hint">
+                Works with zero configuration. This is the most reliable path and the same one you
+                use to pin a version.
+              </p>
+            </div>
+
+            <div
+              id="panel-install-catalog"
+              class="tab-panel"
+              role="tabpanel"
+              aria-labelledby="tab-install-catalog"
+              hidden
+            >
+              <pre data-copy><code>specify extension catalog add \
+  https://raw.githubusercontent.com/github/spec-kit/main/extensions/catalog.community.json \
+  --name community --install-allowed
+specify extension add improve</code></pre>
+              <p class="install-hint">
+                Prefer installing and updating by name? Approve the community catalog once, then
+                <code>add</code> and <code>update</code> resolve <code>improve</code> automatically.
+                See <a href="#install-help">install help</a> for why this is needed.
+              </p>
+            </div>
+          </div>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#start">Get started</a>
+            <a class="btn btn-ghost" href="#examples">See an example</a>
+            <a class="btn btn-ghost" href="https://github.com/d0whc3r/spec-kit-improve/wiki"
+              >Read the docs</a
+            >
+          </div>
+
+          <ul class="hero-badges">
+            <li>One command</li>
+            <li>Requires Spec Kit &gt;= 0.2.0</li>
+            <li>MIT licensed</li>
+            <li>Never edits your source</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section" id="what">
+        <div class="container">
+          <h2>Why this exists</h2>
+          <p class="section-lede">
+            Model intelligence is priced per token, and most of an implementation session spends
+            those tokens on mechanical work. The part where a strong model earns its price is
+            understanding a codebase, judging what matters, and specifying the change. This
+            extension keeps the expensive model on that part and hands the execution to the spec-kit
+            pipeline.
+          </p>
+          <div class="cards cards-3">
+            <article class="card">
+              <h3>Read-only by contract</h3>
+              <p>
+                The advisor's only writes go to <code>specs/&lt;spec&gt;/improve/</code>. It never
+                edits source code and never runs commands that mutate your working tree. Ask it to
+                implement something and it declines and points at the prompt; handing it to
+                <code>/speckit.specify</code> is how it becomes code.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Findings with evidence</h3>
+              <p>
+                The audit covers nine categories: correctness, security, performance, tests, tech
+                debt, dependencies, DX, docs, and direction. Every finding is vetted by re-reading
+                the cited code before it reaches you, in a leverage-ordered table with file:line
+                references.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Prompts built for spec-kit</h3>
+              <p>
+                Each spec prompt carries current-state code excerpts, numbered testable
+                requirements, machine-checkable acceptance criteria, and hard scope boundaries. It
+                stamps the commit it was written against in its frontmatter, so drift is detected
+                before the prompt is processed.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-alt" id="commands">
+        <div class="container">
+          <h2>One command</h2>
+          <p class="section-lede">
+            <code>/speckit.improve</code> runs the full audit-to-prompts workflow, or specs a single
+            known change when you name it. From there you hand each prompt to
+            <code>/speckit.specify</code>, and a later re-run keeps the backlog truthful between
+            sessions.
+          </p>
+
+          <div class="table-wrap">
+            <table class="cmd-table">
+              <thead>
+                <tr>
+                  <th>Command</th>
+                  <th>What it does</th>
+                  <th>Writes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>/speckit.improve</code></td>
+                  <td>
+                    Full audit: recon, parallel category audit, vetted findings table, spec prompts
+                    for the findings you pick. Pass a change description instead to skip the audit
+                    and write a single prompt for just that change. A re-run dedupes against
+                    existing prompts and refreshes any that drifted.
+                  </td>
+                  <td><code>specs/&lt;spec&gt;/improve/*.md</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="note">
+            Modifiers compose: <code>quick</code> or <code>deep</code> set the effort, a category
+            name (<code>security</code>, <code>perf</code>, <code>tests</code>, ...) focuses on one
+            area, <code>branch</code> audits only what the current branch changes,
+            <code>next</code> suggests feature direction, and <code>--issues</code> also publishes
+            prompts as GitHub issues. For example: <code>/speckit.improve quick security</code>.
+          </p>
+          <p class="note">
+            Each <code>TODO</code> prompt is a feature description for
+            <code>/speckit.specify</code>: hand it the prompt body, then carry the generated spec
+            through <code>/speckit.clarify</code>, <code>/speckit.plan</code>,
+            <code>/speckit.tasks</code>, and <code>/speckit.implement</code>.
+          </p>
+        </div>
+      </section>
+
+      <section class="section" id="examples">
+        <div class="container">
+          <h2>See it in action</h2>
+          <p class="section-lede">
+            A real audit of a TypeScript monorepo: a component registry CLI plus its documentation
+            site. The advisor presented the findings table on the left; the file on the right is the
+            spec prompt that landed in the target repo's <code>specs/</code> tree, scoped under
+            <code>specs/registry-cli/improve/</code>. Everything is rendered straight from the files
+            in the
+            <a href="https://github.com/d0whc3r/spec-kit-improve/tree/main/examples"
+              >examples folder</a
+            >. Pick a view, read the excerpt, and open the full version.
+          </p>
+
+          <div class="example-card">
+            <div class="example-tabs tabs" role="tablist" aria-label="Generated spec prompt">
+              <button
+                id="tab-ex-index"
+                class="tab is-active"
+                role="tab"
+                aria-selected="true"
+                aria-controls="panel-ex-index"
+              >
+                The frontmatter (status record)
+              </button>
+              <button
+                id="tab-ex-plan"
+                class="tab"
+                role="tab"
+                aria-selected="false"
+                aria-controls="panel-ex-plan"
+              >
+                The prompt body
+              </button>
+            </div>
+
+            <div class="example-body">
+              <div class="example-pane">
+                <div class="example-head">
+                  <span class="example-tag">Audit output</span>
+                  <code>the findings table</code>
+                  <button
+                    class="md-full-btn"
+                    type="button"
+                    data-md-full="examples/README.md"
+                    data-md-title="examples/README.md"
+                  >
+                    View full file
+                  </button>
+                </div>
+                <pre class="md-source"><code>## The findings table (what the audit presented)
+
+After recon, a parallel category audit, and a vetting pass, the advisor
+presented this leverage-ordered table:
+
+| # | Finding | Category | Impact | Effort | Risk | Confidence |
+| - | ------- | -------- | ------ | ------ | ---- | ---------- |
+| 1 | Shadow-config resolution duplicated in `search.ts`/`view.ts`, copies already drifted | tech-debt | HIGH | M | LOW | HIGH |
+| 2 | O(n^2) icon migration loop (`migrate-icons.ts:168`) | perf | MED | S | LOW | HIGH |
+| 3 | Registry fetch swallows HTTP errors, CLI reports "0 components" instead of failing | bug | HIGH | S | LOW | HIGH |
+| 4 | No characterization tests on the config resolver feeding findings 1 and 3 | tests | HIGH | M | LOW | HIGH |
+
+...and rejected a few, with reasons recorded in the final report so they
+don't come back next run.</code></pre>
+                <p class="example-note">
+                  Every finding cites the code it came from. You reply with the ones to plan, for
+                  example "plan 1, 3 and 4".
+                </p>
+              </div>
+
+              <div class="example-arrow" aria-hidden="true">&rarr;</div>
+
+              <div class="example-pane">
+                <div
+                  id="panel-ex-index"
+                  class="tab-panel is-active"
+                  role="tabpanel"
+                  aria-labelledby="tab-ex-index"
+                >
+                  <div class="example-head">
+                    <span class="example-tag example-tag-out">Output</span>
+                    <code>specs/registry-cli/improve/extract-shadow-config-resolution.md</code>
+                    <button
+                      class="md-full-btn"
+                      type="button"
+                      data-md-full="examples/specs/registry-cli/improve/extract-shadow-config-resolution.md"
+                      data-md-title="specs/registry-cli/improve/extract-shadow-config-resolution.md"
+                    >
+                      View full file
+                    </button>
+                  </div>
+                  <pre class="md-source"><code>---
+status: TODO
+priority: P1
+effort: M
+risk: LOW
+category: tech-debt
+depends: []
+planned_at: 4f9c2e1
+issue: ""
+---
+
+# Extract shared shadow-config resolution into one utility</code></pre>
+                  <p class="example-note">
+                    Each prompt is self-indexing: the frontmatter carries status, priority,
+                    dependencies, and the commit it was planned against. There is no separate index
+                    file; commands discover the backlog by globbing
+                    <code>specs/*/improve/*.md</code>.
+                  </p>
+                </div>
+
+                <div
+                  id="panel-ex-plan"
+                  class="tab-panel"
+                  role="tabpanel"
+                  aria-labelledby="tab-ex-plan"
+                  hidden
+                >
+                  <div class="example-head">
+                    <span class="example-tag example-tag-out">Output</span>
+                    <code>specs/registry-cli/improve/extract-shadow-config-resolution.md</code>
+                    <button
+                      class="md-full-btn"
+                      type="button"
+                      data-md-full="examples/specs/registry-cli/improve/extract-shadow-config-resolution.md"
+                      data-md-title="specs/registry-cli/improve/extract-shadow-config-resolution.md"
+                    >
+                      View full file
+                    </button>
+                  </div>
+                  <pre
+                    class="md-source"
+                  ><code># Extract shared shadow-config resolution into one utility
+
+## Objective
+
+The logic that resolves a component's shadow registry configuration is
+implemented twice: once in `search.ts` and once in `view.ts`. The copies
+have already drifted: `search.ts` handles the `registries` override map
+while `view.ts` does not. One shared utility removes the class of bug.
+
+## Detailed instructions
+
+### Requirements
+
+- R1: A single utility `resolveShadowConfig(config: Config)` exists in
+  `packages/cli/src/utils/resolve-shadow-config.ts`.
+- R2: Both `search.ts` and `view.ts` call the utility instead of
+  resolving inline.
+
+### Acceptance criteria
+
+- [ ] `pnpm --filter cli typecheck` exits 0
+- [ ] `grep -rn "mergeRegistries" packages/cli/src/commands/` returns
+      no matches (logic lives only in the utility)</code></pre>
+                  <p class="example-note">
+                    An objective <code>/speckit.specify</code> can derive user scenarios from,
+                    numbered testable requirements, machine-checkable acceptance criteria, and a
+                    hard out-of-scope list: written for a consumer with zero prior context.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="note">
+            The snippets above are excerpts. Hit <strong>View full file</strong> to read the whole
+            artifact rendered in place, or browse every file on the
+            <a href="https://github.com/d0whc3r/spec-kit-improve/wiki/Examples">Examples page</a> in
+            the wiki.
+          </p>
+        </div>
+      </section>
+
+      <!-- In-page markdown viewer. Populated and toggled by src/markdown.ts; hidden
+           and inert until a "View full file" button is pressed. -->
+      <div
+        id="md-modal"
+        class="md-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="md-modal-title"
+        hidden
+      >
+        <div class="md-modal-backdrop" data-md-close></div>
+        <div class="md-modal-dialog" role="document">
+          <header class="md-modal-head">
+            <code id="md-modal-title" class="md-modal-title"></code>
+            <a id="md-modal-gh" class="md-modal-gh" href="#" target="_blank" rel="noopener">
+              Open on GitHub
+            </a>
+            <button class="md-modal-close" type="button" data-md-close aria-label="Close">
+              &times;
+            </button>
+          </header>
+          <div id="md-modal-body" class="md-modal-body md-body" tabindex="-1"></div>
+        </div>
+      </div>
+
+      <section class="section section-alt" id="start">
+        <div class="container">
+          <h2>Get started in five minutes</h2>
+          <ol class="steps">
+            <li>
+              <h3>Install the extension</h3>
+              <p>
+                You need Spec Kit &gt;= 0.2.0 initialized (<code>specify init</code>) and a git
+                repository. Install directly from the latest release; this needs no catalog setup
+                and is the recommended path:
+              </p>
+              <pre data-copy><code>specify extension add improve \
+  --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v0.1.0/improve-0.1.0.zip</code></pre>
+              <p>Confirm it registered:</p>
+              <pre data-copy><code>cat .specify/extensions/.registry   # 'improve' entry present
+ls .specify/extensions/improve      # extension files present</code></pre>
+              <p class="step-aside">
+                Prefer <code>specify extension add improve</code> by name? That needs the community
+                catalog approved first. See <a href="#install-help">install help</a>.
+              </p>
+            </li>
+            <li>
+              <h3>Run your first audit</h3>
+              <p>
+                Run the audit in your Spec Kit-aware assistant. Add <code>quick</code> to keep it
+                cheap, <code>deep</code> to cover every package and category.
+              </p>
+              <pre data-copy><code>/speckit.improve</code></pre>
+            </li>
+            <li>
+              <h3>Pick findings and read the prompts</h3>
+              <p>
+                The audit ends with a leverage-ordered findings table. Reply with the ones you want
+                planned. Spec prompts land under <code>specs/&lt;spec&gt;/improve/</code>; read
+                them, they are meant to be reviewed.
+              </p>
+              <pre data-copy><code>plan 1, 3 and 4</code></pre>
+            </li>
+            <li>
+              <h3>Hand off and re-run</h3>
+              <p>
+                Hand a prompt's body to <code>/speckit.specify</code>, then carry the generated spec
+                through the standard lifecycle (<code>/speckit.clarify</code>,
+                <code>/speckit.plan</code>, <code>/speckit.tasks</code>,
+                <code>/speckit.implement</code>). Next session, re-run <code>/speckit.improve</code>
+                so the backlog stays truthful.
+              </p>
+              <pre
+                data-copy
+              ><code>/speckit.specify &lt;body of extract-shadow-config-resolution.md&gt;
+/speckit.improve</code></pre>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="section" id="workflow">
+        <div class="container">
+          <h2>How it flows</h2>
+          <p class="section-lede">
+            Every command reads the repository and writes only under
+            <code>specs/&lt;spec&gt;/improve/</code>. Turning a prompt into code belongs to the
+            spec-kit lifecycle, and merging is always your decision.
+          </p>
+          <pre
+            class="flow"
+          ><code>you                            the extension                          specs/&lt;spec&gt;/improve/
+---                            -------------                          ---------------------
+
+/speckit.improve          -->  recon -> audit -> vet -> confirm -->  &lt;plan-name&gt;.md (status TODO)
+                                       (you pick the findings)
+
+/speckit.improve &lt;desc&gt;   -->  recon -> targeted investigation  -->  &lt;plan-name&gt;.md (status TODO)
+
+/speckit.improve (re-run) -->  dedupe + drift-refresh           -->  refreshed prompts (or REJECTED)
+
+then hand off each TODO prompt to the spec-kit lifecycle:
+
+/speckit.specify &lt;prompt body&gt; --> /speckit.clarify --> /speckit.plan --> /speckit.tasks --> /speckit.implement</code></pre>
+          <p class="note">
+            Each prompt stamps the git commit it was written against in its
+            <code>planned_at</code> frontmatter field, so a re-run detects drift mechanically before
+            you hand a prompt off. Status values: TODO, DONE, REJECTED.
+          </p>
+        </div>
+      </section>
+
+      <section class="section section-alt" id="install-help">
+        <div class="container">
+          <h2>Install help</h2>
+          <p class="section-lede">
+            If <code>specify extension add improve</code> stops with the error below, this is the
+            fix. It is expected behavior, not a broken release.
+          </p>
+
+          <div class="callout callout-error">
+            <p class="callout-title">The error you may see</p>
+            <pre><code>Error: 'improve' is available in the 'community' catalog but installation
+is not allowed from that catalog.
+
+To enable installation, add 'improve' to an approved catalog
+(install_allowed: true) in .specify/extension-catalogs.yml.</code></pre>
+          </div>
+
+          <p>
+            Spec Kit ships the community catalog as <strong>discovery only</strong>. It carries
+            <code>install_allowed: false</code> by design, so the CLI can list community extensions
+            but will not install one until you opt in. You have two ways to opt in.
+          </p>
+
+          <div class="install-options">
+            <article class="card">
+              <h3>Option A: Direct install (recommended)</h3>
+              <p>
+                Install straight from the release archive. No catalog config, always works, and it
+                is the only way to pin a specific version.
+              </p>
+              <pre data-copy><code>specify extension add improve \
+  --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v0.1.0/improve-0.1.0.zip</code></pre>
+              <p class="example-note">
+                To update later, run the same command with a newer version URL.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Option B: Approve the community catalog</h3>
+              <p>
+                Do this once if you want to install and update by name. It adds the catalog with
+                <code>install_allowed: true</code> to <code>.specify/extension-catalogs.yml</code>.
+              </p>
+              <pre data-copy><code>specify extension catalog add \
+  https://raw.githubusercontent.com/github/spec-kit/main/extensions/catalog.community.json \
+  --name community --install-allowed
+
+specify extension add improve
+specify extension update improve</code></pre>
+              <p class="example-note">
+                Community extensions are author-maintained and not reviewed by Spec Kit. Review the
+                source before approving a catalog.
+              </p>
+            </article>
+          </div>
+
+          <p class="note">
+            More refusal codes and fixes live in
+            <a href="https://github.com/d0whc3r/spec-kit-improve/wiki/Troubleshooting"
+              >Troubleshooting</a
+            >.
+          </p>
+        </div>
+      </section>
+
+      <section class="section" id="faq">
+        <div class="container">
+          <h2>Frequently asked questions</h2>
+          <div class="faq">
+            <details>
+              <summary>Why does <code>specify extension add improve</code> fail?</summary>
+              <p>
+                The extension lives in Spec Kit's community catalog, which is discovery only and
+                carries <code>install_allowed: false</code>. The CLI can list it but will not
+                install until you opt in. Either install directly with
+                <code>--from &lt;release-zip-url&gt;</code>, or approve the community catalog once.
+                Full steps are in <a href="#install-help">install help</a>.
+              </p>
+            </details>
+            <details>
+              <summary>Will it modify my code?</summary>
+              <p>
+                No. The advisor's only writes go to <code>specs/&lt;spec&gt;/improve/</code>, and it
+                never runs commands that mutate your working tree. Code changes happen through the
+                standard spec-kit lifecycle (<code>/speckit.implement</code>), which is always under
+                your control. Ask the advisor to implement something directly and it declines and
+                points at the prompt.
+              </p>
+            </details>
+            <details>
+              <summary>Who turns a prompt into code?</summary>
+              <p>
+                The spec-kit lifecycle. Hand a <code>TODO</code> prompt's body to
+                <code>/speckit.specify</code>, which generates the feature spec, then carry it
+                through <code>/speckit.clarify</code> (which resolves any gap the spec dropped),
+                <code>/speckit.plan</code>, <code>/speckit.tasks</code>, and
+                <code>/speckit.implement</code>. Prompts are also self-contained enough to hand to
+                any agent or person, or to publish as GitHub issues.
+              </p>
+            </details>
+            <details>
+              <summary>Do I have to run the full audit every time?</summary>
+              <p>
+                No. Passing a change description to <code>/speckit.improve</code> skips the audit
+                when you already know the change you want. <code>/speckit.improve quick</code> keeps
+                a full audit cheap, and <code>/speckit.improve branch</code> scopes it to what your
+                current branch changes, which is useful before a PR.
+              </p>
+            </details>
+            <details>
+              <summary>What if the code changed since a prompt was written?</summary>
+              <p>
+                Each prompt stamps the commit it was written against in its frontmatter, and a
+                re-run of <code>/speckit.improve</code> runs a mechanical drift check before writing
+                anything new. The re-run refreshes drifted prompts and marks REJECTED any finding
+                that no longer holds. Re-run it before you hand a prompt to
+                <code>/speckit.specify</code>.
+              </p>
+            </details>
+            <details>
+              <summary>What happens if the audit finds credentials?</summary>
+              <p>
+                It reports the <code>file:line</code> location and the credential type, never the
+                value, and recommends rotation.
+              </p>
+            </details>
+            <details>
+              <summary>Does the extension run by itself?</summary>
+              <p>
+                No. The commands are Markdown prompts. They need a Spec Kit-aware assistant to
+                resolve and execute them. The release zip is portable and has no runtime of its own.
+              </p>
+            </details>
+            <details>
+              <summary>How do I update the extension?</summary>
+              <p>
+                If you approved the community catalog, run
+                <code>specify extension update improve</code>. Otherwise rerun the direct install
+                with the newer release URL. Your <code>specs/</code> tree is not touched.
+              </p>
+            </details>
+          </div>
+          <p class="note">
+            More answers in the
+            <a href="https://github.com/d0whc3r/spec-kit-improve/wiki/FAQ">full FAQ</a>.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-col">
+          <p class="footer-brand">Improve Extension</p>
+          <p class="footer-tag">
+            A Spec Kit extension for codebase audits and spec prompts the spec-kit lifecycle can
+            process. MIT licensed.
+          </p>
+        </div>
+        <nav class="footer-links" aria-label="Footer">
+          <a href="https://github.com/d0whc3r/spec-kit-improve">Repository</a>
+          <a href="https://github.com/d0whc3r/spec-kit-improve/wiki">Docs wiki</a>
+          <a href="https://github.com/d0whc3r/spec-kit-improve/issues">Issues</a>
+          <a href="https://github.com/d0whc3r/spec-kit-improve/discussions">Discussions</a>
+          <a href="https://github.com/github/spec-kit">Spec Kit core</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
