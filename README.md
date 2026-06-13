@@ -48,7 +48,7 @@ Each `TODO` prompt is a feature description for `/speckit.specify`: hand it the 
 Install directly from the latest release. This needs no catalog setup and is the recommended path:
 
 ```bash
-specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v0.1.0/improve-0.1.0.zip
+specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.0.0/improve-1.0.0.zip
 ```
 
 Change the version in the URL to pin a different release.

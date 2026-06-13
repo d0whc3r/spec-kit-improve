@@ -20,7 +20,7 @@ opt in. You have two ways to opt in.
 and it is the only way to pin a specific version:
 
 ```bash
-specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v0.1.0/improve-0.1.0.zip
+specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.0.0/improve-1.0.0.zip
 ```
 
 To update later, rerun the same command with a newer version URL.
