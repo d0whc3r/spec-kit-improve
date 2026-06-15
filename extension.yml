@@ -3,7 +3,7 @@ schema_version: "1.0"
 extension:
   id: improve
   name: "Improve Extension"
-  version: "1.0.0"
+  version: "1.0.1"
   description: "Audits any codebase as a senior advisor and writes prioritized, self-contained spec prompts under specs/ that the spec-kit lifecycle can process."
   author: d0whc3r
   repository: https://github.com/d0whc3r/spec-kit-improve

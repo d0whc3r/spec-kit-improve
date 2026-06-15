@@ -67,7 +67,7 @@ Spec Kit ships the community catalog as discovery only
 until you opt in. The quickest fix is a direct install:
 
 ```bash
-specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.0.0/improve-1.0.0.zip
+specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.0.1/improve-1.0.1.zip
 ```
 
 See [Troubleshooting](Troubleshooting.md#installation-errors) for both opt-in

@@ -1,6 +1,6 @@
 {
   "name": "spec-kit-improve",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Audits any codebase as a senior advisor and writes prioritized, self-contained spec prompts under specs/ that the spec-kit lifecycle can process.",
   "keywords": [

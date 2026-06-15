@@ -17,7 +17,7 @@ This document explains how to install the extension, what each command needs as 
 Install directly from the latest release. This needs no catalog setup and is the recommended path:
 
 ```bash
-specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.0.0/improve-1.0.0.zip
+specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.0.1/improve-1.0.1.zip
 ```
 
 Change the version in the URL to pin a different release.

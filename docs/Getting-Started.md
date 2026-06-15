@@ -33,7 +33,7 @@ The recommended install resolves a release directly from the download URL.
 This needs no catalog setup and always works:
 
 ```bash
-specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.0.0/improve-1.0.0.zip
+specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.0.1/improve-1.0.1.zip
 ```
 
 Change the version in the URL to pin a different release.

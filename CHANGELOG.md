@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/d0whc3r/spec-kit-improve/compare/v1.0.0...v1.0.1) (2026-06-15)
+
+
+### Bug Fixes
+
+* enhance audit playbook and spec prompt templates with clarity on findings and design constraints ([0897a7e](https://github.com/d0whc3r/spec-kit-improve/commit/0897a7e5e78534e1d2ce31bc6614d33039a8e095))
+
 # 1.0.0 (2026-06-13)
 
 
