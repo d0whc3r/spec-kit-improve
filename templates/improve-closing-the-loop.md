@@ -24,8 +24,9 @@ Optional bookkeeping: once a prompt's implementation has landed, the user may ma
 `--issues` is a modifier on `/speckit.improve` (`/speckit.improve --issues`, `/speckit.improve security --issues`). The flag is the user's authorization to create issues. Never create them without it.
 
 1. Preflight: `gh auth status` succeeds and the repo has a GitHub remote. If either fails, write the prompt files as normal and say why issues were skipped.
-2. Show the list of titles about to become issues; confirm once if interactive.
-3. Per prompt: `gh issue create --title "<prompt title>" --body-file <prompt file>`. Labels: `improve` plus the category. Apply only if the labels exist or can be created without erroring; skip labels rather than fail.
-4. Record each issue URL in the prompt's `issue` frontmatter field.
+2. Visibility check: `gh repo view --json visibility`. If the repo is **public**, warn the user that issues are publicly visible and get explicit confirmation before publishing any prompt that describes a security vulnerability, credential location, or other sensitive finding.
+3. Show the list of titles about to become issues; confirm once if interactive.
+4. Per prompt: `gh issue create --title "<prompt title>" --body-file <prompt file>`. Labels: `improve` plus the category. Apply only if the labels exist or can be created without erroring; skip labels rather than fail.
+5. Record each issue URL in the prompt's `issue` frontmatter field.
 
 The prompt file remains the source of truth; the issue is distribution. The self-containment rule pays off here: the issue body needs no edits to make sense to whoever (or whatever) picks it up.

@@ -77,6 +77,12 @@ or "see audit":
 - The repo conventions that apply, with one exemplar file to match:
   "Error handling follows the Result pattern; see `src/lib/result.ts` and its
   use in `src/users/api.ts:40-60`."
+- Any documented vocabulary or design constraints the implementation must
+  honor, inlined from the intent/design docs found in recon: the relevant
+  `CONTEXT.md` terms to use in names and comments, the `DESIGN.md`
+  tokens/components to reuse, or the ADR whose decision this work must stay
+  consistent with. Quote the specific lines; the spec author and implementer
+  have not read those docs.
 - The exact build / test / lint / typecheck commands for this repo
   (verified during recon, not guessed); these become verification gates in
   the generated spec and tasks.

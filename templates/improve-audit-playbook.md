@@ -25,7 +25,7 @@ Report only what's evidenced in the code. Do not generate exploit code in plans;
 
 **Handling rule:** never copy a secret value into a finding or plan, because those files get committed. Reference the `file:line` and credential type only ("Stripe live key at `config.ts:12`"), and the fix sketch always includes rotation, not just removal (a committed secret is burned even after deletion).
 
-**By-design is not a finding:** standard platform conventions are intentional behavior, such as honoring `https_proxy`/`NO_PROXY`, reading `~/.netrc`, or an explicitly local dev tool shelling out to configured package managers. Flag these only when the _implementation_ adds risk beyond the convention itself.
+**By-design is not a finding:** standard platform conventions are intentional behavior, such as honoring `https_proxy`/`NO_PROXY`, reading `~/.netrc`, or an explicitly local dev tool shelling out to configured package managers. A tradeoff explicitly recorded in an ADR or decision doc is likewise settled, not a finding. Flag these only when the _implementation_ adds risk beyond the convention or the documented decision itself. Note that a **stale ADR is itself a finding**: if the code has drifted from what the decision doc says, report the decision drift (the doc or the code is wrong; either way the team should know); do not use the doc to suppress it.
 
 - Secrets: hardcoded keys/tokens/passwords, secrets in committed `.env` files, secrets logged or persisted in event/history stores.
 - Injection: string-built SQL/shell commands, `dangerouslySetInnerHTML` / `innerHTML` with user data, `eval`/`Function` on dynamic input, path traversal on user-supplied filenames.
@@ -96,7 +96,7 @@ Lowest default priority. Only flag where absence has a concrete cost:
 Forward-looking: not what's broken, but what this codebase wants to become. **Grounding rule:** every suggestion must cite evidence from the repo itself. A suggestion that could apply to any project in the category ("add dark mode", "add AI") is noise, not a finding. Sources of grounded direction signal:
 
 - **Unfinished intent**: TODO/FIXME clusters around one theme, feature flags never rolled out, stubbed or half-built modules, commented-out feature code, abandoned mid-feature work visible in git history.
-- **Stated-but-undelivered**: README/docs/roadmap promises with no corresponding code, CLI flags or config options that are no-ops, issue templates for features that don't exist.
+- **Stated-but-undelivered**: README/docs/roadmap promises with no corresponding code, CLI flags or config options that are no-ops, issue templates for features that don't exist. A PRD or `PRODUCT.md` that names users, use cases, or a direction the code hasn't caught up to is the strongest grounding signal there is: prefer it over inferred intent, and never propose something a decision doc already rejected (note the contradiction instead).
 - **Surface asymmetries**: one-directional pairs (export without import, create without bulk-create, webhooks out but not in), entities with CRUD minus one, a public API that internal code clearly needed and hand-rolled around.
 - **The adjacent possible**: capabilities the existing architecture makes disproportionately cheap. A plugin system one interface away, a public API one route file from the existing service layer, an integration the data model already supports.
 - **Friction worth productizing**: things users of this project evidently do by hand around it (visible in docs, examples, issues) that the project could absorb.
