@@ -103,7 +103,10 @@ is published with its full text as the
 issue body, labeled `improve` plus its category, and the issue URL is recorded
 in the prompt's `issue` frontmatter field. The prompt file remains the source
 of truth; the issue is distribution. Issues are never created without the
-flag.
+flag. If the repo is public, the command warns you first and asks for
+confirmation before publishing any prompt that describes a security
+vulnerability or a credential location, so a sensitive finding is not exposed
+in a public issue by accident.
 
 ## How do I update the extension?
 

@@ -105,6 +105,11 @@ The facts about the code as it exists today, inlined. Never "as discussed" or
 - Short excerpts of the current code (with `file:line` markers), enough to
   confirm the right location and to survive a drift check.
 - The repo conventions that apply, with one exemplar file to match.
+- Any documented vocabulary or design constraints the implementation must
+  honor, quoted from the intent and design docs found during recon (the
+  relevant `CONTEXT.md` terms, `DESIGN.md` tokens or components, or the ADR the
+  work must stay consistent with), since the spec author and implementer have
+  not read those docs.
 - The exact build / test / lint / typecheck commands for this repo (verified
   during recon, not guessed); these become verification gates in the
   generated spec and tasks.

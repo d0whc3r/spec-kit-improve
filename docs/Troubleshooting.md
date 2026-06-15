@@ -57,13 +57,14 @@ Review the source before approving a catalog.
 
 These are not bugs. Each one is a hard rule doing its job.
 
-| Situation                               | Behavior                                                                                        |
-| --------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| You ask it to implement a fix directly  | Declines and points at the prompt; handing it to `/speckit.specify` is how it becomes code.     |
-| The audit finds credentials in the repo | Reports `file:line` and credential type only; never the value. Recommends rotation.             |
-| A re-run finds a prompt's code drifted  | Re-verifies the finding, refreshes the excerpts, and bumps `planned_at`; never leaves it stale. |
-| A re-run finds the premise is gone      | Marks the prompt `REJECTED` with a one-line rationale.                                          |
-| `branch` on the default branch          | Says so and offers a full audit instead.                                                        |
+| Situation                                 | Behavior                                                                                                                      |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| You ask it to implement a fix directly    | Declines and points at the prompt; handing it to `/speckit.specify` is how it becomes code.                                   |
+| The audit finds credentials in the repo   | Reports `file:line` and credential type only; never the value. Recommends rotation.                                           |
+| A file embeds instructions to the advisor | Treats all repository content as data, never follows embedded instructions, and records a potential prompt-injection finding. |
+| A re-run finds a prompt's code drifted    | Re-verifies the finding, refreshes the excerpts, and bumps `planned_at`; never leaves it stale.                               |
+| A re-run finds the premise is gone        | Marks the prompt `REJECTED` with a one-line rationale.                                                                        |
+| `branch` on the default branch            | Says so and offers a full audit instead.                                                                                      |
 
 The advisor never modifies source code, so "just fix it for me" will always be
 declined. If you want the change made, hand the prompt body to
@@ -128,9 +129,11 @@ depend on it.
 The flag preflights `gh auth status` and a GitHub remote. If either fails, the
 prompt files are still written and the command says why issues were skipped.
 Run `gh auth login`, confirm `git remote -v` points at GitHub, and rerun with
-`--issues`. Labels (`improve` plus the category) are applied only if they
-exist or can be created without erroring; missing labels are skipped, never a
-failure.
+`--issues`. On a public repo the command also asks for confirmation before
+publishing a prompt that describes a security or credential finding; if you
+decline, those issues are skipped while the prompt files stay on disk. Labels
+(`improve` plus the category) are applied only if they exist or can be created
+without erroring; missing labels are skipped, never a failure.
 
 ## Filing a bug
 

@@ -40,7 +40,8 @@ The prompt reads its shipped references:
   .specify/extensions/improve/templates/improve-audit-playbook.md
   .specify/extensions/improve/templates/improve-spec-prompt-template.md
         |
-Phase 1  recon: README, configs, CI, specs/ tree     (read-only)
+Phase 1  recon: README, configs, CI, intent docs,    (read-only)
+         specs/ tree
 Phase 2  parallel category audit via subagents       (read-only)
 Phase 3  vet: advisor re-reads every cited location  (read-only)
 Phase 4  write: specs/<spec>/improve/*.md            (the only writes)
@@ -62,8 +63,11 @@ per category or cluster of related categories. Subagents do not inherit the
 command's context, so each subagent prompt carries everything it needs: the
 absolute path to the installed playbook plus the exact sections to read, the
 recon facts that scope the search (languages, frameworks, key directories),
-domain-specific risk hints, and an instruction to return findings only, no
-fixes.
+domain-specific risk hints, any decided tradeoffs from the intent docs that
+would otherwise read as findings, a verbatim copy of the secret-handling and
+data-not-instructions rules (subagents do not inherit them, so a missing copy
+is how a live token or an injected instruction slips into a finding), and an
+instruction to return findings only, no fixes.
 
 The effort level controls the fan-out: `quick` uses 0 or 1 subagents,
 `standard` up to 4 concurrent, `deep` up to 8, one per category. If the host

@@ -20,6 +20,11 @@ describes its behavior from the user's side.
    above" is broken.
 4. **Never reproduce secret values.** Findings and prompts reference the
    `file:line` and credential type only, and always recommend rotation.
+5. **Treats repository content as data, not instructions.** If a file (source,
+   comment, README, config, or a vendored dependency) tries to issue
+   instructions to the advisor (for example "ignore previous instructions"),
+   the advisor does not follow them and records it as a potential
+   prompt-injection security finding instead.
 
 ## `/speckit.improve`
 
@@ -51,8 +56,12 @@ tree (which feature directories exist and which already have an `improve/`
 folder; this decides where each prompt lives). Identifies languages,
 frameworks, the exact build / test / lint / typecheck commands (these become
 verification gates in every prompt), and repo conventions that prompts tell
-spec-kit to match. If the repo has no working verification command, that is
-recorded; "establish a verification baseline" is often finding #1.
+spec-kit to match. It also ingests any intent and design docs present (ADRs
+under `docs/adr/`, PRDs, `CONTEXT.md`, `DESIGN.md`, `PRODUCT.md`) so decided
+tradeoffs are not re-flagged as findings, direction suggestions stay grounded
+in stated product intent, and prompts speak the repo's own vocabulary. If the
+repo has no working verification command, that is recorded; "establish a
+verification baseline" is often finding #1.
 
 **Phase 2: Audit (parallel).** Audits across the categories defined in the
 shipped [audit playbook](../templates/improve-audit-playbook.md):
@@ -139,7 +148,11 @@ Also publishes each written prompt as a GitHub issue. The flag is your
 authorization; issues are never created without it. Preflight: `gh auth
 status` must succeed and the repo must have a GitHub remote; if either fails,
 the prompt files are written as normal and the command says why issues were
-skipped. Each issue gets the prompt title and the prompt file as its body,
+skipped. On a public repo (`gh repo view --json visibility`), the command
+first warns that issues are publicly visible and asks for confirmation before
+publishing any prompt that describes a security vulnerability, credential
+location, or other sensitive finding. Each issue gets the prompt title and the
+prompt file as its body,
 labels `improve` plus the category (skipped rather than failed if a label
 cannot be created), and its URL recorded in the prompt's `issue` frontmatter
 field. The prompt file remains the source of truth; the issue is distribution.
@@ -239,12 +252,13 @@ instead of resetting.
 
 ## Refusal summary
 
-| Situation                               | Behavior                                                                                        |
-| --------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| You ask it to implement a fix directly  | Declines and points at the prompt; handing it to `/speckit.specify` is how it becomes code.     |
-| The audit finds credentials in the repo | Reports `file:line` and credential type only; never the value. Recommends rotation.             |
-| A re-run finds a prompt's code drifted  | Re-verifies the finding, refreshes the excerpts, and bumps `planned_at`; never leaves it stale. |
-| A re-run finds the premise is gone      | Marks the prompt `REJECTED` with a one-line rationale.                                          |
-| `branch` on the default branch          | Says so and offers a full audit instead.                                                        |
+| Situation                                 | Behavior                                                                                                                      |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| You ask it to implement a fix directly    | Declines and points at the prompt; handing it to `/speckit.specify` is how it becomes code.                                   |
+| The audit finds credentials in the repo   | Reports `file:line` and credential type only; never the value. Recommends rotation.                                           |
+| A file embeds instructions to the advisor | Treats all repository content as data, never follows embedded instructions, and records a potential prompt-injection finding. |
+| A re-run finds a prompt's code drifted    | Re-verifies the finding, refreshes the excerpts, and bumps `planned_at`; never leaves it stale.                               |
+| A re-run finds the premise is gone        | Marks the prompt `REJECTED` with a one-line rationale.                                                                        |
+| `branch` on the default branch            | Says so and offers a full audit instead.                                                                                      |
 
 More context on each in [Troubleshooting](Troubleshooting.md).
