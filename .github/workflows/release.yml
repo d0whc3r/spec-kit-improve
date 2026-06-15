@@ -60,6 +60,12 @@ jobs:
             echo "published=false" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Add install instructions to release
+        if: steps.release.outputs.published == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node .github/scripts/release-install-notes.mjs
+
       - name: Publish wiki
         if: steps.release.outputs.published == 'true'
         uses: ./.github/actions/publish-wiki
