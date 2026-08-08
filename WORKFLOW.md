@@ -5,7 +5,7 @@ The usage guide lives in the [project wiki](https://github.com/d0whc3r/spec-kit-
 ## Install
 
 ```bash
-specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.0.1/improve-1.0.1.zip
+specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.0.2/improve-1.0.2.zip
 ```
 
 Requires Spec Kit `>= 0.2.0` initialized in the project and a git repository. Prerequisites, the by-name install through the community catalog, and the first-run walkthrough are in [Getting Started](docs/Getting-Started.md).

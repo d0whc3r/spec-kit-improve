@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.2](https://github.com/d0whc3r/spec-kit-improve/compare/v1.0.1...v1.0.2) (2026-08-08)
+
+
+### Bug Fixes
+
+* improve extension ([1b51ab3](https://github.com/d0whc3r/spec-kit-improve/commit/1b51ab3789d6bb8c239e270ffbd86ca1568f2063))
+* update deps ([24e1ee2](https://github.com/d0whc3r/spec-kit-improve/commit/24e1ee2badd5f2f51030b91429345b6a25b33580))
+
 ## [1.0.1](https://github.com/d0whc3r/spec-kit-improve/compare/v1.0.0...v1.0.1) (2026-06-15)
 
 
