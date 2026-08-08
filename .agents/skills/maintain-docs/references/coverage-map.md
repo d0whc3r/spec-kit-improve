@@ -41,10 +41,12 @@ Asserts:
 - The command and what it writes.
 - The example output paths under `specs/<spec>/improve/`.
 
-Scope rule: this page covers the user install paths (catalog install and
-pinned-version install). It does not cover the dev install
-(`specify extension add --dev`); that is a contributor step and lives in
-`CONTRIBUTING.md`.
+Scope rule: this page **owns** the install procedure. Both user install paths
+(pinned-version direct install and the community-catalog opt-in) are written
+out here in full, and `README.md`, `WORKFLOW.md`, `docs/Troubleshooting.md`,
+and `docs/FAQ.md` link here instead of repeating the steps. It does not cover
+the dev install (`specify extension add --dev`); that is a contributor step
+and lives in `CONTRIBUTING.md`.
 
 Re-check whenever: version bumps; install paths change;
 `/speckit.improve` reads/writes change.
@@ -63,7 +65,8 @@ Asserts:
 - Output sections list must match the corresponding template under
   `templates/`.
 - The "Refusal summary" must include every refusal condition the command
-  bodies define.
+  bodies define. This page **owns** that table; it is the only copy, and
+  other pages link to it.
 
 Re-check whenever: any file under `commands/` or `templates/` changes.
 
@@ -123,10 +126,12 @@ Documents: refusals, common breakages, and install errors.
 
 Asserts:
 
-- Each refusal condition the command prompts can produce, matching the
-  "Refusal summary" in `docs/Commands.md`.
-- The installation-errors section (the catalog `install_allowed: false`
-  case), matching the install paths in `README.md`.
+- The installation-errors section: the catalog `install_allowed: false`
+  error text, why it happens, and the direct-install escape hatch. The two
+  install paths in full belong to `docs/Getting-Started.md`; this page links
+  there.
+- What to do about a refusal. The refusal table itself lives only in
+  `docs/Commands.md`; this page links to it and must not restate it.
 
 Re-check whenever: a command file adds or renames a refusal condition;
 the install paths change.
@@ -205,7 +210,9 @@ Asserts:
   in intent).
 - The "Command / What it does / Writes" table (must be
   byte-equivalent to `docs/Home.md`).
-- Install paths and pinned version (must match `extension.yml.extension.version`).
+- The direct-install snippet and its pinned version (must match
+  `extension.yml.extension.version`). The catalog opt-in path is not repeated
+  here; the README links to `docs/Getting-Started.md` for it.
 - Links to every `docs/*.md` page that exists (as wiki URLs).
 - A single Contributing pointer to `CONTRIBUTING.md` at the repo root.
 
@@ -214,14 +221,22 @@ added.
 
 ### `WORKFLOW.md`
 
-Documents: the canonical usage narrative. Longer-form than
-`docs/Workflow.md`, still written for the user running the commands.
+Documents: nothing of its own. It is a router at the repo root that names
+the command, states the advisor boundary, and points at the wiki page that
+owns each topic.
 
-Asserts: same flow as `docs/Workflow.md` but with more context. Treat the
-two as a long/short pair. When `docs/Workflow.md` updates, `WORKFLOW.md`
-may also need an update.
+Asserts:
 
-Re-check whenever: `docs/Workflow.md` changes; commands are added.
+- The direct-install snippet with the pinned version (the release pipeline
+  rewrites the URL).
+- The "Command / Reads / Writes / Role" row.
+- One row per wiki page that exists, pointing at the page that owns that
+  topic.
+
+It must not grow procedures of its own. If a step belongs here, it belongs
+in the wiki page that owns it, with a link from here.
+
+Re-check whenever: a wiki page is added or removed; the command changes.
 
 ### `CHANGELOG.md`
 

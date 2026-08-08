@@ -38,12 +38,12 @@ table, and turn your selection into spec prompts.
 
 ```text
 /speckit.improve
-/speckit.improve quick           # hotspots only, top findings
-/speckit.improve deep            # every package, every category
-/speckit.improve security       # one category, in depth
-/speckit.improve branch         # only what the current branch changes
-/speckit.improve next           # feature direction, 4-6 grounded suggestions
-/speckit.improve --issues       # also publish prompts as GitHub issues
+/speckit.improve quick     # hotspots only, top findings
+/speckit.improve deep      # every package, every category
+/speckit.improve security  # one category, in depth
+/speckit.improve branch    # only what the current branch changes
+/speckit.improve next      # feature direction, 4-6 grounded suggestions
+/speckit.improve --issues  # also publish prompts as GitHub issues
 ```
 
 Modifiers compose unless stated otherwise: `quick security`, `deep --issues`.
@@ -120,9 +120,23 @@ Whatever the level, the final report says what was _not_ audited.
 
 ### Focus categories
 
-Pass one of `security`, `perf`, `tests`, `bugs`, `tech-debt`, `deps`, `dx`,
-`docs` to run recon, then audit only that category in depth, then write
-prompts.
+Pass one category keyword to run recon, then audit only that category in
+depth, then write prompts. Each keyword selects one section of the shipped
+[audit playbook](../templates/improve-audit-playbook.md):
+
+| Keyword     | Playbook section             | Looks for                                                          |
+| ----------- | ---------------------------- | ------------------------------------------------------------------ |
+| `bugs`      | 1. Correctness / Bugs        | Error handling, async hazards, null flows, resource leaks          |
+| `security`  | 2. Security                  | Secrets, injection, authn/authz, input validation, data exposure   |
+| `perf`      | 3. Performance               | N+1 patterns, wrong complexity, caching gaps, payload size         |
+| `tests`     | 4. Test Coverage             | Untested critical paths, weak assertions, missing test layers      |
+| `tech-debt` | 5. Tech Debt & Architecture  | Duplication, layering violations, dead code, god modules           |
+| `deps`      | 6. Dependencies & Migrations | Major-version lag, deprecated APIs, abandoned deps, duplicate deps |
+| `dx`        | 7. DX & Tooling              | Missing typecheck or lint, slow feedback loops, onboarding gaps    |
+| `docs`      | 8. Docs                      | Missing public API reference, stale docs that are actively wrong   |
+
+The ninth playbook category, direction, has its own modifier: see
+[`next`](#next) below.
 
 ### `branch`
 
@@ -261,4 +275,6 @@ instead of resetting.
 | A re-run finds the premise is gone        | Marks the prompt `REJECTED` with a one-line rationale.                                                                        |
 | `branch` on the default branch            | Says so and offers a full audit instead.                                                                                      |
 
-More context on each in [Troubleshooting](Troubleshooting.md).
+This table is the single record of what the command refuses.
+[Troubleshooting](Troubleshooting.md#refusals-that-are-working-as-intended)
+covers what to do when you hit one.

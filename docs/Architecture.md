@@ -39,6 +39,7 @@ The slash command resolves to the installed command prompt
 The prompt reads its shipped references:
   .specify/extensions/improve/templates/improve-audit-playbook.md
   .specify/extensions/improve/templates/improve-spec-prompt-template.md
+  .specify/extensions/improve/templates/improve-closing-the-loop.md
         |
 Phase 1  recon: README, configs, CI, intent docs,    (read-only)
          specs/ tree

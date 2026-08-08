@@ -51,8 +51,8 @@ specs/<spec-name>/improve/<NNN>-<plan-name>.md
   own sequential counter when a prompt becomes a spec, so it never aligns with
   the existing spec directories and cannot collide with them.
 
-There is no central index file. Commands discover the backlog by globbing
-`specs/*/improve/*.md` and reading frontmatter.
+There is no central index file. `/speckit.improve` discovers the backlog by
+globbing `specs/*/improve/*.md` and reading frontmatter.
 
 ## Frontmatter
 

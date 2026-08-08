@@ -5,7 +5,7 @@ fastest way to get an answer.
 
 ## Before you ask
 
-1. Read the [README](README.md) and the [WORKFLOW](WORKFLOW.md) doc.
+1. Read the [README](README.md), then the wiki: [Getting Started](https://github.com/d0whc3r/spec-kit-improve/wiki/Getting-Started) for setup and [Troubleshooting](https://github.com/d0whc3r/spec-kit-improve/wiki/Troubleshooting) for errors and refusals.
 2. Search [open and closed issues](https://github.com/d0whc3r/spec-kit-improve/issues?q=is%3Aissue).
 3. Search [Discussions](https://github.com/d0whc3r/spec-kit-improve/discussions).
 

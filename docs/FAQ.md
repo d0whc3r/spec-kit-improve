@@ -70,8 +70,8 @@ until you opt in. The quickest fix is a direct install:
 specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.0.1/improve-1.0.1.zip
 ```
 
-See [Troubleshooting](Troubleshooting.md#installation-errors) for both opt-in
-paths in full.
+See [Getting Started](Getting-Started.md#step-1-install-the-extension) for both
+install paths in full.
 
 ## Will the extension ever modify my code?
 

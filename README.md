@@ -45,6 +45,8 @@ Each `TODO` prompt is a feature description for `/speckit.specify`: hand it the 
 
 ## Install
 
+Requires Spec Kit `>= 0.2.0` initialized in the project (`specify init`) and a git repository; every prompt stamps the commit it was written against for drift detection.
+
 Install directly from the latest release. This needs no catalog setup and is the recommended path:
 
 ```bash
@@ -53,16 +55,7 @@ specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve
 
 Change the version in the URL to pin a different release.
 
-Want to install by name with `specify extension add improve`? That resolves the extension from Spec Kit's community catalog, which ships as discovery only (`install_allowed: false`). Approve it once:
-
-```bash
-specify extension catalog add https://raw.githubusercontent.com/github/spec-kit/main/extensions/catalog.community.json --name community --install-allowed
-specify extension add improve
-```
-
-If `specify extension add improve` fails with `installation is not allowed from that catalog`, that is why. See [Troubleshooting](https://github.com/d0whc3r/spec-kit-improve/wiki/Troubleshooting#installation-errors).
-
-For prerequisites and the first-run walkthrough see [Getting Started](https://github.com/d0whc3r/spec-kit-improve/wiki/Getting-Started).
+To install and update by name instead (`specify extension add improve`), approve Spec Kit's community catalog once. That path, the prerequisites, and the first-run walkthrough are in [Getting Started](https://github.com/d0whc3r/spec-kit-improve/wiki/Getting-Started).
 
 ## Credits
 

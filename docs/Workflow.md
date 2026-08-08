@@ -73,8 +73,8 @@ specs/
 │       └── add-rate-limiting.md       # one spec prompt per improvement
 └── harden-auth/                       # a dedicated theme directory
     └── improve/
-        ├── rotate-session-tokens.md
-        └── add-csrf-protection.md
+        ├── 001-rotate-session-tokens.md
+        └── 002-add-csrf-protection.md
 ```
 
 Placement: if an existing feature directory `specs/<NNN-name>/` covers the
@@ -93,7 +93,7 @@ YAML frontmatter as its status record, including the `planned_at` commit it
 was written against for mechanical drift checks. See
 [Spec Prompt Format](Spec-Prompt-Format.md) for the full anatomy.
 
-There is no index file. Commands discover the backlog by globbing
+There is no index file. `/speckit.improve` discovers the backlog by globbing
 `specs/*/improve/*.md` and reading frontmatter.
 
 ## Status lifecycle

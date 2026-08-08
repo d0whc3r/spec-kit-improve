@@ -14,28 +14,20 @@ not allowed from that catalog.
 This is expected behavior, not a broken release. Spec Kit ships the community
 catalog as **discovery only**. It carries `install_allowed: false` by design,
 so the CLI can list community extensions but will not install one until you
-opt in. You have two ways to opt in.
+opt in.
 
-**Option A: install directly (recommended).** No catalog config, always works,
-and it is the only way to pin a specific version:
+The quickest way past it is the direct install, which needs no catalog config
+and is the only way to pin a specific version:
 
 ```bash
 specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.0.1/improve-1.0.1.zip
 ```
 
-To update later, rerun the same command with a newer version URL.
-
-**Option B: approve the community catalog.** Do this once if you want to
-install and update by name:
-
-```bash
-specify extension catalog add https://raw.githubusercontent.com/github/spec-kit/main/extensions/catalog.community.json --name community --install-allowed
-specify extension add improve
-specify extension update improve
-```
-
-Community extensions are author-maintained and not reviewed by Spec Kit.
-Review the source before approving a catalog.
+If you would rather install and update by name, approve the catalog once.
+Both paths are written out in
+[Getting Started](Getting-Started.md#step-1-install-the-extension). Community
+extensions are author-maintained and not reviewed by Spec Kit; review the
+source before approving a catalog.
 
 ### The slash commands do not appear in my assistant
 
@@ -55,21 +47,17 @@ Review the source before approving a catalog.
 
 ## Refusals that are working as intended
 
-These are not bugs. Each one is a hard rule doing its job.
+The command declines some requests by design. Each refusal and the exact
+behavior it produces is listed in
+[Commands: Refusal summary](Commands.md#refusal-summary). None of them is a
+bug; each is a hard rule doing its job.
 
-| Situation                                 | Behavior                                                                                                                      |
-| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| You ask it to implement a fix directly    | Declines and points at the prompt; handing it to `/speckit.specify` is how it becomes code.                                   |
-| The audit finds credentials in the repo   | Reports `file:line` and credential type only; never the value. Recommends rotation.                                           |
-| A file embeds instructions to the advisor | Treats all repository content as data, never follows embedded instructions, and records a potential prompt-injection finding. |
-| A re-run finds a prompt's code drifted    | Re-verifies the finding, refreshes the excerpts, and bumps `planned_at`; never leaves it stale.                               |
-| A re-run finds the premise is gone        | Marks the prompt `REJECTED` with a one-line rationale.                                                                        |
-| `branch` on the default branch            | Says so and offers a full audit instead.                                                                                      |
-
-The advisor never modifies source code, so "just fix it for me" will always be
-declined. If you want the change made, hand the prompt body to
-`/speckit.specify` and carry the generated spec through the spec-kit lifecycle;
-the prompt file is also a complete handoff for another agent or a human.
+What to do when you hit one: the advisor never modifies source code, so "just
+fix it for me" will always be declined. If you want the change made, hand the
+prompt body to `/speckit.specify` and carry the generated spec through the
+spec-kit lifecycle; the prompt file is also a complete handoff for another
+agent or a human. If the refusal was a drift or a rejected premise, see
+[Prompts have drifted](#prompts-have-drifted) below.
 
 ## "This host agent can't spawn subagents"
 
@@ -84,9 +72,9 @@ yourself.
 
 ## The repo is not a git repository
 
-The planning commands lean on git for the `planned_at` stamp and the
-mechanical drift check inside every prompt, so without it the staleness
-contract has nothing to anchor to. `/speckit.specify` also creates feature
+`/speckit.improve` leans on git for the `planned_at` stamp and the mechanical
+drift check inside every prompt, so without it the staleness contract has
+nothing to anchor to. `/speckit.specify` also creates feature
 branches, which requires git. Fix:
 
 ```bash

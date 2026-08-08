@@ -61,7 +61,7 @@ templates/*.md     ┘   detector          docs/Workflow.md
                                          docs/_Sidebar.md
                                          docs/_Footer.md
                                          README.md      (front door)
-                                         WORKFLOW.md    (long-form usage narrative)
+                                         WORKFLOW.md    (router into the wiki)
                                          CHANGELOG.md   (version coherence only)
                                          web/index.html (public landing site)
 ```
@@ -189,13 +189,15 @@ After the script, do a second-pass semantic audit it cannot do:
    and refusal conditions as the canonical command file and its template.
    For the audit command, confirm the modifiers (`quick`/`deep`, focus
    category, `branch`, `next`, `--issues`) are documented in
-   `docs/Commands.md` and `WORKFLOW.md` the way the command file defines
-   them.
+   `docs/Commands.md` the way the command file defines them.
 2. For each refusal condition in a `commands/*.md`, confirm the Refusal
-   summary in `docs/Commands.md` and `docs/Troubleshooting.md` describe it
-   with the same meaning.
-3. For each install path in `README.md`, confirm `docs/Getting-Started.md`
-   has the same paths and version pin.
+   summary in `docs/Commands.md` covers it. That table is the only copy;
+   other pages link to it rather than restating it.
+3. Confirm the install procedure appears in full only in
+   `docs/Getting-Started.md`, and that `README.md`, `WORKFLOW.md`,
+   `docs/Troubleshooting.md`, and `docs/FAQ.md` link to it instead of
+   repeating it. The pinned version URL may appear in several files; the
+   release pipeline rewrites all of them.
 4. Confirm `docs/_Sidebar.md` lists every page that exists under `docs/`
    and nothing else.
 5. Confirm the "Command / What it does / Writes" table in `README.md` and

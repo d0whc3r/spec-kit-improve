@@ -160,18 +160,28 @@ Relative wiki links break when a page is renamed. Run
 `scripts/detect_drift.sh` after a rename; it lists broken links. Fix by
 updating the link target, not the link text.
 
-## 8. Long-form vs short-form workflow doc
+## 8. The same content on two pages
 
-`WORKFLOW.md` (root) and `docs/Workflow.md` are a long/short pair, both
-written for the user running the commands. When they drift:
+Two pages carry the same table, procedure, or explanation. The copies
+drift, and a reader who finds the stale one has no way to tell.
 
-- Update `docs/Workflow.md` first (it is the wiki entry point).
-- Mirror the structural changes in `WORKFLOW.md` while keeping its
-  fuller narrative. Do not collapse `WORKFLOW.md` into
-  `docs/Workflow.md`; the long form has room for more context.
+The fix is not to sync them. Pick the page that owns the topic, leave the
+content there in full, and replace every other copy with a sentence and a
+link to it. The coverage map records who owns what:
 
-If a fact appears in both files (a filename, a command name, a status
-value), make sure they match byte-for-byte.
+- The install procedure lives in `docs/Getting-Started.md`.
+- The refusal table lives in `docs/Commands.md`.
+- The audit-handoff-rerun loop lives in `docs/Workflow.md`.
+- `WORKFLOW.md` (root) is a router only. It never grows a procedure of its
+  own; it links to the wiki page that owns one.
+
+Two exceptions are deliberate and stay byte-equivalent: the "Command / What
+it does / Writes" table in `README.md` and `docs/Home.md`, and the facts the
+website echoes from the wiki. Both are front doors that must work without a
+click. Everything else gets a link, not a copy.
+
+If a fact does appear in more than one file (a filename, a command name, a
+status value), make sure the copies match byte-for-byte.
 
 ## 9. Removing out-of-scope content
 

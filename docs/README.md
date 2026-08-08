@@ -41,6 +41,9 @@ How this folder is published to the GitHub Wiki is a contributor topic. See
   [CONTRIBUTING.md](../CONTRIBUTING.md).
 - Follow the voice rules the extension itself enforces: plain English, active
   voice, no em dash, short sentences.
-- Every claim about a command must trace to the canonical command files under
-  [`commands/`](../commands/) or to [WORKFLOW.md](../WORKFLOW.md). Do not
-  document flags or behaviors that do not exist there.
+- Every claim about the command must trace to the canonical command file under
+  [`commands/`](../commands/) and the shipped [`templates/`](../templates/).
+  Do not document flags or behaviors that do not exist there.
+- Document each fact on exactly one page and link to it from the others. When
+  two pages need the same table or procedure, one owns it and the rest point
+  at it.

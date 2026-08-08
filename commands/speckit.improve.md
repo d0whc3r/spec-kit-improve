@@ -35,7 +35,7 @@ To choose the mode, strip the recognized modifiers and category keywords from th
 
 ## Templates
 
-This command reads two reference files from the installed extension. Relative to this command's extension root:
+This command reads three reference files from the installed extension. Relative to this command's extension root:
 
 - Audit playbook: `templates/improve-audit-playbook.md` (what to look for per category, the finding format, the prioritization rubric).
 - Spec prompt template: `templates/improve-spec-prompt-template.md` (the structure and placement rules every written prompt follows).
@@ -115,7 +115,7 @@ specs/<spec-name>/improve/<NNN>-<plan-name>.md
 
 Placement follows the template's rules: an improvement that touches the area of an existing feature directory goes in that directory's `improve/` folder; anything else gets a dedicated theme directory (`specs/<theme-slug>/improve/`), shared by related improvements. State the placement decision per prompt in the final report.
 
-The `<NNN>` prefix encodes execution order within each `improve/` folder: a topological sort of the `depends` graph (dependencies before dependents), tie-broken by `priority`. Number a folder's `TODO` prompts only when it holds two or more; a lone prompt takes no prefix. `depends` references siblings by their `<plan-name>` slug, not by path, so the prefix can be reassigned on re-runs without breaking links. This prefix is scoped to its own `improve/` folder (contiguous `001..N` there, no gaps or duplicates; two folders may each start at `001`); it is **not** spec-kit's global feature number, which `/speckit.specify` assigns to the `specs/<NNN>-name/` directory from its own counter when the prompt becomes a spec. Do not align it with existing spec directories. See the template's "Execution-order prefix" rules.
+The `<NNN>` prefix is the execution order **scoped to its own `improve/` folder**, derived from `depends` and `priority`. It is **not** spec-kit's global feature number, which `/speckit.specify` assigns from its own counter when a prompt becomes a spec, so never align it with existing spec directories. Apply the template's "Execution-order prefix" rules as written: they define when a folder gets numbered, how the order is sorted, and what is never renumbered.
 
 **Excerpts come from your own reads, never from a subagent's report.** Before writing each prompt, open every cited file yourself; subagent line numbers and attributions are leads, not facts, and a wrong excerpt becomes a wrong prompt that fails its own drift check.
 
@@ -137,7 +137,7 @@ A re-run is also how the backlog stays honest over time; there is no separate re
 
 - For every `TODO` prompt, run a drift check against its `planned_at` SHA: `git diff --stat <planned_at>..HEAD -- <affected paths from its Current context>`. If the affected files changed, re-verify the finding still holds, then refresh the prompt's Current context excerpts and bump `planned_at` to the current HEAD. If the finding was fixed in passing, mark the prompt `REJECTED` with a one-line rationale next to the status. Never leave a stale prompt for `/speckit.specify` to consume.
 - Leave `DONE` and `REJECTED` prompts as the record; do not re-surface their findings.
-- After reconciling and writing any new prompts, recompute the execution order in each touched `improve/` folder and renumber its `TODO` prompts' `<NNN>` prefixes to match (topological sort of `depends`, tie-broken by `priority`). Renaming is safe because `depends` points at sibling slugs, not paths; leave `DONE` and `REJECTED` filenames untouched. Report every rename.
+- After reconciling and writing any new prompts, recompute the execution order in each touched `improve/` folder and renumber its `TODO` prefixes per the template's "Execution-order prefix" rules. Report every rename.
 
 Report what was refreshed and what was retired alongside any new prompts.
 
@@ -147,8 +147,8 @@ With a free-form change description, the user already knows what they want: skip
 
 1. **Recon, scoped to the change.** Read `README`, `CLAUDE.md`/`AGENTS.md`, root config, and the directory structure. Read the existing `specs/` tree to decide placement. Identify the exact build / test / lint / typecheck commands; they become the prompt's verification gates. Note the repo conventions that apply to the area being changed, with one exemplar file to match.
 2. **Investigate just the change.** Read the files it touches, trace callers and dependents, and confirm the current state yourself; excerpts in the prompt come from your own reads. If the description is too ambiguous to specify honestly, resolve each ambiguity from the codebase first; only what's left becomes questions to the user, asked one at a time, each with a recommended answer. If the change turns out to be unnecessary or harmful, say so and recommend against it instead of writing a prompt.
-3. **Write one prompt** following Phase 4's rules and `templates/improve-spec-prompt-template.md`, into `specs/<spec-name>/improve/<NNN>-<plan-name>.md`. Record `git rev-parse --short HEAD` first for the `planned_at` field; if related prompts already exist in the target folder, slot this prompt into their execution order, encode the dependency through `depends` (by sibling slug) instead of duplicating context, and renumber the folder's `<NNN>` prefixes per the template. A lone prompt in a fresh folder takes no prefix.
-4. **Report**: the prompt path, a one-paragraph summary of the approach, any assumptions the user should confirm, and the handoff next step: run `/speckit.specify` with the prompt body, then the rest of the spec-kit lifecycle (`/speckit.clarify`, `/speckit.plan`, `/speckit.tasks`, `/speckit.implement`). If `--issues` was passed, publish the issue and print its URL.
+3. **Write one prompt** following Phase 4's rules and `templates/improve-spec-prompt-template.md`, into `specs/<spec-name>/improve/<NNN>-<plan-name>.md`. Record `git rev-parse --short HEAD` first for the `planned_at` field; if related prompts already exist in the target folder, slot this prompt into their execution order, encode the dependency through `depends` (by sibling slug) instead of duplicating context, and renumber the folder's `<NNN>` prefixes per the template.
+4. **Report**: the prompt path, a one-paragraph summary of the approach, any assumptions the user should confirm, and the same handoff next steps Phase 4 reports. If `--issues` was passed, publish the issue and print its URL.
 
 ## Branch scope
 

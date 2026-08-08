@@ -26,6 +26,4 @@ After recon, a parallel category audit, and a vetting pass, the advisor presente
 | -------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
 | [specs/registry-cli/improve/extract-shadow-config-resolution.md](specs/registry-cli/improve/extract-shadow-config-resolution.md) | The spec prompt produced for finding #1, written for `/speckit.specify` to process. |
 
-The target repo had no existing feature directory covering the CLI, so the advisor created the dedicated theme space `specs/registry-cli/improve/`; the prompts for findings #3 and #4 would land in the same folder. Each prompt is self-indexing: the YAML frontmatter carries status, priority, dependencies, and the commit it was planned against, so no separate index file exists.
-
-Read the prompt with spec-kit's eyes: an objective `/speckit.specify` can derive user scenarios from, current-state excerpts to confirm the right location, numbered testable requirements, acceptance criteria with expected results, and a hard out-of-scope list so the generated spec does not sprawl.
+For the walkthrough of this example, section by section, including why the prompt landed where it did and what to look for in each part, see the [Examples](https://github.com/d0whc3r/spec-kit-improve/wiki/Examples) wiki page.

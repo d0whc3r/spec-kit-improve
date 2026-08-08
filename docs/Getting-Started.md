@@ -45,10 +45,13 @@ discovery only (`install_allowed: false`). Approve it once:
 ```bash
 specify extension catalog add https://raw.githubusercontent.com/github/spec-kit/main/extensions/catalog.community.json --name community --install-allowed
 specify extension add improve
+specify extension update improve
 ```
 
-See [Troubleshooting](Troubleshooting.md#installation-errors) for the full
-explanation of the community catalog error.
+Community extensions are author-maintained and not reviewed by Spec Kit;
+review the source before approving a catalog. If you skipped this step and hit
+`installation is not allowed from that catalog`, see
+[Troubleshooting](Troubleshooting.md#installation-errors).
 
 Confirm install:
 
@@ -98,12 +101,14 @@ improvements:
 specs/
 └── harden-auth/
     └── improve/
-        ├── rotate-session-tokens.md
-        └── add-csrf-protection.md
+        ├── 001-rotate-session-tokens.md
+        └── 002-add-csrf-protection.md
 ```
 
-There is no index file; each prompt's YAML frontmatter carries its status,
-priority, dependencies, and the commit it was planned against.
+The `001-`/`002-` prefix is the execution order, applied only once a folder
+holds two or more TODO prompts; a lone prompt takes no prefix. There is no
+index file; each prompt's YAML frontmatter carries its status, priority,
+dependencies, and the commit it was planned against.
 
 ## Step 4: Read the prompts
 
