@@ -4,7 +4,7 @@ A Spec Kit extension that audits any codebase as a senior advisor and writes pri
 
 ```
 you       ->  /speckit.improve.run                          (expensive model, advises)
-specs/    ->  improves/001-fix-n-plus-one.md                (self-contained spec prompts)
+specs/    ->  specs/improves/001-fix-n-plus-one.md                (self-contained spec prompts)
 spec-kit  ->  /speckit.specify ... /speckit.implement       (the lifecycle executes)
 ```
 
