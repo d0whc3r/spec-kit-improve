@@ -20,7 +20,7 @@ The quickest way past it is the direct install, which needs no catalog config
 and is the only way to pin a specific version:
 
 ```bash
-specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.0.2/improve-1.0.2.zip
+specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.1.0/improve-1.1.0.zip
 ```
 
 If you would rather install and update by name, approve the catalog once.

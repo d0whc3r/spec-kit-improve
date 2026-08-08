@@ -50,7 +50,7 @@ Requires Spec Kit `>= 0.2.0` initialized in the project (`specify init`) and a g
 Install directly from the latest release. This needs no catalog setup and is the recommended path:
 
 ```bash
-specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.0.2/improve-1.0.2.zip
+specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.1.0/improve-1.1.0.zip
 ```
 
 Change the version in the URL to pin a different release.

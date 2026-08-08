@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.1.0](https://github.com/d0whc3r/spec-kit-improve/compare/v1.0.2...v1.1.0) (2026-08-08)
+
+
+### Features
+
+* rename command ([0783726](https://github.com/d0whc3r/spec-kit-improve/commit/0783726861bc0b370e9826ecb69e36388d8ea949))
+
 ## [1.0.2](https://github.com/d0whc3r/spec-kit-improve/compare/v1.0.1...v1.0.2) (2026-08-08)
 
 
