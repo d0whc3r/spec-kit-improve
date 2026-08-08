@@ -4,7 +4,7 @@ extension:
   id: improve
   name: "Improve Extension"
   version: "1.0.2"
-  description: "Audits any codebase as a senior advisor and writes prioritized, self-contained spec prompts under specs/ that the spec-kit lifecycle can process."
+  description: "Audits any codebase as a senior advisor and writes prioritized, self-contained spec prompts under specs/improves/ that the spec-kit lifecycle can process."
   author: d0whc3r
   repository: https://github.com/d0whc3r/spec-kit-improve
   homepage: https://d0whc3r.github.io/spec-kit-improve/
@@ -15,9 +15,9 @@ requires:
 
 provides:
   commands:
-    - name: speckit.improve
-      file: commands/speckit.improve.md
-      description: "Audit any codebase as a senior advisor and write self-contained spec prompts under specs/<spec>/improve/ for the spec-kit lifecycle to process: surface prioritized findings with evidence, write a single prompt for a specific change, or re-run to refresh prompts whose code has drifted"
+    - name: speckit.improve.run
+      file: commands/speckit.improve.run.md
+      description: "Audit any codebase as a senior advisor and write self-contained spec prompts under specs/improves/ for the spec-kit lifecycle to process: surface prioritized findings with evidence, write a single prompt for a specific change, or re-run to refresh prompts whose code has drifted"
 
 tags:
   - advisor

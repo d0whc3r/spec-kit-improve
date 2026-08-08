@@ -72,7 +72,7 @@ yourself.
 
 ## The repo is not a git repository
 
-`/speckit.improve` leans on git for the `planned_at` stamp and the mechanical
+`/speckit.improve.run` leans on git for the `planned_at` stamp and the mechanical
 drift check inside every prompt, so without it the staleness contract has
 nothing to anchor to. `/speckit.specify` also creates feature
 branches, which requires git. Fix:
@@ -88,7 +88,7 @@ Then rerun the command.
 
 Symptoms: a prompt's drift check reports changed affected files, or its
 "Current context" excerpts no longer match the live code. This is normal;
-codebases move under TODO prompts. The fix is to re-run `/speckit.improve`:
+codebases move under TODO prompts. The fix is to re-run `/speckit.improve.run`:
 before writing anything new it drift-checks every TODO prompt, re-verifies and
 refreshes the ones whose code moved (new excerpts, new `planned_at` SHA), and
 marks REJECTED any finding that was fixed in passing. Re-run it before handing

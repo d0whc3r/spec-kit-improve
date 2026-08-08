@@ -82,7 +82,7 @@ Facts on this page that must match the canonical sources and the wiki:
 - Version pin and `requires.speckit_version` (hero badges, install snippet).
 - The command list, descriptions, and audit modifiers.
 - Install and usage commands.
-- The spec prompt output layout (`specs/<spec-name>/improve/<NNN>-<plan-name>.md`,
+- The spec prompt output layout (`specs/improves/<NNN>-<plan-name>.md`,
   no index file) and the example file paths under `examples/`.
 - Repository, wiki, issues, and discussions links.
 

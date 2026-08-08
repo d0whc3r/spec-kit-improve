@@ -27,10 +27,10 @@
 
 <!-- See the "Agent Boundaries" section of AGENTS.md. -->
 
-- [ ] `commands/speckit.improve.md` is the single source of truth for the command.
+- [ ] `commands/speckit.improve.run.md` is the single source of truth for the command.
 - [ ] `extension.yml` `provides.commands` matches the canonical command set.
 - [ ] `catalog.json` `provides.commands` count matches.
-- [ ] The advisor boundary holds: the command writes only under `specs/<spec-name>/improve/` and never edits source code.
+- [ ] The advisor boundary holds: the command writes only under `specs/improves/` and never edits source code.
 - [ ] Shipped content (command, templates) is plain English with no em dashes.
 
 ## Verification

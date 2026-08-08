@@ -30,7 +30,7 @@ const log = logger("submit-catalog-update");
 function keyFeatures(fallbackCount, docs) {
   const commands = readExtension().provides?.commands ?? [];
   const bullets = commands.map((c) => `- \`/${c.name}\`: ${c.description}`).join("\n");
-  return bullets || `- ${fallbackCount} command(s) under \`/speckit.improve\`. See ${docs}.`;
+  return bullets || `- ${fallbackCount} command(s) under \`/speckit.improve.run\`. See ${docs}.`;
 }
 
 // True if the upstream community catalog already lists this extension.
@@ -218,16 +218,16 @@ ${features}
 specify extension add ${id} --from ${url}
 
 # Audit the codebase and write spec prompts
-/speckit.improve
+/speckit.improve.run
 
 # Or spec one known change directly
-/speckit.improve migrate the config loader to zod
+/speckit.improve.run migrate the config loader to zod
 
 # Hand a prompt to the spec-kit lifecycle
 /speckit.specify <prompt body>   # then /speckit.clarify, /speckit.plan, /speckit.tasks, /speckit.implement
 
 # Next session: re-run to refresh drifted prompts and dedupe
-/speckit.improve
+/speckit.improve.run
 \`\`\`
 
 ### Proposed Catalog Entry

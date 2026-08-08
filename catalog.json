@@ -1,7 +1,7 @@
 {
   "name": "Improve Extension",
   "id": "improve",
-  "description": "Audits any codebase as a senior advisor and writes prioritized, self-contained spec prompts under specs/ that the spec-kit lifecycle can process.",
+  "description": "Audits any codebase as a senior advisor and writes prioritized, self-contained spec prompts under specs/improves/ that the spec-kit lifecycle can process.",
   "author": "d0whc3r",
   "version": "1.0.2",
   "download_url": "https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.0.2/improve-1.0.2.zip",

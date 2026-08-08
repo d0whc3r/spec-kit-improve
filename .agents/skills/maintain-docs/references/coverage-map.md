@@ -39,7 +39,7 @@ Asserts:
 - Install URL with pinned version (must match
   `extension.yml.extension.version` and `catalog.json.version`).
 - The command and what it writes.
-- The example output paths under `specs/<spec>/improve/`.
+- The example output paths under `specs/improves/`.
 
 Scope rule: this page **owns** the install procedure. Both user install paths
 (pinned-version direct install and the community-catalog opt-in) are written
@@ -49,7 +49,7 @@ the dev install (`specify extension add --dev`); that is a contributor step
 and lives in `CONTRIBUTING.md`.
 
 Re-check whenever: version bumps; install paths change;
-`/speckit.improve` reads/writes change.
+`/speckit.improve.run` reads/writes change.
 
 ### `docs/Commands.md`
 
@@ -76,13 +76,14 @@ Documents: the input/output flow and the audit-then-handoff loop.
 
 Asserts:
 
-- The recommended order: run `/speckit.improve` to audit and write
+- The recommended order: run `/speckit.improve.run` to audit and write
   prompts, hand each prompt to the spec-kit lifecycle
   (`/speckit.specify` → `/speckit.clarify` → `/speckit.plan` →
-  `/speckit.tasks` → `/speckit.implement`), and re-run `/speckit.improve`
+  `/speckit.tasks` → `/speckit.implement`), and re-run `/speckit.improve.run`
   to refresh drifted prompts.
 - The improve backlog layout: spec prompt files under
-  `specs/<spec>/improve/` with descriptive names.
+  the flat `specs/improves/` folder, each a descriptive name behind a
+  zero-padded execution-order prefix.
 - The status lifecycle the prompt frontmatter records.
 
 Re-check whenever: a new command lands; the backlog layout or the status
@@ -95,8 +96,8 @@ Documents: a sample findings table and the spec prompt it produced.
 Asserts:
 
 - The output layout matches the templates: spec prompt files under
-  `specs/<spec>/improve/` with descriptive names (for example
-  `fix-n-plus-one.md`).
+  the flat `specs/improves/` folder, each a descriptive name behind a
+  zero-padded execution-order prefix (for example `001-fix-n-plus-one.md`).
 - Section structure of each example prompt matches the current
   `templates/improve-spec-prompt-template.md`.
 
@@ -166,7 +167,7 @@ Asserts:
 - The runtime invocation flow (command → prompt → template → output
   path) matches the actual command and template files.
 - The advisor boundary matches the hard rules the commands enforce (the
-  only writes go to `specs/<spec>/improve/`).
+  only writes go to `specs/improves/`).
 
 Re-check whenever: a command's read/write behavior changes; the advisor
 boundary changes.
@@ -266,7 +267,7 @@ Asserts:
   `docs/Home.md`; HTML form, not byte-equivalent).
 - The install snippets and the pinned release URL (must match the version
   in `README.md` and `docs/Getting-Started.md`).
-- The `specs/<spec>/improve/` output paths and example prompt names.
+- The `specs/improves/` output paths and example prompt names.
 - The FAQ entries (a subset of `docs/FAQ.md`; must not contradict it).
 - The repository, wiki, issues, and discussions links.
 
@@ -299,7 +300,7 @@ user-facing page that might need a touch.
 | `extension.yml` (commands/version)        | `README.md`, `docs/Home.md`, `docs/Commands.md`, `docs/Getting-Started.md`, `docs/Architecture.md`, `CHANGELOG.md`, `web/index.html` |
 | `extension.yml.extension.description`     | `README.md`, `docs/Home.md`, `web/index.html`                                                       |
 | `catalog.json` (version, counts)          | `README.md`, `docs/Getting-Started.md`, `web/index.html`                                            |
-| `commands/speckit.improve.md`             | `docs/Commands.md`, `docs/Troubleshooting.md`, `docs/Examples.md`, `docs/Workflow.md`, `docs/Architecture.md` |
+| `commands/speckit.improve.run.md`             | `docs/Commands.md`, `docs/Troubleshooting.md`, `docs/Examples.md`, `docs/Workflow.md`, `docs/Architecture.md` |
 | `templates/improve-spec-prompt-template.md` | `docs/Commands.md` (output sections), `docs/Examples.md` (example bodies), `docs/Spec-Prompt-Format.md` (frontmatter and section list) |
 | `templates/improve-audit-playbook.md`     | `docs/Commands.md` (audit phases and categories), `docs/Workflow.md`                                |
 | `templates/improve-closing-the-loop.md`   | `docs/Commands.md` (handoff, re-run for drift, `--issues`), `docs/Workflow.md` (status lifecycle)   |

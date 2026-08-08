@@ -71,7 +71,7 @@ The website under `web/` is a single page whose content is hand-authored in
 deployed to GitHub Pages. This skill owns its
 **content**, not its visual design: keep the command list, the Command /
 What it does / Writes facts, the install and usage snippets, the
-version pin, the `specs/<spec>/improve/` output paths, and the repo and
+version pin, the `specs/improves/` output paths, and the repo and
 wiki links in step with the canonical sources and the wiki. Do not redesign the
 layout or restyle it; touch only the text that drifted. `web/README.md`
 explains the folder and is maintained like `docs/README.md`.
@@ -110,7 +110,7 @@ produces or ships the extension*.
 `docs/Architecture.md` is the page most prone to crossing this line. Keep
 it to how the extension works at runtime: what it is (text, no runtime),
 how a command resolves and what it reads and writes, and the advisor
-boundary (read-only on source, writes only under `specs/<spec>/improve/`).
+boundary (read-only on source, writes only under `specs/improves/`).
 The repo tree, the release pipeline, and repo governance do not belong
 on it.
 
@@ -127,7 +127,7 @@ Read these and build a picture of what the extension actually does:
 2. `catalog.json` — must match `extension.yml` on version, description,
    tags, requires, and the `provides` counts.
 3. `commands/speckit.*.md` — each filename maps 1:1 to a command name
-   (`speckit.improve.md` → `/speckit.improve`). Capture what
+   (`speckit.improve.run.md` → `/speckit.improve.run`). Capture what
    each reads, what it writes, the audience, the refusal conditions, the
    output section list, and any modifiers a command accepts (the
    command's `quick`/`deep`, focus category, `branch`, `next`, and
@@ -146,7 +146,7 @@ Output: a coverage map you carry in your head of the form:
 
 ```
 Commands actually shipped:
-  /speckit.improve   audits the codebase  writes specs/<spec>/improve/*.md
+  /speckit.improve.run   audits the codebase  writes specs/improves/*.md
 Hooks declared: none
 Version: 0.1.0  Requires: speckit >= 0.2.0
 ```
@@ -205,12 +205,12 @@ After the script, do a second-pass semantic audit it cannot do:
    `web/index.html` as a card or an HTML table; it is not byte-equivalent
    there, but it must list the same command name and what it writes.
 6. Confirm `docs/Examples.md` references the same output layout the
-   templates produce: spec prompt files under `specs/<spec>/improve/` with
-   descriptive names (for example `fix-n-plus-one.md`), not
-   numeric-prefixed filenames.
+   templates produce: spec prompt files in the flat `specs/improves/` folder,
+   each a descriptive name behind a zero-padded execution-order prefix (for
+   example `001-fix-n-plus-one.md`).
 7. Confirm `web/index.html` agrees with the wiki on the install and usage
    snippets, the version pin and `requires.speckit_version` badge, the
-   `specs/<spec>/improve/` output paths, and the hero and FAQ claims. It is
+   `specs/improves/` output paths, and the hero and FAQ claims. It is
    a short subset of the wiki, so it need not cover every page, but nothing
    it states may contradict the canonical sources.
 8. **Scope audit.** Scan every in-scope page for out-of-scope content
@@ -316,7 +316,7 @@ checks are clean. Do not commit; the user controls commits.
   to a user-facing page. Route it to `CONTRIBUTING.md`.
 - Do not "improve" prose adjacent to a fix. Touch only the lines that
   drifted.
-- Do not regenerate the spec prompt files under `specs/*/improve/`.
+- Do not regenerate the spec prompt files under `specs/improves/`.
 - Do not rename a wiki page without updating `docs/_Sidebar.md`,
   `docs/README.md`, and every inbound link in the same batch.
 - Do not silently delete `[NEEDS CLARIFICATION]` markers.

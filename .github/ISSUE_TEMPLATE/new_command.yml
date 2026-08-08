@@ -28,10 +28,10 @@ body:
     id: inputs-outputs
     attributes:
       label: Inputs and outputs
-      description: Which files does it read, which files does it write under `specs/<spec-name>/improve/`, and what format does it produce?
+      description: Which files does it read, which files does it write under `specs/improves/`, and what format does it produce?
       placeholder: |
-        Reads: the repository (read-only), specs/*/improve/*.md
-        Writes: specs/<spec-name>/improve/<plan-name>.md
+        Reads: the repository (read-only), specs/improves/*.md
+        Writes: specs/improves/<plan-name>.md
         Format: spec prompt per templates/improve-spec-prompt-template.md
     validations:
       required: true
@@ -40,7 +40,7 @@ body:
     id: advisor-boundary
     attributes:
       label: Advisor boundary
-      description: Confirm the command keeps the extension's founding rule. It never modifies source code and only writes under `specs/<spec-name>/improve/`; implementation belongs to the spec-kit lifecycle.
+      description: Confirm the command keeps the extension's founding rule. It never modifies source code and only writes under `specs/improves/`; implementation belongs to the spec-kit lifecycle.
     validations:
       required: true
 

@@ -26,33 +26,34 @@ For a filled-in prompt, see [Examples](Examples.md).
 
 ## File placement and naming
 
-Prompts live inside `specs/`, scoped to the spec they belong to:
+Every prompt lives in one flat folder inside `specs/`:
 
 ```
-specs/<spec-name>/improve/<NNN>-<plan-name>.md
+specs/improves/<NNN>-<plan-name>.md
 ```
 
-- If an existing feature directory `specs/<NNN-name>/` covers the area the
-  improvement touches, the prompt goes in that directory's `improve/` folder.
-- Otherwise the advisor creates a dedicated theme directory:
-  `specs/<theme-slug>/improve/`. Related improvements share the
-  theme directory, for example `specs/harden-auth/improve/001-rotate-session-tokens.md`
-  and `specs/harden-auth/improve/002-add-csrf-protection.md`.
-- `<plan-name>` is a short imperative slug. `<NNN>` is a zero-padded
-  execution-order prefix, applied to a folder's `TODO` prompts only when it
-  holds two or more: a topological sort of `depends` (dependencies first),
-  tie-broken by `priority`. It is derived from the frontmatter, never
-  contradicts it, and is reassigned on each re-run; a lone prompt takes no
-  prefix. `depends` references siblings by their `<plan-name>` slug, so
-  renumbering never breaks a link.
-- The prefix is scoped to its own `improve/` folder (contiguous `001..N`
-  there, and two folders may each start at `001`). It is not spec-kit's global
-  `specs/<NNN>-name/` feature number, which `/speckit.specify` assigns from its
-  own sequential counter when a prompt becomes a spec, so it never aligns with
-  the existing spec directories and cannot collide with them.
+- `specs/improves/` is the only place the advisor writes. Every prompt from
+  every run goes there, whatever area of the code it improves, and no
+  per-feature or per-theme subfolder is created underneath it.
+- The folder sits beside the feature directories `/speckit.specify` owns
+  (`specs/001-add-auth/`, and so on) and never mixes with them. One glance
+  tells you what is advisor output and what is a generated spec.
+- `<plan-name>` is a short imperative slug, unique across the folder, for
+  example `specs/improves/001-rotate-session-tokens.md` and
+  `specs/improves/002-add-csrf-protection.md`. `<NNN>` is a zero-padded
+  execution-order prefix carried by every `TODO` prompt: a topological sort of
+  `depends` (dependencies first), tie-broken by `priority`. It is derived from
+  the frontmatter, never contradicts it, and is reassigned on each re-run.
+  `depends` references siblings by their `<plan-name>` slug, so renumbering
+  never breaks a link.
+- The prefix orders the whole folder (contiguous `001..N`). It is not
+  spec-kit's global `specs/<NNN>-name/` feature number, which
+  `/speckit.specify` assigns from its own sequential counter when a prompt
+  becomes a spec, so it never aligns with the existing spec directories and
+  cannot collide with them.
 
-There is no central index file. `/speckit.improve` discovers the backlog by
-globbing `specs/*/improve/*.md` and reading frontmatter.
+There is no central index file. `/speckit.improve.run` discovers the backlog by
+globbing `specs/improves/*.md` and reading frontmatter.
 
 ## Frontmatter
 
@@ -73,13 +74,13 @@ issue: "" # GitHub issue URL, only when published via --issues
 
 Status meanings:
 
-| Status   | Meaning                                                                                              |
-| -------- | ---------------------------------------------------------------------------------------------------- |
-| TODO     | Written and ready to hand to `/speckit.specify`.                                                     |
-| DONE     | Optional. You set it once the implementation has landed; nothing sets it automatically.              |
-| REJECTED | A re-run of `/speckit.improve` sets this when a finding no longer holds, with one line of rationale. |
+| Status   | Meaning                                                                                                  |
+| -------- | -------------------------------------------------------------------------------------------------------- |
+| TODO     | Written and ready to hand to `/speckit.specify`.                                                         |
+| DONE     | Optional. You set it once the implementation has landed; nothing sets it automatically.                  |
+| REJECTED | A re-run of `/speckit.improve.run` sets this when a finding no longer holds, with one line of rationale. |
 
-The `planned_at` SHA is the drift contract: a re-run of `/speckit.improve` can
+The `planned_at` SHA is the drift contract: a re-run of `/speckit.improve.run` can
 mechanically check whether the codebase changed under the prompt with one
 `git diff --stat <planned_at>..HEAD -- <affected paths>`.
 
@@ -161,5 +162,7 @@ gap here becomes a gap in the generated spec for `/speckit.clarify` to catch.
 - Are the scope boundaries explicit enough that the generated spec will not
   sprawl into adjacent code?
 - No secret values anywhere in the file; locations and credential types only.
+- The file was written to `specs/improves/`, not to a feature directory or any
+  other path.
 - The `planned_at` SHA is filled in, and every slug in `depends` resolves to a
-  sibling prompt in the same `improve/` folder.
+  sibling prompt in `specs/improves/`.

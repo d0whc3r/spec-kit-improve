@@ -22,9 +22,9 @@ The user-facing side to update:
 ### Before (excerpt of `docs/Home.md`)
 
 ```markdown
-| Command             | What it does                                              | Writes                      |
-| ------------------- | --------------------------------------------------------- | --------------------------- |
-| `/speckit.improve`  | Full audit, or one prompt for a specific change you name. | `specs/<spec>/improve/*.md` |
+| Command            | What it does                                              | Writes                  |
+| ------------------ | --------------------------------------------------------- | ----------------------- |
+| `/speckit.improve.run` | Full audit, or one prompt for a specific change you name. | `specs/improves/*.md` |
 ```
 
 ### After
@@ -32,7 +32,7 @@ The user-facing side to update:
 ```markdown
 | Command                   | What it does                                              | Writes                        |
 | ------------------------- | --------------------------------------------------------- | ----------------------------- |
-| `/speckit.improve`        | Full audit, or one prompt for a specific change you name. | `specs/<spec>/improve/*.md`   |
+| `/speckit.improve.run`        | Full audit, or one prompt for a specific change you name. | `specs/improves/*.md`         |
 | `/speckit.improve.triage` | Re-rank an existing backlog without a fresh audit.        | prompt frontmatter (priority) |
 ```
 

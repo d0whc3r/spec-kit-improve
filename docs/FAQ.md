@@ -11,7 +11,7 @@ cheap part, and leaves nothing behind that the lifecycle, another agent, or a
 human can pick up, review, or re-run.
 
 It is also a safety property: a tool that only ever writes to
-`specs/<spec-name>/improve/` cannot break your build, your tests, or your git
+`specs/improves/` cannot break your build, your tests, or your git
 history.
 
 ## Why must every prompt work with zero context?
@@ -75,7 +75,7 @@ install paths in full.
 
 ## Will the extension ever modify my code?
 
-No. The advisor's only writes go under `specs/<spec-name>/improve/`. Code
+No. The advisor's only writes go under `specs/improves/`. Code
 changes happen through the standard spec-kit lifecycle: `/speckit.specify`
 generates the spec, `/speckit.plan` and `/speckit.tasks` design the work, and
 `/speckit.implement` executes it, all under your control. The extension stops
@@ -94,11 +94,11 @@ the rest of the backlog stands on.
 They stay. Prompt files are never deleted; they are the record of what was
 done and why. You may mark a prompt `DONE` once its implementation lands;
 REJECTED prompts keep one line of rationale in their frontmatter so a re-run of
-`/speckit.improve` does not surface the finding again.
+`/speckit.improve.run` does not surface the finding again.
 
 ## Can prompts become GitHub issues?
 
-Yes, with the explicit `--issues` flag on `/speckit.improve`. Each prompt
+Yes, with the explicit `--issues` flag on `/speckit.improve.run`. Each prompt
 is published with its full text as the
 issue body, labeled `improve` plus its category, and the issue URL is recorded
 in the prompt's `issue` frontmatter field. The prompt file remains the source

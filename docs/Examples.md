@@ -3,8 +3,7 @@
 A real worked example of what the extension produces, shipped in the repo
 under [`examples/`](../examples/). The audit ran against a TypeScript monorepo
 (a component registry CLI plus its documentation site); the artifact is the
-spec prompt that landed in the target repo's `specs/` tree, scoped under
-`specs/registry-cli/improve/`.
+spec prompt that landed in the target repo's `specs/improves/` folder.
 
 ## The findings table
 
@@ -45,19 +44,17 @@ advisor re-reads every cited location before anything reaches you.
 
 ## Where the prompt landed
 
-The target repo had no existing feature directory covering the CLI, so the
-advisor created the dedicated theme space `specs/registry-cli/improve/`; the
-prompts for findings #3 and #4 would land in the same folder. With a single
-prompt present it carries no number prefix; once #3 and #4 land, the advisor
-numbers the folder's TODO prompts (`001-`, `002-`, ...) by execution order.
-There is no index file: each prompt is self-indexing through its YAML
-frontmatter, which carries status, priority, dependencies, and the commit it
-was planned against.
+In `specs/improves/`, like every prompt the advisor writes; the prompts for
+findings #3 and #4 land in the same folder. Each TODO prompt carries a `001-`,
+`002-` prefix giving its execution order, reassigned on every re-run. There is
+no index file: each prompt is self-indexing through its YAML frontmatter,
+which carries status, priority, dependencies, and the commit it was planned
+against.
 
 ## Anatomy of the prompt
 
 The spec prompt for finding #1 is shipped in full:
-[`specs/registry-cli/improve/extract-shadow-config-resolution.md`](../examples/specs/registry-cli/improve/extract-shadow-config-resolution.md).
+[`specs/improves/001-extract-shadow-config-resolution.md`](../examples/specs/improves/001-extract-shadow-config-resolution.md).
 Read it with spec-kit's eyes, top to bottom:
 
 **Frontmatter.** `status: TODO`, `priority: P1`, `effort: M`, `risk: LOW`,

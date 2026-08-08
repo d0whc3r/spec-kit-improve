@@ -18,7 +18,7 @@ The release zip installs the canonical content under
 .specify/extensions/improve/
 ├── extension.yml
 ├── commands/
-│   └── speckit.improve.md
+│   └── speckit.improve.run.md
 └── templates/
     ├── improve-audit-playbook.md
     ├── improve-spec-prompt-template.md
@@ -32,7 +32,7 @@ format.
 ## How a command runs
 
 ```
-You run /speckit.improve
+You run /speckit.improve.run
         |
 The slash command resolves to the installed command prompt
         |
@@ -42,17 +42,17 @@ The prompt reads its shipped references:
   .specify/extensions/improve/templates/improve-closing-the-loop.md
         |
 Phase 1  recon: README, configs, CI, intent docs,    (read-only)
-         specs/ tree
+         specs/improves/ backlog
 Phase 2  parallel category audit via subagents       (read-only)
 Phase 3  vet: advisor re-reads every cited location  (read-only)
-Phase 4  write: specs/<spec>/improve/*.md            (the only writes)
+Phase 4  write: specs/improves/*.md                  (the only writes)
 ```
 
 The three templates carry the durable knowledge: the
 [audit playbook](../templates/improve-audit-playbook.md) (what to look for per
 category, the finding format, the prioritization rubric), the
 [spec prompt template](../templates/improve-spec-prompt-template.md) (the structure
-and placement rules every prompt follows and the quality bar), and the
+and naming rules every prompt follows and the quality bar), and the
 [closing-the-loop reference](../templates/improve-closing-the-loop.md) (the
 handoff to `/speckit.specify` and the `--issues` procedure). The command prompt
 stays short and points at them.
@@ -83,7 +83,7 @@ reads.
 A `TODO` prompt is the feature description input for `/speckit.specify`. The
 prompt is self-contained, so the handoff is mechanical:
 
-- Before handing off, a re-run of `/speckit.improve` refreshes any prompt whose
+- Before handing off, a re-run of `/speckit.improve.run` refreshes any prompt whose
   code drifted since `planned_at`; a stale prompt is never fed to spec-kit
   as-is.
 - Invoke `/speckit.specify` with the full prompt body (Objective, Current
@@ -103,13 +103,13 @@ prompt is self-contained, so the handoff is mechanical:
 
 ## Where state lives
 
-All durable state is the prompt files under `specs/<spec-name>/improve/` in
+All durable state is the prompt files under `specs/improves/` in
 your repo. Each prompt's YAML frontmatter is its status record (`status`,
 `priority`, `depends`, `planned_at`, `issue`); there is no index file,
 no database, no cache, and no background process. The command discovers the
-backlog by globbing `specs/*/improve/*.md` and reading frontmatter. The
+backlog by globbing `specs/improves/*.md` and reading frontmatter. The
 contract between sessions is the `planned_at` commit SHA inside each prompt:
 the command can mechanically check whether the codebase drifted out from under
 a prompt with one `git diff --stat`. That is what lets a re-run of
-`/speckit.improve` reconcile instead of duplicating, and keep the backlog
+`/speckit.improve.run` reconcile instead of duplicating, and keep the backlog
 truthful.

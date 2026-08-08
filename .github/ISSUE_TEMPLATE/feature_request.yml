@@ -13,7 +13,7 @@ body:
     attributes:
       label: Problem
       description: What is the user trying to accomplish, and where does the current extension fall short? Frame this as a Job to Be Done, not a solution.
-      placeholder: When I run /speckit.improve on a monorepo, the findings table mixes packages, so I cannot tell which workspace each finding belongs to.
+      placeholder: When I run /speckit.improve.run on a monorepo, the findings table mixes packages, so I cannot tell which workspace each finding belongs to.
     validations:
       required: true
 
@@ -39,7 +39,7 @@ body:
       label: Scope
       multiple: true
       options:
-        - /speckit.improve
+        - /speckit.improve.run
         - Templates
         - Manifest or catalog
         - Documentation

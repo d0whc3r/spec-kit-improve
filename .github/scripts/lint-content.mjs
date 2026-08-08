@@ -26,7 +26,7 @@ const CLOSING_THE_LOOP = "templates/improve-closing-the-loop.md";
 
 // Shipped command bodies are linted for the same prose rules as templates
 // (AGENTS.md "Agent Boundaries" rule 4: no em dashes, plain English).
-const COMMANDS = ["commands/speckit.improve.md"];
+const COMMANDS = ["commands/speckit.improve.run.md"];
 
 // Each entry pairs a shipped reference template with the command that must
 // point executors at it. `mandatory` lists the template's stable top-level
@@ -34,7 +34,7 @@ const COMMANDS = ["commands/speckit.improve.md"];
 const TEMPLATES = [
   {
     template: "templates/improve-audit-playbook.md",
-    command: "commands/speckit.improve.md",
+    command: "commands/speckit.improve.run.md",
     mandatory: [
       "1. Correctness / Bugs",
       "2. Security",
@@ -53,7 +53,7 @@ const TEMPLATES = [
   },
   {
     template: SPEC_PROMPT_TEMPLATE,
-    command: "commands/speckit.improve.md",
+    command: "commands/speckit.improve.run.md",
     mandatory: [
       "File placement and naming",
       "Frontmatter",
@@ -65,7 +65,7 @@ const TEMPLATES = [
   },
   {
     template: CLOSING_THE_LOOP,
-    command: "commands/speckit.improve.md",
+    command: "commands/speckit.improve.run.md",
     mandatory: ["Handoff: hand a prompt to spec-kit", "Issues: publish prompts as GitHub issues"],
     optional: [],
     extraRefs: [SPEC_PROMPT_TEMPLATE],

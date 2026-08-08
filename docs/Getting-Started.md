@@ -60,12 +60,12 @@ cat .specify/extensions/.registry        # 'improve' entry should be present
 ls .specify/extensions/improve           # extension.yml, commands/, templates/
 ```
 
-After install, the `/speckit.improve` slash command becomes available in your assistant.
+After install, the `/speckit.improve.run` slash command becomes available in your assistant.
 
 ## Step 2: Run your first audit
 
 ```text
-/speckit.improve quick
+/speckit.improve.run quick
 ```
 
 `quick` keeps the first run cheap: it audits only the recon hotspots, covers
@@ -92,23 +92,20 @@ default suggestion of the top 3 to 5. Reply with your selection:
 plan 1, 3 and 5
 ```
 
-The advisor writes one spec prompt per selected finding, placed inside
-`specs/`: in an existing feature directory's `improve/` folder when one covers
-the affected area, otherwise in a new theme directory shared by related
-improvements:
+The advisor writes one spec prompt per selected finding, always in the same
+place: `specs/improves/`. That one flat folder is the whole backlog, whatever
+area of the code each prompt improves.
 
 ```
 specs/
-└── harden-auth/
-    └── improve/
-        ├── 001-rotate-session-tokens.md
-        └── 002-add-csrf-protection.md
+└── improves/
+    ├── 001-rotate-session-tokens.md
+    └── 002-add-csrf-protection.md
 ```
 
-The `001-`/`002-` prefix is the execution order, applied only once a folder
-holds two or more TODO prompts; a lone prompt takes no prefix. There is no
-index file; each prompt's YAML frontmatter carries its status, priority,
-dependencies, and the commit it was planned against.
+The `001-`/`002-` prefix is the execution order, carried by every TODO prompt.
+There is no index file; each prompt's YAML frontmatter carries its status,
+priority, dependencies, and the commit it was planned against.
 
 ## Step 4: Read the prompts
 
@@ -143,7 +140,7 @@ to spec-kit core, not to this extension. Once it lands, you may mark the prompt
 ## Next session
 
 ```text
-/speckit.improve
+/speckit.improve.run
 ```
 
 A re-run keeps the backlog truthful: it dedupes against the prompts already on

@@ -26,7 +26,7 @@ const REQUIRED = [
   "extension.yml",
   "README.md",
   "LICENSE",
-  "commands/speckit.improve.md",
+  "commands/speckit.improve.run.md",
   "templates/improve-audit-playbook.md",
   "templates/improve-spec-prompt-template.md",
   "templates/improve-closing-the-loop.md",

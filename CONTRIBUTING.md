@@ -25,9 +25,9 @@ The CLI installs the extension under `.specify/extensions/improve/` of the targe
 
 ## Iterating on the Commands
 
-The slash command is a markdown prompt at `commands/speckit.improve.md`. Edit it, then dogfood:
+The slash command is a markdown prompt at `commands/speckit.improve.run.md`. Edit it, then dogfood:
 
-1. Run `/speckit.improve quick` against a real repository (this one works).
+1. Run `/speckit.improve.run quick` against a real repository (this one works).
 2. Judge the output against the contract: findings carry `file:line` evidence, the table is leverage-ordered, and every written spec prompt passes the "Quality bar" section of `templates/improve-spec-prompt-template.md`.
 3. The strongest signal is processing a generated spec prompt through `/speckit.specify` in a fresh session with zero context. Where the generated spec drops or distorts a requirement, the command prompt or the template needs tightening.
 
@@ -144,7 +144,7 @@ The extension's value is the advisor voice and the processability of its spec pr
 1. English only, plain English, active voice.
 2. No em dash character in shipped commands or templates.
 3. Findings always carry `file:line` evidence; spec prompts always carry machine-checkable acceptance criteria with expected results.
-4. The advisor boundary stays intact: no command may instruct an agent to edit source code; the only writes go under `specs/<spec-name>/improve/`.
+4. The advisor boundary stays intact: no command may instruct an agent to edit source code; the only writes go under `specs/improves/`.
 
 If you change these rules, update the templates, the command prompts, and the lint script in the same commit.
 

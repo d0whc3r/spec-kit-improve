@@ -13,12 +13,12 @@ receives security fixes. Older releases are left in place but not patched.
 ## Threat model in scope
 
 The extension audits a local repository read-only and writes Markdown spec
-prompts under `specs/<spec-name>/improve/`. It does not run as a service and
+prompts under `specs/improves/`. It does not run as a service and
 has no network surface of its own. In-scope concerns are:
 
 - A malicious manifest, template, or command file that could trick a host AI
   agent into running unintended actions, exfiltrating data, or writing files
-  outside `specs/<spec-name>/improve/`.
+  outside `specs/improves/`.
 - Supply-chain risks in the published release zip or its GitHub Actions
   workflows.
 - A prompt or template change that would cause the advisor to reproduce

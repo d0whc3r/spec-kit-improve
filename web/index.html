@@ -6,12 +6,12 @@
     <title>Improve Extension for Spec Kit</title>
     <meta
       name="description"
-      content="A Spec Kit extension that audits any codebase as a senior advisor and writes prioritized, self-contained spec prompts under specs/ that the spec-kit lifecycle can process."
+      content="A Spec Kit extension that audits any codebase as a senior advisor and writes prioritized, self-contained spec prompts under specs/improves/ that the spec-kit lifecycle can process."
     />
     <meta property="og:title" content="Improve Extension for Spec Kit" />
     <meta
       property="og:description"
-      content="Audits any codebase as a senior advisor and writes prioritized, self-contained spec prompts under specs/ that the spec-kit lifecycle can process."
+      content="Audits any codebase as a senior advisor and writes prioritized, self-contained spec prompts under specs/improves/ that the spec-kit lifecycle can process."
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://d0whc3r.github.io/spec-kit-improve/" />
@@ -60,9 +60,8 @@
           <p class="lede">
             Improve Extension audits your codebase as a read-only senior advisor. It presents a
             leverage-ordered findings table with file:line evidence, and turns the findings you pick
-            into self-contained spec prompts under <code>specs/&lt;spec&gt;/improve/</code> that the
-            spec-kit lifecycle can process. It never modifies source code itself. The prompt is the
-            product.
+            into self-contained spec prompts under <code>specs/improves/</code> that the spec-kit
+            lifecycle can process. It never modifies source code itself. The prompt is the product.
           </p>
 
           <div class="install">
@@ -154,9 +153,9 @@ specify extension add improve</code></pre>
             <article class="card">
               <h3>Read-only by contract</h3>
               <p>
-                The advisor's only writes go to <code>specs/&lt;spec&gt;/improve/</code>. It never
-                edits source code and never runs commands that mutate your working tree. Ask it to
-                implement something and it declines and points at the prompt; handing it to
+                The advisor's only writes go to <code>specs/improves/</code>. It never edits source
+                code and never runs commands that mutate your working tree. Ask it to implement
+                something and it declines and points at the prompt; handing it to
                 <code>/speckit.specify</code> is how it becomes code.
               </p>
             </article>
@@ -186,8 +185,8 @@ specify extension add improve</code></pre>
         <div class="container">
           <h2>One command</h2>
           <p class="section-lede">
-            <code>/speckit.improve</code> runs the full audit-to-prompts workflow, or specs a single
-            known change when you name it. From there you hand each prompt to
+            <code>/speckit.improve.run</code> runs the full audit-to-prompts workflow, or specs a
+            single known change when you name it. From there you hand each prompt to
             <code>/speckit.specify</code>, and a later re-run keeps the backlog truthful between
             sessions.
           </p>
@@ -203,14 +202,14 @@ specify extension add improve</code></pre>
               </thead>
               <tbody>
                 <tr>
-                  <td><code>/speckit.improve</code></td>
+                  <td><code>/speckit.improve.run</code></td>
                   <td>
                     Full audit: recon, parallel category audit, vetted findings table, spec prompts
                     for the findings you pick. Pass a change description instead to skip the audit
                     and write a single prompt for just that change. A re-run dedupes against
                     existing prompts and refreshes any that drifted.
                   </td>
-                  <td><code>specs/&lt;spec&gt;/improve/*.md</code></td>
+                  <td><code>specs/improves/*.md</code></td>
                 </tr>
               </tbody>
             </table>
@@ -220,7 +219,7 @@ specify extension add improve</code></pre>
             name (<code>security</code>, <code>perf</code>, <code>tests</code>, ...) focuses on one
             area, <code>branch</code> audits only what the current branch changes,
             <code>next</code> suggests feature direction, and <code>--issues</code> also publishes
-            prompts as GitHub issues. For example: <code>/speckit.improve quick security</code>.
+            prompts as GitHub issues. For example: <code>/speckit.improve.run quick security</code>.
           </p>
           <p class="note">
             Each <code>TODO</code> prompt is a feature description for
@@ -237,9 +236,9 @@ specify extension add improve</code></pre>
           <p class="section-lede">
             A real audit of a TypeScript monorepo: a component registry CLI plus its documentation
             site. The advisor presented the findings table on the left; the file on the right is the
-            spec prompt that landed in the target repo's <code>specs/</code> tree, scoped under
-            <code>specs/registry-cli/improve/</code>. Everything is rendered straight from the files
-            in the
+            spec prompt that landed in the target repo's
+            <code>specs/improves/</code> folder. Everything is rendered straight from the files in
+            the
             <a href="https://github.com/d0whc3r/spec-kit-improve/tree/main/examples"
               >examples folder</a
             >. Pick a view, read the excerpt, and open the full version.
@@ -312,12 +311,12 @@ don't come back next run.</code></pre>
                 >
                   <div class="example-head">
                     <span class="example-tag example-tag-out">Output</span>
-                    <code>specs/registry-cli/improve/extract-shadow-config-resolution.md</code>
+                    <code>specs/improves/001-extract-shadow-config-resolution.md</code>
                     <button
                       class="md-full-btn"
                       type="button"
-                      data-md-full="examples/specs/registry-cli/improve/extract-shadow-config-resolution.md"
-                      data-md-title="specs/registry-cli/improve/extract-shadow-config-resolution.md"
+                      data-md-full="examples/specs/improves/001-extract-shadow-config-resolution.md"
+                      data-md-title="specs/improves/001-extract-shadow-config-resolution.md"
                     >
                       View full file
                     </button>
@@ -338,7 +337,7 @@ issue: ""
                     Each prompt is self-indexing: the frontmatter carries status, priority,
                     dependencies, and the commit it was planned against. There is no separate index
                     file; commands discover the backlog by globbing
-                    <code>specs/*/improve/*.md</code>.
+                    <code>specs/improves/*.md</code>.
                   </p>
                 </div>
 
@@ -351,12 +350,12 @@ issue: ""
                 >
                   <div class="example-head">
                     <span class="example-tag example-tag-out">Output</span>
-                    <code>specs/registry-cli/improve/extract-shadow-config-resolution.md</code>
+                    <code>specs/improves/001-extract-shadow-config-resolution.md</code>
                     <button
                       class="md-full-btn"
                       type="button"
-                      data-md-full="examples/specs/registry-cli/improve/extract-shadow-config-resolution.md"
-                      data-md-title="specs/registry-cli/improve/extract-shadow-config-resolution.md"
+                      data-md-full="examples/specs/improves/001-extract-shadow-config-resolution.md"
+                      data-md-title="specs/improves/001-extract-shadow-config-resolution.md"
                     >
                       View full file
                     </button>
@@ -457,14 +456,14 @@ ls .specify/extensions/improve      # extension files present</code></pre>
                 Run the audit in your Spec Kit-aware assistant. Add <code>quick</code> to keep it
                 cheap, <code>deep</code> to cover every package and category.
               </p>
-              <pre data-copy><code>/speckit.improve</code></pre>
+              <pre data-copy><code>/speckit.improve.run</code></pre>
             </li>
             <li>
               <h3>Pick findings and read the prompts</h3>
               <p>
                 The audit ends with a leverage-ordered findings table. Reply with the ones you want
-                planned. Spec prompts land under <code>specs/&lt;spec&gt;/improve/</code>; read
-                them, they are meant to be reviewed.
+                planned. Spec prompts land under <code>specs/improves/</code>; read them, they are
+                meant to be reviewed.
               </p>
               <pre data-copy><code>plan 1, 3 and 4</code></pre>
             </li>
@@ -474,13 +473,14 @@ ls .specify/extensions/improve      # extension files present</code></pre>
                 Hand a prompt's body to <code>/speckit.specify</code>, then carry the generated spec
                 through the standard lifecycle (<code>/speckit.clarify</code>,
                 <code>/speckit.plan</code>, <code>/speckit.tasks</code>,
-                <code>/speckit.implement</code>). Next session, re-run <code>/speckit.improve</code>
+                <code>/speckit.implement</code>). Next session, re-run
+                <code>/speckit.improve.run</code>
                 so the backlog stays truthful.
               </p>
               <pre
                 data-copy
               ><code>/speckit.specify &lt;body of extract-shadow-config-resolution.md&gt;
-/speckit.improve</code></pre>
+/speckit.improve.run</code></pre>
             </li>
           </ol>
         </div>
@@ -491,20 +491,20 @@ ls .specify/extensions/improve      # extension files present</code></pre>
           <h2>How it flows</h2>
           <p class="section-lede">
             Every command reads the repository and writes only under
-            <code>specs/&lt;spec&gt;/improve/</code>. Turning a prompt into code belongs to the
-            spec-kit lifecycle, and merging is always your decision.
+            <code>specs/improves/</code>. Turning a prompt into code belongs to the spec-kit
+            lifecycle, and merging is always your decision.
           </p>
           <pre
             class="flow"
-          ><code>you                            the extension                          specs/&lt;spec&gt;/improve/
----                            -------------                          ---------------------
+          ><code>you                            the extension                          specs/improves/
+---                            -------------                          ---------------
 
-/speckit.improve          -->  recon -> audit -> vet -> confirm -->  &lt;NNN&gt;-&lt;plan-name&gt;.md (status TODO)
+/speckit.improve.run          -->  recon -> audit -> vet -> confirm -->  &lt;NNN&gt;-&lt;plan-name&gt;.md (status TODO)
                                        (you pick the findings)
 
-/speckit.improve &lt;desc&gt;   -->  recon -> targeted investigation  -->  &lt;NNN&gt;-&lt;plan-name&gt;.md (status TODO)
+/speckit.improve.run &lt;desc&gt;   -->  recon -> targeted investigation  -->  &lt;NNN&gt;-&lt;plan-name&gt;.md (status TODO)
 
-/speckit.improve (re-run) -->  dedupe + drift-refresh           -->  refreshed prompts (or REJECTED)
+/speckit.improve.run (re-run) -->  dedupe + drift-refresh           -->  refreshed prompts (or REJECTED)
 
 then hand off each TODO prompt to the spec-kit lifecycle:
 
@@ -598,11 +598,11 @@ specify extension update improve</code></pre>
             <details>
               <summary>Will it modify my code?</summary>
               <p>
-                No. The advisor's only writes go to <code>specs/&lt;spec&gt;/improve/</code>, and it
-                never runs commands that mutate your working tree. Code changes happen through the
-                standard spec-kit lifecycle (<code>/speckit.implement</code>), which is always under
-                your control. Ask the advisor to implement something directly and it declines and
-                points at the prompt.
+                No. The advisor's only writes go to <code>specs/improves/</code>, and it never runs
+                commands that mutate your working tree. Code changes happen through the standard
+                spec-kit lifecycle (<code>/speckit.implement</code>), which is always under your
+                control. Ask the advisor to implement something directly and it declines and points
+                at the prompt.
               </p>
             </details>
             <details>
@@ -619,19 +619,20 @@ specify extension update improve</code></pre>
             <details>
               <summary>Do I have to run the full audit every time?</summary>
               <p>
-                No. Passing a change description to <code>/speckit.improve</code> skips the audit
-                when you already know the change you want. <code>/speckit.improve quick</code> keeps
-                a full audit cheap, and <code>/speckit.improve branch</code> scopes it to what your
-                current branch changes, which is useful before a PR.
+                No. Passing a change description to <code>/speckit.improve.run</code> skips the
+                audit when you already know the change you want.
+                <code>/speckit.improve.run quick</code> keeps a full audit cheap, and
+                <code>/speckit.improve.run branch</code> scopes it to what your current branch
+                changes, which is useful before a PR.
               </p>
             </details>
             <details>
               <summary>What if the code changed since a prompt was written?</summary>
               <p>
                 Each prompt stamps the commit it was written against in its frontmatter, and a
-                re-run of <code>/speckit.improve</code> runs a mechanical drift check before writing
-                anything new. The re-run refreshes drifted prompts and marks REJECTED any finding
-                that no longer holds. Re-run it before you hand a prompt to
+                re-run of <code>/speckit.improve.run</code> runs a mechanical drift check before
+                writing anything new. The re-run refreshes drifted prompts and marks REJECTED any
+                finding that no longer holds. Re-run it before you hand a prompt to
                 <code>/speckit.specify</code>.
               </p>
             </details>

@@ -10,29 +10,29 @@ The consumer of a spec prompt has **zero context**: it has not seen the advisor 
 
 ## File placement and naming
 
-Prompts live inside `specs/`, scoped to the spec they belong to:
+Every prompt lives in one flat folder inside `specs/`:
 
 ```
-specs/<spec-name>/improve/<NNN>-<plan-name>.md
+specs/improves/<NNN>-<plan-name>.md
 ```
 
 Placement rules:
 
-- If an existing feature directory `specs/<NNN-name>/` covers the area the improvement touches, place the prompt in that directory's `improve/` folder.
-- Otherwise create a dedicated space: `specs/<theme-slug>/improve/`. Related improvements share the theme directory, e.g. `specs/harden-auth/improve/001-rotate-session-tokens.md` and `specs/harden-auth/improve/002-add-csrf-protection.md`.
-- `<plan-name>` is a short imperative slug. `<NNN>` is a zero-padded execution-order prefix (see below).
+- `specs/improves/` is the only writable location. Every prompt from every run goes there, whatever area of the code it improves. Nothing is ever written into a feature directory, and no per-theme or per-feature subfolder is created underneath it.
+- The folder sits beside the feature directories `/speckit.specify` owns (`specs/001-add-auth/`, and so on) and never mixes with them. That separation is the point: one glance tells you what is advisor output and what is a generated spec.
+- `<plan-name>` is a short imperative slug, unique across the folder, e.g. `specs/improves/001-rotate-session-tokens.md` and `specs/improves/002-add-csrf-protection.md`. `<NNN>` is a zero-padded execution-order prefix (see below).
 
-There is no central index file. `/speckit.improve` discovers the backlog by globbing `specs/*/improve/*.md` and reading frontmatter.
+There is no central index file. `/speckit.improve.run` discovers the backlog by globbing `specs/improves/*.md` and reading frontmatter.
 
 ### Execution-order prefix
 
-The `<NNN>` prefix tells the reader which prompt to run first when an `improve/` folder holds several. It is derived, not authored: it renders the order already encoded by `depends` and `priority`, so it can never contradict them.
+The `<NNN>` prefix tells the reader which prompt to run first. It is derived, not authored: it renders the order already encoded by `depends` and `priority`, so it can never contradict them.
 
-- Number a folder's `TODO` prompts only when it holds two or more. A lone prompt takes no prefix; there is nothing to order it against.
+- Every `TODO` prompt carries a prefix, including the first one written into an empty folder.
 - The order is a topological sort of the `depends` graph (every dependency comes before the prompt that needs it), tie-broken by `priority` (P1 before P2 before P3), then by leverage.
 - `DONE` and `REJECTED` prompts are out of the run queue: leave their filenames as they are, never renumber them.
-- The prefix is positional, so `/speckit.improve` reassigns it on every re-run as the backlog shifts (a new prompt slots in, a finished one drops out). Because `depends` references siblings by their `<plan-name>` slug, not by path, renaming never breaks a dependency link.
-- The prefix is scoped to its own `improve/` folder, not global. The `TODO` prompts in one folder run `001..N` contiguously, with no gaps or duplicates; two different folders may each start at `001`, which is not a collision. It is **not** spec-kit's feature number: `/speckit.specify` assigns the global `specs/<NNN>-name/` directory number from its own sequential counter when a prompt becomes a spec, so do not try to align the prefix with existing spec directories. On re-run, rescan the folder's existing prefixes and renumber the whole `TODO` set rather than guessing the next free number.
+- The prefix is positional, so `/speckit.improve.run` reassigns it on every re-run as the backlog shifts (a new prompt slots in, a finished one drops out). Because `depends` references siblings by their `<plan-name>` slug, not by path, renaming never breaks a dependency link.
+- The prefix orders the whole `specs/improves/` folder: its `TODO` prompts run `001..N` contiguously, with no gaps or duplicates. It is **not** spec-kit's feature number: `/speckit.specify` assigns the global `specs/<NNN>-name/` directory number from its own sequential counter when a prompt becomes a spec, so do not try to align the prefix with existing spec directories. On re-run, rescan the folder's existing prefixes and renumber the whole `TODO` set rather than guessing the next free number.
 
 ## Frontmatter
 
@@ -45,13 +45,13 @@ priority: P1 # P1 | P2 | P3
 effort: M # S | M | L
 risk: LOW # LOW | MED | HIGH
 category: perf # bug | security | perf | tests | tech-debt | migration | dx | docs | direction
-depends: [] # <plan-name> slugs of sibling prompts in this improve/ folder that must be DONE first, e.g. [rotate-session-tokens]
+depends: [] # <plan-name> slugs of sibling prompts in specs/improves/ that must be DONE first, e.g. [rotate-session-tokens]
 planned_at: abc1234 # short SHA of the commit the prompt was written against
 issue: "" # GitHub issue URL, only when published via --issues
 ---
 ```
 
-Status meanings: `TODO` (written and ready to hand to `/speckit.specify`), `DONE` (optional: the user marks this once the implementation has landed; nothing sets it automatically), `REJECTED` (with a one-line rationale, e.g. `status: REJECTED # fixed independently`; a re-run of `/speckit.improve` sets this when a prompt's finding no longer holds).
+Status meanings: `TODO` (written and ready to hand to `/speckit.specify`), `DONE` (optional: the user marks this once the implementation has landed; nothing sets it automatically), `REJECTED` (with a one-line rationale, e.g. `status: REJECTED # fixed independently`; a re-run of `/speckit.improve.run` sets this when a prompt's finding no longer holds).
 
 ## Template
 
@@ -133,4 +133,5 @@ this, what a reviewer should scrutinize.
 - Does the Current context name exact files and symbols with `file:line` markers, and do the excerpts match the live code at `planned_at`?
 - Are the scope boundaries explicit enough that the generated spec will not sprawl into adjacent code?
 - No secret values anywhere in the file; locations and credential types only.
-- `planned_at` SHA is filled in, and every slug in `depends` resolves to a sibling prompt in the same `improve/` folder.
+- The file was written to `specs/improves/`, not to a feature directory or any other path.
+- `planned_at` SHA is filled in, and every slug in `depends` resolves to a sibling prompt in `specs/improves/`.

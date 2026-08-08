@@ -8,8 +8,8 @@ expensive, high-ceiling model does the part where intelligence compounds
 execution. The prompt is the product.
 
 ```
-you       ->  /speckit.improve                             (expensive model, advises)
-specs/    ->  <spec>/improve/fix-n-plus-one.md              (self-contained spec prompts)
+you       ->  /speckit.improve.run                          (expensive model, advises)
+specs/    ->  improves/001-fix-n-plus-one.md                (self-contained spec prompts)
 spec-kit  ->  /speckit.specify ... /speckit.implement       (the lifecycle executes)
 ```
 
@@ -18,7 +18,7 @@ spec-kit  ->  /speckit.specify ... /speckit.implement       (the lifecycle execu
 | Page                                        | When to read                                                             |
 | ------------------------------------------- | ------------------------------------------------------------------------ |
 | [Getting Started](Getting-Started.md)       | First install, zero to first spec prompt in five minutes.                |
-| [Commands](Commands.md)                     | Deep reference for the `/speckit.improve` command.                       |
+| [Commands](Commands.md)                     | Deep reference for the `/speckit.improve.run` command.                   |
 | [Workflow](Workflow.md)                     | The audit-handoff-rerun loop and the backlog layout.                     |
 | [Examples](Examples.md)                     | A real findings table and the spec prompt it produced.                   |
 | [Spec Prompt Format](Spec-Prompt-Format.md) | What makes a prompt processable by `/speckit.specify` with zero context. |
@@ -28,9 +28,9 @@ spec-kit  ->  /speckit.specify ... /speckit.implement       (the lifecycle execu
 
 ## The command at a glance
 
-| Command            | What it does                                                                                                                                                                                        | Writes                      |
-| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
-| `/speckit.improve` | Full audit (recon, parallel category audit, vetted findings, spec prompts), or one prompt for a specific change you name. A re-run dedupes against existing prompts and refreshes any that drifted. | `specs/<spec>/improve/*.md` |
+| Command                | What it does                                                                                                                                                                                        | Writes                |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
+| `/speckit.improve.run` | Full audit (recon, parallel category audit, vetted findings, spec prompts), or one prompt for a specific change you name. A re-run dedupes against existing prompts and refreshes any that drifted. | `specs/improves/*.md` |
 
 Modifiers: `quick` / `deep` (effort), a focus category (`security`,
 `perf`, `tests`, ...), `branch` (only what the current branch changes), `next`
@@ -45,7 +45,7 @@ prompt body, then carry the generated spec through `/speckit.clarify`,
 ## Hard rules
 
 - **Never modifies source code itself.** The only writes go to
-  `specs/<spec-name>/improve/`; turning a prompt into code belongs to the
+  `specs/improves/`; turning a prompt into code belongs to the
   spec-kit lifecycle, and merging is always yours.
 - **Never runs commands that mutate your working tree.** Read, search, and
   read-only analysis only.

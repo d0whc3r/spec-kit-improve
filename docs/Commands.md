@@ -1,13 +1,13 @@
 # Commands
 
-Deep reference for the `/speckit.improve` command. The canonical command
+Deep reference for the `/speckit.improve.run` command. The canonical command
 definition lives in [`commands/`](../commands/) in the repo; this page
 describes its behavior from the user's side.
 
 ## Rules the command always follows
 
 1. **Never modify source code.** The only files the advisor creates or
-   modifies live under `specs/<spec-name>/improve/` (created if absent).
+   modifies live under `specs/improves/` (created if absent).
    Turning a prompt into code belongs to the spec-kit lifecycle, and merging
    is always your decision.
 2. **Never run commands that mutate your working tree.** No installs, no
@@ -26,24 +26,24 @@ describes its behavior from the user's side.
    the advisor does not follow them and records it as a potential
    prompt-injection security finding instead.
 
-## `/speckit.improve`
+## `/speckit.improve.run`
 
 Full workflow: recon the repo, audit it across nine categories, vet every
 finding by re-reading the cited code, present a leverage-ordered findings
 table, and turn your selection into spec prompts.
 
-| Reads                      | Writes                      |
-| -------------------------- | --------------------------- |
-| the repository (read-only) | `specs/<spec>/improve/*.md` |
+| Reads                      | Writes                |
+| -------------------------- | --------------------- |
+| the repository (read-only) | `specs/improves/*.md` |
 
 ```text
-/speckit.improve
-/speckit.improve quick     # hotspots only, top findings
-/speckit.improve deep      # every package, every category
-/speckit.improve security  # one category, in depth
-/speckit.improve branch    # only what the current branch changes
-/speckit.improve next      # feature direction, 4-6 grounded suggestions
-/speckit.improve --issues  # also publish prompts as GitHub issues
+/speckit.improve.run
+/speckit.improve.run quick     # hotspots only, top findings
+/speckit.improve.run deep      # every package, every category
+/speckit.improve.run security  # one category, in depth
+/speckit.improve.run branch    # only what the current branch changes
+/speckit.improve.run next      # feature direction, 4-6 grounded suggestions
+/speckit.improve.run --issues  # also publish prompts as GitHub issues
 ```
 
 Modifiers compose unless stated otherwise: `quick security`, `deep --issues`.
@@ -51,10 +51,10 @@ Modifiers compose unless stated otherwise: `quick security`, `deep --issues`.
 ### The four phases
 
 **Phase 1: Recon (always).** Reads the README, agent context files, root
-configs, CI config, and the directory structure, plus the existing `specs/`
-tree (which feature directories exist and which already have an `improve/`
-folder; this decides where each prompt lives). Identifies languages,
-frameworks, the exact build / test / lint / typecheck commands (these become
+configs, CI config, and the directory structure, plus the existing
+`specs/improves/` folder (the prompts already written, so a re-run reconciles
+instead of duplicating). Identifies languages, frameworks, the exact
+build / test / lint / typecheck commands (these become
 verification gates in every prompt), and repo conventions that prompts tell
 spec-kit to match. It also ingests any intent and design docs present (ADRs
 under `docs/adr/`, PRDs, `CONTEXT.md`, `DESIGN.md`, `PRODUCT.md`) so decided
@@ -79,8 +79,8 @@ classes get filtered: by-design behavior reported as a bug or vulnerability,
 mis-attributed evidence (real finding, wrong file or line), and duplicates.
 Rejections are listed in the final report so they are not re-audited next run.
 The advisor also reads the frontmatter of every existing prompt under
-`specs/*/improve/`: findings already covered by a TODO or DONE
-prompt are not re-planned, and REJECTED findings are not re-surfaced. The
+`specs/improves/`: findings already covered by a TODO or DONE prompt are not
+re-planned, and REJECTED findings are not re-surfaced. The
 vetted table is ordered by leverage (impact / effort, weighted by confidence).
 Direction findings are presented separately, after the table, as options with
 trade-offs rather than problems ranked against bugs. The advisor then asks
@@ -89,12 +89,11 @@ surfaces dependency ordering. If running non-interactively, it writes prompts
 for the top 3 to 5 by leverage and records that default in the final report.
 
 **Phase 4: Write the spec prompts.** One prompt per selected finding,
-following the shipped [prompt template](../templates/improve-spec-prompt-template.md)
-and its placement rules: an improvement that touches the area of an existing
-feature directory goes in that directory's `improve/` folder; anything else
-gets a dedicated theme directory (`specs/<theme-slug>/improve/`) shared by
-related improvements. Code excerpts come from the advisor's own reads, never
-from a subagent's report. Every prompt stamps the commit it was written
+following the shipped [prompt template](../templates/improve-spec-prompt-template.md).
+There is no placement decision: every prompt lands in `specs/improves/`,
+whatever area of the code it touches, and a prompt written anywhere else is a
+bug. Code excerpts come from the advisor's own reads, never from a subagent's
+report. Every prompt stamps the commit it was written
 against (`git rev-parse --short HEAD`) in its `planned_at` frontmatter field,
 used for drift detection. The phase ends with a report: each prompt's path,
 the recommended execution order with dependencies, what was considered and
@@ -103,8 +102,8 @@ rejected, and the suggested next step. See
 
 If prompts already exist from a previous run, the audit reconciles instead of
 duplicating: findings already planned or rejected are skipped, ordering is
-encoded through the `priority` and `depends` fields, and each touched folder's
-`<NNN>` filename prefixes are renumbered to match.
+encoded through the `priority` and `depends` fields, and the folder's `<NNN>`
+filename prefixes are renumbered to match.
 
 ### Effort modifiers: `quick` and `deep`
 
@@ -178,8 +177,8 @@ discovery and prioritization: you already know what you want, so it produces one
 self-contained prompt for exactly that change.
 
 ```text
-/speckit.improve migrate the config loader to zod
-/speckit.improve add rate limiting to the public API --issues
+/speckit.improve.run migrate the config loader to zod
+/speckit.improve.run add rate limiting to the public API --issues
 ```
 
 To pick the mode, the command strips the recognized modifiers and category
@@ -189,20 +188,20 @@ targeted scope, otherwise the full discovery audit runs.
 How it works:
 
 1. **Recon, scoped to the change**: reads the README, agent context files, root
-   configs, and the existing `specs/` tree (to decide placement); identifies the
-   exact verification commands and the conventions that apply to the area being
-   changed, with one exemplar file to match.
+   configs, and the existing `specs/improves/` folder (so the new prompt
+   reconciles with what is already there); identifies the exact verification
+   commands and the conventions that apply to the area being changed, with one
+   exemplar file to match.
 2. **Investigate**: reads the files the change touches, traces callers and
    dependents, and confirms the current state first-hand. If the description is
    too ambiguous to specify honestly, the advisor first resolves each ambiguity
    from the codebase itself; only what is left becomes questions to you, asked
    one at a time, each with a recommended answer.
-3. **Write**: one prompt file into `specs/<spec-name>/improve/<NNN>-<plan-name>.md`
-   following the template's placement rules, stamped with the current commit in
-   `planned_at`, written so `/speckit.specify` cannot get it wrong. If related
-   prompts already exist in the target folder, ordering is encoded through
-   `depends` (by sibling slug) and the folder's `<NNN>` prefixes are renumbered;
-   a lone prompt in a fresh folder takes no prefix.
+3. **Write**: one prompt file into `specs/improves/<NNN>-<plan-name>.md`,
+   stamped with the current commit in `planned_at`, written so
+   `/speckit.specify` cannot get it wrong. If related prompts already exist in
+   the folder, ordering is encoded through `depends` (by sibling slug) and the
+   folder's `<NNN>` prefixes are renumbered.
 4. **Report**: the prompt path, a one-paragraph summary, and any assumptions you
    should confirm before processing it.
 
@@ -218,7 +217,7 @@ merges, pushes, or commits to your branch.
 
 1. **Confirm the prompt is current.** A prompt is a frozen snapshot of the code
    at its `planned_at` SHA. If time has passed since it was written, re-run
-   `/speckit.improve` first to refresh any drifted prompts (see
+   `/speckit.improve.run` first to refresh any drifted prompts (see
    [Re-running to refresh the backlog](#re-running-to-refresh-the-backlog)
    below); never hand a stale prompt to `/speckit.specify`.
 2. **Invoke `/speckit.specify`** with the full prompt body (Objective, Current
@@ -247,9 +246,9 @@ git history and the `specs/` tree are the system of record.
 
 ## Re-running to refresh the backlog
 
-A re-run of `/speckit.improve` is also how the backlog stays honest over time;
+A re-run of `/speckit.improve.run` is also how the backlog stays honest over time;
 there is no separate command for it. After recon, before writing new prompts,
-the command sweeps the existing `specs/*/improve/*.md` and reconciles per
+the command sweeps the existing `specs/improves/*.md` and reconciles per
 status:
 
 | Status   | What a re-run does                                                                                                                                                                                                                                 |
@@ -261,7 +260,7 @@ status:
 A re-run also dedupes new findings against the existing backlog: anything
 already covered by a TODO or DONE prompt is skipped rather than written twice.
 The final report says what was refreshed and what was retired alongside any new
-prompts. Run `/speckit.improve` as often as you like; the backlog accumulates
+prompts. Run `/speckit.improve.run` as often as you like; the backlog accumulates
 instead of resetting.
 
 ## Refusal summary

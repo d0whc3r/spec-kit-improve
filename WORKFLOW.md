@@ -12,11 +12,11 @@ Requires Spec Kit `>= 0.2.0` initialized in the project and a git repository. Pr
 
 ## The command
 
-| Command            | Reads                      | Writes                      | Role                                                                            |
-| ------------------ | -------------------------- | --------------------------- | ------------------------------------------------------------------------------- |
-| `/speckit.improve` | the repository (read-only) | `specs/<spec>/improve/*.md` | Full audit, or one prompt for a named change; a re-run keeps the backlog honest |
+| Command                | Reads                      | Writes                | Role                                                                            |
+| ---------------------- | -------------------------- | --------------------- | ------------------------------------------------------------------------------- |
+| `/speckit.improve.run` | the repository (read-only) | `specs/improves/*.md` | Full audit, or one prompt for a named change; a re-run keeps the backlog honest |
 
-The command never modifies source code. All advisor output lands under `specs/<spec-name>/improve/`. Turning a prompt into code belongs to the spec-kit lifecycle (`/speckit.specify` through `/speckit.implement`), and merging is always your decision.
+The command never modifies source code. All advisor output lands in one flat folder, `specs/improves/`. Turning a prompt into code belongs to the spec-kit lifecycle (`/speckit.specify` through `/speckit.implement`), and merging is always your decision.
 
 ## Where each topic is documented
 

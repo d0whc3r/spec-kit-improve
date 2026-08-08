@@ -114,7 +114,7 @@ ok "manifest presence check done"
 
 if [[ -f docs/Commands.md ]]; then
   for name in "${cmd_names[@]}"; do
-    # name is like "speckit.improve"; docs use /speckit.improve
+    # name is like "speckit.improve.run"; docs use /speckit.improve.run
     if ! grep -q "/$name\b" docs/Commands.md; then
       note "docs/Commands.md missing reference to /$name"
     fi

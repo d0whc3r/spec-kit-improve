@@ -32,8 +32,8 @@ hand; `scripts/detect_drift.sh` reports broken local links.
    extension does.
 3. **Active voice over passive.** "The command writes the prompt file",
    not "the prompt file is written by the command".
-4. **Imperative for instructions.** "Run `/speckit.improve`",
-   not "You should run `/speckit.improve`".
+4. **Imperative for instructions.** "Run `/speckit.improve.run`",
+   not "You should run `/speckit.improve.run`".
 5. **Concrete over abstract.** Use real paths, real filenames, real
    command outputs. Avoid placeholder phrasing like "the appropriate
    file".
@@ -48,15 +48,16 @@ hand; `scripts/detect_drift.sh` reports broken local links.
 
 ## Conventions specific to this project
 
-1. **Refer to commands with the leading slash.** `/speckit.improve`,
-   not `speckit.improve` or `improve`. The slash makes the
+1. **Refer to commands with the leading slash.** `/speckit.improve.run`,
+   not `speckit.improve.run` or `improve`. The slash makes the
    command shape clear and matches how a user invokes it.
 2. **Refer to output by its real path and descriptive name.** Spec
-   prompts live at `specs/<spec>/improve/<NNN>-<plan-name>.md` with a
+   prompts live at `specs/improves/<NNN>-<plan-name>.md` with a
    descriptive name behind a zero-padded execution-order prefix
-   (`001-fix-n-plus-one.md`, `002-add-csrf-protection.md`). A folder with a
-   single prompt omits the prefix; the number renders the `depends` order and
-   is reassigned on each re-run.
+   (`001-fix-n-plus-one.md`, `002-add-csrf-protection.md`). Every TODO prompt
+   carries the prefix; the number renders the `depends` order and is
+   reassigned on each re-run. There is one flat folder, `specs/improves/`, and
+   never a per-feature or per-theme subfolder.
 3. **Always distinguish `spec.md` (canonical, written by
    `/speckit.specify` in `specs/<feature>/`) from the improve prompt
    files (the advisor's input that feeds the lifecycle).** Be explicit
@@ -85,7 +86,7 @@ hand; `scripts/detect_drift.sh` reports broken local links.
    Writes" table appears in `README.md` and `docs/Home.md`. The columns
    are always in that order.
 3. **Anchor links from the table use the section header form** with
-   punctuation stripped: `/speckit.improve` →
+   punctuation stripped: `/speckit.improve.run` →
    `#speckitimprove`.
 
 ## Headings

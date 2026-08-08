@@ -1,6 +1,6 @@
 # Examples
 
-A real worked example of what the Improve Extension produces. The audit was run against a TypeScript monorepo (a component registry CLI plus its documentation site); the artifact here is the spec prompt that landed in the target repo's `specs/` tree, scoped under `specs/registry-cli/improve/`.
+A real worked example of what the Improve Extension produces. The audit was run against a TypeScript monorepo (a component registry CLI plus its documentation site); the artifact here is the spec prompt that landed in the target repo's `specs/improves/` folder.
 
 ## The findings table (what the audit presented)
 
@@ -22,8 +22,8 @@ After recon, a parallel category audit, and a vetting pass, the advisor presente
 
 ## The artifacts in this folder
 
-| File                                                                                                                             | What it is                                                                          |
-| -------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| [specs/registry-cli/improve/extract-shadow-config-resolution.md](specs/registry-cli/improve/extract-shadow-config-resolution.md) | The spec prompt produced for finding #1, written for `/speckit.specify` to process. |
+| File                                                                                                             | What it is                                                                          |
+| ---------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| [specs/improves/001-extract-shadow-config-resolution.md](specs/improves/001-extract-shadow-config-resolution.md) | The spec prompt produced for finding #1, written for `/speckit.specify` to process. |
 
 For the walkthrough of this example, section by section, including why the prompt landed where it did and what to look for in each part, see the [Examples](https://github.com/d0whc3r/spec-kit-improve/wiki/Examples) wiki page.
