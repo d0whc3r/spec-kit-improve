@@ -1,5 +1,17 @@
 # Changelog
 
+# [2.0.0](https://github.com/d0whc3r/spec-kit-improve/compare/v1.1.0...v2.0.0) (2026-10-24)
+
+
+### Features
+
+* require Spec Kit 0.12.17 and resolve command names per agent ([cc9004f](https://github.com/d0whc3r/spec-kit-improve/commit/cc9004f75c3b923adf80759f63b9496370550432))
+
+
+### BREAKING CHANGES
+
+* the extension now requires Spec Kit 0.12.17 or later.
+
 # [1.1.0](https://github.com/d0whc3r/spec-kit-improve/compare/v1.0.2...v1.1.0) (2026-08-08)
 
 

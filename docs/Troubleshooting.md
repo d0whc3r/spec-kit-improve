@@ -15,7 +15,7 @@ This is expected behavior. Spec Kit lists community extensions in a discovery-on
 Install the extension directly from the release archive. This is also how you pin a version:
 
 ```bash
-specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.1.0/improve-1.1.0.zip
+specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v2.0.0/improve-2.0.0.zip
 ```
 
 Community extensions are author-maintained, and Spec Kit does not review them. Review the source before you install.

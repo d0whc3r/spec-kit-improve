@@ -30,7 +30,7 @@ cd my-project
 Install a release from its download URL:
 
 ```bash
-specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.1.0/improve-1.1.0.zip
+specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v2.0.0/improve-2.0.0.zip
 ```
 
 Spec Kit shows the source URL and asks you to confirm. Change the version in the URL to pin a different release.

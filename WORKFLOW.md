@@ -5,7 +5,7 @@ The usage guide lives in the [project wiki](https://github.com/d0whc3r/spec-kit-
 ## Install
 
 ```bash
-specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.1.0/improve-1.1.0.zip
+specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v2.0.0/improve-2.0.0.zip
 ```
 
 Requires Spec Kit `>= 0.12.17` initialized in the project and a git repository. Prerequisites, updates, the command name in skills-based agents, and the first-run walkthrough are in [Getting Started](docs/Getting-Started.md).

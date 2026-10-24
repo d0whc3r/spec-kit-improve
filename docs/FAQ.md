@@ -65,7 +65,7 @@ committed secret is burned even after deletion.
 Spec Kit lists community extensions in a discovery-only catalog (`install_allowed: false`). It shows the extension but does not install it, and it advises against changing that setting. Install directly from the release archive:
 
 ```bash
-specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.1.0/improve-1.1.0.zip
+specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v2.0.0/improve-2.0.0.zip
 ```
 
 See [Getting Started](Getting-Started.md#step-1-install-the-extension) for the full install step.
