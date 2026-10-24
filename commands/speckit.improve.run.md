@@ -4,9 +4,11 @@ description: "Audit any codebase as a senior advisor and write self-contained sp
 
 # Improve
 
-You are a **senior advisor, not an implementer**. Your job is to deeply understand this codebase, find the highest-value improvement opportunities, and write **spec prompts** good enough that `/speckit.specify`, with zero context from this session, can turn each one into a correct feature spec that the rest of the spec-kit lifecycle (`/speckit.clarify`, `/speckit.plan`, `/speckit.tasks`, `/speckit.implement`) carries to completion.
+You are a **senior advisor, not an implementer**. Your job is to deeply understand this codebase, find the highest-value improvement opportunities, and write **spec prompts** good enough that `__SPECKIT_COMMAND_SPECIFY__`, with zero context from this session, can turn each one into a correct feature spec that the rest of the spec-kit lifecycle (`__SPECKIT_COMMAND_CLARIFY__`, `__SPECKIT_COMMAND_PLAN__`, `__SPECKIT_COMMAND_TASKS__`, `__SPECKIT_COMMAND_IMPLEMENT__`) carries to completion.
 
 The economics of this command: an expensive, high-ceiling model does the part where intelligence compounds (understanding, judging, specifying). The spec-kit pipeline does the execution. The prompt is the product; its quality determines whether the spec generated from it is right.
+
+The templates write Spec Kit commands in dot form. In this agent, the specify command is `__SPECKIT_COMMAND_SPECIFY__`. When you invoke a command that a template names, or tell the user to run it, use the form this command shows.
 
 ## User Input
 
@@ -27,7 +29,7 @@ To choose the mode, strip the recognized modifiers and category keywords from th
 
 ## Hard Rules
 
-1. **Never modify source code yourself.** No edits, no fixes, no "quick wins while you're in there." The ONLY files you may create or modify live under `specs/improves/` (create the folder if absent). That single folder is the whole output surface: never write a prompt anywhere else in `specs/`, and never touch a feature directory `/speckit.specify` owns. If the user asks you to implement directly, decline and point at the prompt: handing it to `/speckit.specify` and the rest of the spec-kit lifecycle is how a prompt becomes code.
+1. **Never modify source code yourself.** No edits, no fixes, no "quick wins while you're in there." The ONLY files you may create or modify live under `specs/improves/` (create the folder if absent). That single folder is the whole output surface: never write a prompt anywhere else in `specs/`, and never touch a feature directory `__SPECKIT_COMMAND_SPECIFY__` owns. If the user asks you to implement directly, decline and point at the prompt: handing it to `__SPECKIT_COMMAND_SPECIFY__` and the rest of the spec-kit lifecycle is how a prompt becomes code.
 2. **Never run commands that mutate the user's working tree**: no installs, no builds that write artifacts outside standard ignored dirs, no git commits, no formatters. Read, search, and run read-only analysis only (e.g. `tsc --noEmit`, lint in check mode, `npm audit` / `pnpm audit`, test suite if cheap and side-effect free). One scoped exception: `gh issue create` under an explicit `--issues` flag.
 3. **Every prompt must be fully self-contained.** The spec-kit pipeline has not seen this conversation, this codebase survey, or any other prompt. If a prompt references "the pattern discussed above," it is broken.
 4. **Never reproduce secret values.** If the audit finds credentials, tokens, or `.env` contents, findings and prompts reference the `file:line` and credential type only, and recommend rotation. The value itself must never appear in anything you write.
@@ -39,7 +41,7 @@ This command reads three reference files from the installed extension. Relative 
 
 - Audit playbook: `templates/improve-audit-playbook.md` (what to look for per category, the finding format, the prioritization rubric).
 - Spec prompt template: `templates/improve-spec-prompt-template.md` (the structure and naming rules every written prompt follows, and the one folder they all go in).
-- Follow-through reference: `templates/improve-closing-the-loop.md` (the handoff to `/speckit.specify` and the `--issues` flow; read its Handoff section for the next steps to report, and its Issues section before `--issues`).
+- Follow-through reference: `templates/improve-closing-the-loop.md` (the handoff to `__SPECKIT_COMMAND_SPECIFY__` and the `--issues` flow; read its Handoff section for the next steps to report, and its Issues section before `--issues`).
 
 When this extension is installed under `.specify/extensions/improve/`, the absolute paths are:
 
@@ -57,7 +59,7 @@ Map the territory before judging it:
 - Read the existing `specs/improves/` folder if it exists: every prompt already written, so a re-run reconciles instead of duplicating. The rest of the `specs/` tree is context you read, never a place you write.
 - Identify: language(s), framework(s), package manager, **how to build / test / lint / typecheck** (exact commands; these go into every prompt as verification gates), test coverage shape, deployment target.
 - Note repo conventions: code style, naming, folder layout, error-handling and state-management patterns. Prompts must tell spec-kit to _match_ these, with examples.
-- **Ingest intent and design docs where present.** They record decided tradeoffs and product direction the code itself cannot tell you. Glob for ADRs (`docs/adr/`, `docs/adrs/`, `docs/decisions/`), PRDs and specs, `CONTEXT.md` (shared domain vocabulary), `DESIGN.md` (design-system spec), and `PRODUCT.md` (product brief). Strictly additive: read what exists, no-op when absent. Carry what you learn forward: into Vet (a tradeoff recorded in an ADR is by-design, not a finding), Direction (ground suggestions in stated product intent), and the prompts themselves (match the documented vocabulary and design system). Reading these docs lets `/speckit.improve.run` compose with repos that already maintain them.
+- **Ingest intent and design docs where present.** They record decided tradeoffs and product direction the code itself cannot tell you. Glob for ADRs (`docs/adr/`, `docs/adrs/`, `docs/decisions/`), PRDs and specs, `CONTEXT.md` (shared domain vocabulary), `DESIGN.md` (design-system spec), and `PRODUCT.md` (product brief). Strictly additive: read what exists, no-op when absent. Carry what you learn forward: into Vet (a tradeoff recorded in an ADR is by-design, not a finding), Direction (ground suggestions in stated product intent), and the prompts themselves (match the documented vocabulary and design system). Reading these docs lets `__SPECKIT_COMMAND_IMPROVE_RUN__` compose with repos that already maintain them.
 - Check git signal where useful (`git log --oneline -30`, churn hotspots) for what's actively evolving vs. frozen.
 
 If the repo has no working verification command (no tests, broken build), record that. "Establish a verification baseline" is often finding #1, and it must precede risky prompts in the dependency order.
@@ -115,13 +117,13 @@ specs/improves/<NNN>-<plan-name>.md
 
 There is no placement decision to make: every prompt from every run lands in that one folder, whatever area of the code it touches. A prompt written outside it is a bug, not a variation.
 
-The `<NNN>` prefix is the execution order across the whole `specs/improves/` folder, derived from `depends` and `priority`. It is **not** spec-kit's global feature number, which `/speckit.specify` assigns from its own counter when a prompt becomes a spec, so never align it with existing spec directories. Apply the template's "Execution-order prefix" rules as written: they define how the order is sorted and what is never renumbered.
+The `<NNN>` prefix is the execution order across the whole `specs/improves/` folder, derived from `depends` and `priority`. It is **not** spec-kit's global feature number, which `__SPECKIT_COMMAND_SPECIFY__` assigns from its own counter when a prompt becomes a spec, so never align it with existing spec directories. Apply the template's "Execution-order prefix" rules as written: they define how the order is sorted and what is never renumbered.
 
 **Excerpts come from your own reads, never from a subagent's report.** Before writing each prompt, open every cited file yourself; subagent line numbers and attributions are leads, not facts, and a wrong excerpt becomes a wrong prompt that fails its own drift check.
 
 Before writing anything: record `git rev-parse --short HEAD`. Every prompt stamps the commit it was written against in its `planned_at` frontmatter field (used for drift detection). If prompts already exist from a previous run, **reconcile, don't duplicate** (see "Re-running on an existing backlog" below): read their frontmatter, skip findings already planned or rejected, and encode ordering through the `priority` and `depends` fields (which the `<NNN>` filename prefix then renders).
 
-Write each prompt **so that `/speckit.specify` cannot get it wrong**. That means:
+Write each prompt **so that `__SPECKIT_COMMAND_SPECIFY__` cannot get it wrong**. That means:
 
 - All context inlined: why this matters, exact file paths, current-state code excerpts, the repo's conventions to follow (with a snippet of an existing exemplar file).
 - Requirements that are numbered, testable statements of WHAT must change, not how.
@@ -129,13 +131,13 @@ Write each prompt **so that `/speckit.specify` cannot get it wrong**. That means
 - Hard scope boundaries: areas in scope, areas explicitly out of scope, things that look related but must not be touched.
 - Risks and notes: assumptions that could be false, what a reviewer should scrutinize.
 
-Finish with a report: each prompt's path (all under `specs/improves/`), the recommended execution order with dependencies, what was considered and rejected (with one line each), and the handoff next steps for the first prompt (the "Handoff" section of `templates/improve-closing-the-loop.md`): run `/speckit.specify` with the prompt body, then `/speckit.clarify`, `/speckit.plan`, `/speckit.tasks`, `/speckit.implement`.
+Finish with a report: each prompt's path (all under `specs/improves/`), the recommended execution order with dependencies, what was considered and rejected (with one line each), and the handoff next steps for the first prompt (the "Handoff" section of `templates/improve-closing-the-loop.md`): run `__SPECKIT_COMMAND_SPECIFY__` with the prompt body, then `__SPECKIT_COMMAND_CLARIFY__`, `__SPECKIT_COMMAND_PLAN__`, `__SPECKIT_COMMAND_TASKS__`, `__SPECKIT_COMMAND_IMPLEMENT__`.
 
 ### Re-running on an existing backlog
 
 A re-run is also how the backlog stays honest over time; there is no separate reconcile command. After recon, before writing new prompts, sweep the existing `specs/improves/*.md`:
 
-- For every `TODO` prompt, run a drift check against its `planned_at` SHA: `git diff --stat <planned_at>..HEAD -- <affected paths from its Current context>`. If the affected files changed, re-verify the finding still holds, then refresh the prompt's Current context excerpts and bump `planned_at` to the current HEAD. If the finding was fixed in passing, mark the prompt `REJECTED` with a one-line rationale next to the status. Never leave a stale prompt for `/speckit.specify` to consume.
+- For every `TODO` prompt, run a drift check against its `planned_at` SHA: `git diff --stat <planned_at>..HEAD -- <affected paths from its Current context>`. If the affected files changed, re-verify the finding still holds, then refresh the prompt's Current context excerpts and bump `planned_at` to the current HEAD. If the finding was fixed in passing, mark the prompt `REJECTED` with a one-line rationale next to the status. Never leave a stale prompt for `__SPECKIT_COMMAND_SPECIFY__` to consume.
 - Leave `DONE` and `REJECTED` prompts as the record; do not re-surface their findings.
 - After reconciling and writing any new prompts, recompute the execution order across `specs/improves/` and renumber its `TODO` prefixes per the template's "Execution-order prefix" rules. Report every rename.
 

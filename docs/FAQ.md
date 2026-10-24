@@ -16,7 +16,7 @@ history.
 
 ## Why must every prompt work with zero context?
 
-Because its consumer has none. `/speckit.specify` has not seen the advisor
+Because its consumer has none. `/speckit.specify` (`/speckit-specify` in skills-based agents, `$speckit-specify` in Codex) has not seen the advisor
 session, the audit, or any other prompt. A prompt processable with zero
 context is a prompt with no hidden assumptions: all context inlined, numbered
 testable requirements, acceptance criteria that are commands with expected
@@ -62,16 +62,13 @@ committed secret is burned even after deletion.
 
 ## Why did `specify extension add improve` fail with a catalog error?
 
-Spec Kit ships the community catalog as discovery only
-(`install_allowed: false`), so it lists the extension but will not install it
-until you opt in. The quickest fix is a direct install:
+Spec Kit lists community extensions in a discovery-only catalog (`install_allowed: false`). It shows the extension but does not install it, and it advises against changing that setting. Install directly from the release archive:
 
 ```bash
 specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.1.0/improve-1.1.0.zip
 ```
 
-See [Getting Started](Getting-Started.md#step-1-install-the-extension) for both
-install paths in full.
+See [Getting Started](Getting-Started.md#step-1-install-the-extension) for the full install step.
 
 ## Will the extension ever modify my code?
 
@@ -110,12 +107,10 @@ in a public issue by accident.
 
 ## How do I update the extension?
 
-If you installed directly with `--from`, rerun the install command with a
-newer release URL. If you approved the community catalog, update by name:
+Run the install command with a newer release URL and add `--force`:
 
 ```bash
-specify extension update improve
+specify extension add improve --from <newer-release-zip-url> --force
 ```
 
-Either way, your `specs/` tree is untouched; it lives in your repo, not in the
-extension directory.
+Your `specs/` tree does not change. It lives in your repo, not in the extension directory.

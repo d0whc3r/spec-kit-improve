@@ -78,13 +78,13 @@
                   Direct install
                 </button>
                 <button
-                  id="tab-install-catalog"
+                  id="tab-install-update"
                   class="tab"
                   role="tab"
                   aria-selected="false"
-                  aria-controls="panel-install-catalog"
+                  aria-controls="panel-install-update"
                 >
-                  Via catalog
+                  Update
                 </button>
               </div>
             </div>
@@ -98,26 +98,22 @@
               <pre data-copy><code>specify extension add improve \
   --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.1.0/improve-1.1.0.zip</code></pre>
               <p class="install-hint">
-                Works with zero configuration. This is the most reliable path and the same one you
-                use to pin a version.
+                Works with zero configuration. Change the version in the URL to pin a release.
               </p>
             </div>
 
             <div
-              id="panel-install-catalog"
+              id="panel-install-update"
               class="tab-panel"
               role="tabpanel"
-              aria-labelledby="tab-install-catalog"
+              aria-labelledby="tab-install-update"
               hidden
             >
-              <pre data-copy><code>specify extension catalog add \
-  https://raw.githubusercontent.com/github/spec-kit/main/extensions/catalog.community.json \
-  --name community --install-allowed
-specify extension add improve</code></pre>
+              <pre data-copy><code>specify extension add improve --force \
+  --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.1.0/improve-1.1.0.zip</code></pre>
               <p class="install-hint">
-                Prefer installing and updating by name? Approve the community catalog once, then
-                <code>add</code> and <code>update</code> resolve <code>improve</code> automatically.
-                See <a href="#install-help">install help</a> for why this is needed.
+                Run the install command again with <code>--force</code> to replace an installed
+                version. Your <code>specs/</code> tree does not change.
               </p>
             </div>
           </div>
@@ -132,7 +128,7 @@ specify extension add improve</code></pre>
 
           <ul class="hero-badges">
             <li>One command</li>
-            <li>Requires Spec Kit &gt;= 0.2.0</li>
+            <li>Requires Spec Kit &gt;= 0.12.17</li>
             <li>MIT licensed</li>
             <li>Never edits your source</li>
           </ul>
@@ -156,7 +152,8 @@ specify extension add improve</code></pre>
                 The advisor's only writes go to <code>specs/improves/</code>. It never edits source
                 code and never runs commands that mutate your working tree. Ask it to implement
                 something and it declines and points at the prompt; handing it to
-                <code>/speckit.specify</code> is how it becomes code.
+                <code>/speckit.specify</code> (<code>/speckit-specify</code> in skills-based agents)
+                is how it becomes code.
               </p>
             </article>
             <article class="card">
@@ -188,7 +185,8 @@ specify extension add improve</code></pre>
             <code>/speckit.improve.run</code> runs the full audit-to-prompts workflow, or specs a
             single known change when you name it. From there you hand each prompt to
             <code>/speckit.specify</code>, and a later re-run keeps the backlog truthful between
-            sessions.
+            sessions. Skills-based agents, such as Claude Code and Copilot, name the command
+            <code>/speckit-improve-run</code>. Codex names it <code>$speckit-improve-run</code>.
           </p>
 
           <div class="table-wrap">
@@ -436,9 +434,8 @@ while `view.ts` does not. One shared utility removes the class of bug.
             <li>
               <h3>Install the extension</h3>
               <p>
-                You need Spec Kit &gt;= 0.2.0 initialized (<code>specify init</code>) and a git
-                repository. Install directly from the latest release; this needs no catalog setup
-                and is the recommended path:
+                You need Spec Kit &gt;= 0.12.17 initialized (<code>specify init</code>) and a git
+                repository. Install directly from the latest release:
               </p>
               <pre data-copy><code>specify extension add improve \
   --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.1.0/improve-1.1.0.zip</code></pre>
@@ -446,8 +443,8 @@ while `view.ts` does not. One shared utility removes the class of bug.
               <pre data-copy><code>cat .specify/extensions/.registry   # 'improve' entry present
 ls .specify/extensions/improve      # extension files present</code></pre>
               <p class="step-aside">
-                Prefer <code>specify extension add improve</code> by name? That needs the community
-                catalog approved first. See <a href="#install-help">install help</a>.
+                Skills-based agents, such as Claude Code and Copilot, name the command
+                <code>/speckit-improve-run</code>. Codex names it <code>$speckit-improve-run</code>.
               </p>
             </li>
             <li>
@@ -527,48 +524,41 @@ then hand off each TODO prompt to the spec-kit lifecycle:
 
           <div class="callout callout-error">
             <p class="callout-title">The error you may see</p>
-            <pre><code>Error: 'improve' is available in the 'community' catalog but installation
-is not allowed from that catalog.
-
-To enable installation, add 'improve' to an approved catalog
-(install_allowed: true) in .specify/extension-catalogs.yml.</code></pre>
+            <pre><code>Error: 'improve' was found in the 'community' catalog, which is discovery-only
+...
+Don't flip such a catalog to install_allowed.</code></pre>
           </div>
 
           <p>
-            Spec Kit ships the community catalog as <strong>discovery only</strong>. It carries
-            <code>install_allowed: false</code> by design, so the CLI can list community extensions
-            but will not install one until you opt in. You have two ways to opt in.
+            Spec Kit lists community extensions in a <strong>discovery-only</strong> catalog. That
+            catalog has <code>install_allowed: false</code>, so Spec Kit does not install from it.
+            Spec Kit also advises against changing that setting. Install from the release archive
+            instead.
           </p>
 
           <div class="install-options">
             <article class="card">
-              <h3>Option A: Direct install (recommended)</h3>
+              <h3>Install a release</h3>
               <p>
-                Install straight from the release archive. No catalog config, always works, and it
-                is the only way to pin a specific version.
+                Install straight from the release archive. Spec Kit asks you to confirm the source.
+                Change the version in the URL to pin a release.
               </p>
               <pre data-copy><code>specify extension add improve \
   --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.1.0/improve-1.1.0.zip</code></pre>
               <p class="example-note">
-                To update later, run the same command with a newer version URL.
+                Community extensions are author-maintained, and Spec Kit does not review them.
+                Review the source before you install.
               </p>
             </article>
             <article class="card">
-              <h3>Option B: Approve the community catalog</h3>
+              <h3>Update to a newer release</h3>
               <p>
-                Do this once if you want to install and update by name. It adds the catalog with
-                <code>install_allowed: true</code> to <code>.specify/extension-catalogs.yml</code>.
+                Run the install command with the newer release URL and add <code>--force</code> to
+                replace the installed version.
               </p>
-              <pre data-copy><code>specify extension catalog add \
-  https://raw.githubusercontent.com/github/spec-kit/main/extensions/catalog.community.json \
-  --name community --install-allowed
-
-specify extension add improve
-specify extension update improve</code></pre>
-              <p class="example-note">
-                Community extensions are author-maintained and not reviewed by Spec Kit. Review the
-                source before approving a catalog.
-              </p>
+              <pre data-copy><code>specify extension add improve --force \
+  --from &lt;newer-release-zip-url&gt;</code></pre>
+              <p class="example-note">Your <code>specs/</code> tree does not change.</p>
             </article>
           </div>
 
@@ -588,11 +578,10 @@ specify extension update improve</code></pre>
             <details>
               <summary>Why does <code>specify extension add improve</code> fail?</summary>
               <p>
-                The extension lives in Spec Kit's community catalog, which is discovery only and
-                carries <code>install_allowed: false</code>. The CLI can list it but will not
-                install until you opt in. Either install directly with
-                <code>--from &lt;release-zip-url&gt;</code>, or approve the community catalog once.
-                Full steps are in <a href="#install-help">install help</a>.
+                The extension is listed in Spec Kit's community catalog, which is discovery only
+                (<code>install_allowed: false</code>). The CLI shows it but does not install it.
+                Install directly with <code>--from &lt;release-zip-url&gt;</code>. Full steps are in
+                <a href="#install-help">install help</a>.
               </p>
             </details>
             <details>
@@ -653,9 +642,8 @@ specify extension update improve</code></pre>
             <details>
               <summary>How do I update the extension?</summary>
               <p>
-                If you approved the community catalog, run
-                <code>specify extension update improve</code>. Otherwise rerun the direct install
-                with the newer release URL. Your <code>specs/</code> tree is not touched.
+                Rerun the direct install with the newer release URL and add <code>--force</code>.
+                Your <code>specs/</code> tree does not change.
               </p>
             </details>
           </div>

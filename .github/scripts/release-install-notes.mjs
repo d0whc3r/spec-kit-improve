@@ -28,7 +28,7 @@ export function installBlock(catalog) {
     `specify extension add improve --from ${catalog.download_url}`,
     "```",
     "",
-    `Then run \`/speckit.improve.run\` in your assistant. Docs: ${catalog.homepage} | Wiki: ${catalog.documentation}`,
+    `Then run \`/speckit.improve.run\` in your assistant (\`/speckit-improve-run\` in skills-based agents, \`\$speckit-improve-run\` in Codex). Docs: ${catalog.homepage} | Wiki: ${catalog.documentation}`,
   ].join("\n");
 }
 

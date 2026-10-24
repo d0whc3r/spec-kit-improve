@@ -12,9 +12,10 @@ export default defineConfig({
     emptyOutDir: true,
     target: "es2020",
     // mermaid is bundled from npm and code-split per diagram type. A few of its
-    // vendor chunks (mermaid-parser, cytoscape, katex) exceed the default 500 kB
-    // warning, but they are lazy: only fetched when a rendered doc actually uses
-    // that diagram type. Raise the limit so an expected split is not flagged.
-    chunkSizeWarningLimit: 700,
+    // vendor chunks (elk, mermaid-parser, cytoscape, katex) exceed the default
+    // 500 kB warning, but they are lazy: only fetched when a rendered doc
+    // actually uses that diagram type or layout (elk is about 1.4 MB). Raise the
+    // limit so an expected split is not flagged.
+    chunkSizeWarningLimit: 1500,
   },
 });

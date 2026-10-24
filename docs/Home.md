@@ -13,6 +13,8 @@ specs/    ->  improves/001-fix-n-plus-one.md                (self-contained spec
 spec-kit  ->  /speckit.specify ... /speckit.implement       (the lifecycle executes)
 ```
 
+Skills-based agents, such as Claude Code and Copilot, name these commands in dash form, such as `/speckit-improve-run` and `/speckit-specify`. Codex uses `$speckit-improve-run`.
+
 ## Start here
 
 | Page                                        | When to read                                                             |

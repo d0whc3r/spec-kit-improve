@@ -1,132 +1,63 @@
 # AGENTS.md
 
-Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
+This repo ships the Improve extension for Spec Kit. The extension is Markdown only: one command and three templates. A host agent runs `/speckit.improve.run`, audits a codebase, and writes spec prompts under `specs/improves/` in that codebase.
 
-**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
+## Commands
 
-## 1. Think Before Coding
+Run these from the repo root. The repo uses Node 24 (`.nvmrc`) and pnpm 12 (`packageManager` in `package.json`).
 
-**Don't assume. Don't hide confusion. Surface tradeoffs.**
+| Command          | What it does                                                                                  |
+| ---------------- | --------------------------------------------------------------------------------------------- |
+| `pnpm install`   | Installs the tools. Husky adds a pre-commit hook that runs oxfmt on staged files.             |
+| `pnpm check`     | Validates the manifest, checks metadata sync, checks the format, and lints shipped content.   |
+| `pnpm format`    | Formats all files with oxfmt.                                                                 |
+| `pnpm sync`      | Copies the identity fields from `package.json` into `extension.yml` and `catalog.json`.       |
+| `pnpm build`     | Builds `dist/improve-<version>.zip` and validates the unpacked copy. Needs `zip` and `unzip`. |
+| `pnpm web:build` | Copies `examples/` into `web/public/` and builds the site into `web/dist/`.                   |
 
-Before implementing:
+CI (`.github/workflows/ci.yml`) runs `pnpm check`, `pnpm build`, and `pnpm web:build` on every pull request.
 
-- State your assumptions explicitly. If uncertain, ask.
-- If multiple interpretations exist, present them - don't pick silently.
-- If a simpler approach exists, say so. Push back when warranted.
-- If something is unclear, stop. Name what's confusing. Ask.
+To test the command in a real Spec Kit project, run `specify extension add --dev <path-to-this-repo> --force` in that project.
 
-## 2. Simplicity First
+## Layout
 
-**Minimum code that solves the problem. Nothing speculative.**
+| Path                              | Role                                                                                                                                      |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `commands/speckit.improve.run.md` | The only command. It ships in the zip.                                                                                                    |
+| `templates/`                      | The three references the command reads at runtime. They ship in the zip.                                                                  |
+| `extension.yml`                   | The Spec Kit manifest.                                                                                                                    |
+| `catalog.json`                    | The entry for the upstream catalog submission.                                                                                            |
+| `.extensionignore`                | Keeps `--dev` installs equal to the zip. Keep it in step with `INCLUDE` in `.github/scripts/build-zip.mjs`.                               |
+| `.github/scripts/`                | Release, sync, and lint scripts (zx). Shared helpers are in `lib/`.                                                                       |
+| `docs/`                           | The user wiki source. A push to `main` that changes `docs/` updates the wiki.                                                             |
+| `web/`                            | The GitHub Pages site (Vite and TypeScript).                                                                                              |
+| `examples/`                       | Real example output. The wiki and the site link to these files.                                                                           |
+| `.agents/skills/`                 | Contributor skills. `.claude/skills/` holds symlinks to them. Use `maintain-docs` after a change to the command, templates, or manifests. |
 
-- No features beyond what was asked.
-- No abstractions for single-use code.
-- No "flexibility" or "configurability" that wasn't requested.
-- No error handling for impossible scenarios.
-- If you write 200 lines and it could be 50, rewrite it.
+## Rules
 
-Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
+1. The command never tells an agent to change source code. Its only writes go to `specs/improves/`.
+2. When you change the command surface, change these files together: the command file, `provides.commands` in `extension.yml`, the `provides.commands` count in `catalog.json`, and `REQUIRED` in `.github/scripts/validate-manifest.mjs`.
+3. A rename or a removal of the command is a breaking change. Use a `BREAKING CHANGE:` footer. The release preset (angular) ignores a `feat!:` header.
+4. `package.json` owns the description, author, homepage, repository, license, and keywords. Edit them there, then run `pnpm sync`.
+5. Shipped content (`commands/`, `templates/`) uses plain English and no em dash. `.github/scripts/lint-content.mjs` enforces this rule and the template heading order.
+6. The command file names Spec Kit commands with tokens, such as `__SPECKIT_COMMAND_SPECIFY__`. Spec Kit replaces each token at install with the agent's form: `/speckit.specify`, `/speckit-specify`, or `$speckit-specify`. Do not write a `/` before a token. Spec Kit copies `templates/` without changes, so the templates use the dot form.
+7. Commits follow Conventional Commits. semantic-release cuts a release on every push to `main`: `fix:` gives a patch, `feat:` gives a minor version.
+8. The extension requires Spec Kit `>=0.12.17`. To change the minimum, edit `requires.speckit_version` in `extension.yml` and `catalog.json` together, then update the docs that state it.
+9. Renovate (`renovate.json`) is the only dependency bot. Its updates use `chore:` commits, because no npm package ships in the zip.
 
-## 3. Surgical Changes
+## Gotchas
 
-**Touch only what you must. Clean up only your own mess.**
-
-When editing existing code:
-
-- Don't "improve" adjacent code, comments, or formatting.
-- Don't refactor things that aren't broken.
-- Match existing style, even if you'd do it differently.
-- If you notice unrelated dead code, mention it - don't delete it.
-
-When your changes create orphans:
-
-- Remove imports/variables/functions that YOUR changes made unused.
-- Don't remove pre-existing dead code unless asked.
-
-The test: Every changed line should trace directly to the user's request.
-
-## 4. Goal-Driven Execution
-
-**Define success criteria. Loop until verified.**
-
-Transform tasks into verifiable goals:
-
-- "Add validation" → "Write tests for invalid inputs, then make them pass"
-- "Fix the bug" → "Write a test that reproduces it, then make it pass"
-- "Refactor X" → "Ensure tests pass before and after"
-
-For multi-step tasks, state a brief plan:
-
-```
-1. [Step] → verify: [check]
-2. [Step] → verify: [check]
-3. [Step] → verify: [check]
-```
-
-Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
-
----
-
-**These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
-
-<!-- SPECKIT START -->
-
-For additional context about technologies to be used, project structure,
-shell commands, and other important information, read the current plan
-
-<!-- SPECKIT END -->
-
-## Agent Boundaries
-
-This repository ships the Improve Extension for Spec Kit: a read-only senior
-advisor that audits a codebase and writes self-contained spec prompts under
-`specs/improves/` for the spec-kit lifecycle (`/speckit.specify`
-through `/speckit.implement`) to process. It exposes a single command,
-`/speckit.improve.run`.
-
-| Agent         | Skill Surface                                 | Notes                                         |
-| ------------- | --------------------------------------------- | --------------------------------------------- |
-| Spec Kit core | `commands/speckit.improve.run.md` (canonical) | Shipped in the release zip with `templates/`. |
-
-Rules:
-
-1. Canonical command file lives at `commands/speckit.improve.run.md`.
-2. Changing the command surface requires updating in lockstep: the canonical file, `extension.yml` `provides.commands`, the `catalog.json` `provides.commands` count, and the `REQUIRED` list in `.github/scripts/validate-manifest.mjs`.
-3. Renaming or removing the command is a breaking change and requires a `feat!:` or `BREAKING CHANGE:` commit.
-4. The advisor boundary is non-negotiable: the command never instructs an agent to modify source code; the only writes go to `specs/improves/`. Turning a prompt into source changes belongs to the spec-kit core lifecycle (`/speckit.specify` generates the spec, `/speckit.implement` executes it). The single command can also re-run to refresh prompts whose code has drifted. Shipped content (command, templates) uses plain English and no em dashes; `.github/scripts/lint-content.mjs` enforces this.
+- Do not edit `CHANGELOG.md` or the release fields in `catalog.json` (`version`, `download_url`, `sha256`, timestamps). The release pipeline writes them.
+- Do not change pinned release URLs (`.../releases/download/vX.Y.Z/improve-X.Y.Z.zip`) by hand. `semantic-release-prepare.mjs` rewrites them in `README.md`, `WORKFLOW.md`, `docs/`, and `web/index.html`.
+- Links between wiki pages use `Page-Name.md`. `stage-wiki.mjs` removes `.md` for the wiki.
+- `/specs/` is gitignored. It holds local dogfood output from this repo.
+- `/improve/` is a gitignored local clone of the upstream `shadcn/improve` skill. The extension derives from it.
 
 <!-- CODEGRAPH_START -->
 
 ## CodeGraph
 
-This project has a CodeGraph MCP server (`codegraph_*` tools) configured. CodeGraph is a tree-sitter-parsed knowledge graph of every symbol, edge, and file. Reads are sub-millisecond and return structural information grep cannot.
-
-### When to prefer codegraph over native search
-
-Use codegraph for **structural** questions — what calls what, what would break, where is X defined, what is X's signature. Use native grep/read only for **literal text** queries (string contents, comments, log messages) or after you already have a specific file open.
-
-| Question                                                       | Tool                                         |
-| -------------------------------------------------------------- | -------------------------------------------- |
-| "How does X work? / trace X / explain a system / architecture" | `codegraph_explore` (seed with symbol names) |
-| "Where is X defined?" / "Find symbol named X"                  | `codegraph_search`                           |
-| "What calls function Y?"                                       | `codegraph_callers`                          |
-| "What does Y call?"                                            | `codegraph_callees`                          |
-| "What would break if I changed Z?"                             | `codegraph_impact`                           |
-| "Show me Y's signature / source / docstring"                   | `codegraph_node`                             |
-| "Give me focused context for a task/area"                      | `codegraph_context`                          |
-| "What files exist under path/"                                 | `codegraph_files`                            |
-| "Is the index healthy?"                                        | `codegraph_status`                           |
-
-### Rules of thumb
-
-- **`codegraph_explore` is the workhorse for understanding questions** ("how does X work", "trace…", "explain the Y system"). Feed it the key symbol/file names and read its output (line-numbered source from many files in one call). If the question names nothing concrete, do one quick `codegraph_search`/`codegraph_context` to surface the names, then explore with them. Fill gaps with `codegraph_node`/Read — don't grep-and-read your way through; that's the loop explore replaces.
-- **Delegating exploration to a subagent?** Tell it to call `codegraph_explore` first and trust the result. A generic "explore"-style agent defaults to grep+Read and treats codegraph as just a search index, throwing away the token savings.
-- **Trust codegraph results.** They come from a full AST parse. Do NOT re-verify them with grep — that's slower, less accurate, and wastes context.
-- **Don't grep first** when looking up a symbol by name. `codegraph_search` is faster and returns kind + location + signature in one call.
-- **Index lag**: the file watcher debounces ~500ms behind writes; don't re-query immediately after editing a file in the same turn.
-
-### If `.codegraph/` doesn't exist
-
-The MCP server returns "not initialized." Ask the user: _"I notice this project doesn't have CodeGraph initialized. Want me to run `codegraph init -i` to build the index?"_
+`.mcp.json` configures the CodeGraph MCP server. Use `codegraph_explore` first for structural questions, such as callers, definitions, and impact. Use grep for literal text.
 
 <!-- CODEGRAPH_END -->

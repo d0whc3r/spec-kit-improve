@@ -29,6 +29,8 @@ The installer also registers the extension in `.specify/extensions/.registry`
 and exposes the command to the host agent in that agent's own command surface
 format.
 
+Agents that load commands as files show `/speckit.improve.run`. Skills-based agents, such as Claude Code and Copilot, show `/speckit-improve-run`, and Codex shows `$speckit-improve-run`. The installer writes the Spec Kit commands that the command prompt names in the same form, such as `/speckit-specify`.
+
 ## How a command runs
 
 ```
@@ -88,9 +90,7 @@ prompt is self-contained, so the handoff is mechanical:
   as-is.
 - Invoke `/speckit.specify` with the full prompt body (Objective, Current
   context, Detailed instructions) as the feature description.
-  `/speckit.specify` creates the feature branch and the spec directory. If the
-  host agent cannot invoke another command directly, the exact invocation is
-  printed for you to run instead.
+  `/speckit.specify` creates the spec directory and `spec.md`. Spec Kit's optional git extension also creates a feature branch. If the host agent cannot invoke another command directly, the advisor prints the exact invocation for you to run.
 - Read the generated `spec.md` and verify it against the prompt: every
   requirement encoded, every acceptance criterion represented in the success
   criteria, scope boundaries respected. Gaps are routed through

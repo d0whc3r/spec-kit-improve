@@ -6,6 +6,8 @@ re-run `/speckit.improve.run` to refresh the backlog next session. This page cov
 the loop, the `specs/improves/` backlog it produces, and the status
 lifecycle that keeps it truthful.
 
+Skills-based agents, such as Claude Code and Copilot, name the command `/speckit-improve-run`. Codex names it `$speckit-improve-run`.
+
 ## Input and output flow
 
 ```

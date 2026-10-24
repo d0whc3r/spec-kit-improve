@@ -21,5 +21,6 @@ upstream-catalog-issue-*.md
 # Dependency caches (none expected, but defensive)
 node_modules/
 
-dist/
-improve/
+# Local clone of the upstream shadcn/improve skill. Root-anchored so it does
+# not also hide examples/**/improve/ paths.
+/improve/

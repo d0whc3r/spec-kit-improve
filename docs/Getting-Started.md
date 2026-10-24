@@ -4,17 +4,15 @@ Five minutes from zero to your first spec prompt.
 
 ## Prerequisites
 
-- Spec Kit `>= 0.2.0` initialized in your project. Verify with:
+- Spec Kit `>= 0.12.17` initialized in your project. Verify with:
   ```bash
   specify --version
   ls .specify
   ```
   The extension hands work to the core lifecycle commands
   (`/speckit.specify`, `/speckit.clarify`, `/speckit.plan`, `/speckit.tasks`,
-  `/speckit.implement`), so they must be available.
-- A git repository. Every prompt stamps the commit it was written against in
-  its `planned_at` frontmatter field (for drift detection), and
-  `/speckit.specify` creates feature branches, which requires git.
+  `/speckit.implement`), so they must be available. Skills-based agents name them in dash form, such as `/speckit-specify`. [Step 1](#step-1-install-the-extension) lists each form.
+- A git repository. Every prompt stamps the commit it was written against in its `planned_at` frontmatter field, and the drift check compares that commit with `HEAD`.
 - A working verification command (tests, typecheck, lint) helps a lot: it
   becomes the verification gate inside every prompt. If the repo has none, the
   audit will tell you and usually proposes "establish a verification baseline"
@@ -29,29 +27,21 @@ cd my-project
 
 ## Step 1: Install the extension
 
-The recommended install resolves a release directly from the download URL.
-This needs no catalog setup and always works:
+Install a release from its download URL:
 
 ```bash
 specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.1.0/improve-1.1.0.zip
 ```
 
-Change the version in the URL to pin a different release.
+Spec Kit shows the source URL and asks you to confirm. Change the version in the URL to pin a different release.
 
-Prefer to install and update by name with `specify extension add improve`?
-That resolves the extension from Spec Kit's community catalog, which ships as
-discovery only (`install_allowed: false`). Approve it once:
+Install by name (`specify extension add improve`) does not work. Spec Kit lists community extensions in a discovery-only catalog and does not install from it. Spec Kit also advises against setting that catalog to `install_allowed`. See [Troubleshooting](Troubleshooting.md#installation-errors).
+
+To update later, run the install command with a newer release URL and add `--force`:
 
 ```bash
-specify extension catalog add https://raw.githubusercontent.com/github/spec-kit/main/extensions/catalog.community.json --name community --install-allowed
-specify extension add improve
-specify extension update improve
+specify extension add improve --from <newer-release-zip-url> --force
 ```
-
-Community extensions are author-maintained and not reviewed by Spec Kit;
-review the source before approving a catalog. If you skipped this step and hit
-`installation is not allowed from that catalog`, see
-[Troubleshooting](Troubleshooting.md#installation-errors).
 
 Confirm install:
 
@@ -60,7 +50,15 @@ cat .specify/extensions/.registry        # 'improve' entry should be present
 ls .specify/extensions/improve           # extension.yml, commands/, templates/
 ```
 
-After install, the `/speckit.improve.run` slash command becomes available in your assistant.
+After install, the command is available in your host agent. Its name depends on how the agent loads Spec Kit commands:
+
+| Host agent                                           | Command                |
+| ---------------------------------------------------- | ---------------------- |
+| Agents that load commands as files                   | `/speckit.improve.run` |
+| Skills-based agents, such as Claude Code and Copilot | `/speckit-improve-run` |
+| Codex with skills                                    | `$speckit-improve-run` |
+
+These docs use the dot form, `/speckit.improve.run`. The same rule applies to the core commands, for example `/speckit-specify`.
 
 ## Step 2: Run your first audit
 
@@ -122,9 +120,7 @@ with the prompt body:
 /speckit.specify <body of rotate-session-tokens.md>
 ```
 
-`/speckit.specify` creates the feature branch and `spec.md` from the prompt.
-Read the spec against the prompt, then continue with the standard spec-kit
-lifecycle:
+`/speckit.specify` creates the spec directory and `spec.md` from the prompt. Spec Kit's optional git extension also creates a feature branch. Read the spec against the prompt, then continue with the standard spec-kit lifecycle:
 
 ```text
 /speckit.clarify

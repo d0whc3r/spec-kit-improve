@@ -1,7 +1,7 @@
 name: ci
 
 # Run the project's validation gate on every pull request, so manifest,
-# content-lint, formatting, metadata-sync, and site-build
+# content-lint, formatting, metadata-sync, release-zip, and site-build
 # regressions are caught before merge instead of on the release run on main.
 on:
   pull_request:
@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: pnpm/action-setup@v6.0.9
+      - uses: pnpm/action-setup@v6.1.0
 
       - uses: actions/setup-node@v7
         with:
@@ -32,6 +32,11 @@ jobs:
 
       - name: Check (validate, sync, lint, lint:content)
         run: pnpm run check
+
+      # Build and re-validate the release zip, so a packaging break fails here
+      # and not in the release run after merge.
+      - name: Build release zip
+        run: pnpm run build
 
       - name: Build website
         run: pnpm web:build

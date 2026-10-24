@@ -32,7 +32,7 @@ The `<NNN>` prefix tells the reader which prompt to run first. It is derived, no
 - The order is a topological sort of the `depends` graph (every dependency comes before the prompt that needs it), tie-broken by `priority` (P1 before P2 before P3), then by leverage.
 - `DONE` and `REJECTED` prompts are out of the run queue: leave their filenames as they are, never renumber them.
 - The prefix is positional, so `/speckit.improve.run` reassigns it on every re-run as the backlog shifts (a new prompt slots in, a finished one drops out). Because `depends` references siblings by their `<plan-name>` slug, not by path, renaming never breaks a dependency link.
-- The prefix orders the whole `specs/improves/` folder: its `TODO` prompts run `001..N` contiguously, with no gaps or duplicates. It is **not** spec-kit's feature number: `/speckit.specify` assigns the global `specs/<NNN>-name/` directory number from its own sequential counter when a prompt becomes a spec, so do not try to align the prefix with existing spec directories. On re-run, rescan the folder's existing prefixes and renumber the whole `TODO` set rather than guessing the next free number.
+- The prefix orders the whole `specs/improves/` folder: its `TODO` prompts run `001..N` contiguously, with no gaps or duplicates. It is **not** spec-kit's feature number: `/speckit.specify` assigns the global `specs/<NNN>-name/` directory prefix from its own counter (sequential or timestamp) when a prompt becomes a spec, so do not try to align the prefix with existing spec directories. On re-run, rescan the folder's existing prefixes and renumber the whole `TODO` set rather than guessing the next free number.
 
 ## Frontmatter
 

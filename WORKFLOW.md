@@ -8,13 +8,15 @@ The usage guide lives in the [project wiki](https://github.com/d0whc3r/spec-kit-
 specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.1.0/improve-1.1.0.zip
 ```
 
-Requires Spec Kit `>= 0.2.0` initialized in the project and a git repository. Prerequisites, the by-name install through the community catalog, and the first-run walkthrough are in [Getting Started](docs/Getting-Started.md).
+Requires Spec Kit `>= 0.12.17` initialized in the project and a git repository. Prerequisites, updates, the command name in skills-based agents, and the first-run walkthrough are in [Getting Started](docs/Getting-Started.md).
 
 ## The command
 
 | Command                | Reads                      | Writes                | Role                                                                            |
 | ---------------------- | -------------------------- | --------------------- | ------------------------------------------------------------------------------- |
 | `/speckit.improve.run` | the repository (read-only) | `specs/improves/*.md` | Full audit, or one prompt for a named change; a re-run keeps the backlog honest |
+
+Skills-based agents, such as Claude Code and Copilot, name the command `/speckit-improve-run`. Codex names it `$speckit-improve-run`.
 
 The command never modifies source code. All advisor output lands in one flat folder, `specs/improves/`. Turning a prompt into code belongs to the spec-kit lifecycle (`/speckit.specify` through `/speckit.implement`), and merging is always your decision.
 

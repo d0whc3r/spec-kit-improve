@@ -97,7 +97,7 @@ instead:
 - Assistant names as maintainers, and the repo governance in `AGENTS.md`
   (renames as breaking changes, the "change these files together"
   coupling).
-- `CONTRIBUTING.md` and `AGENTS.md`/`CLAUDE.md` themselves. They are the
+- `CONTRIBUTING.md` and `AGENTS.md` themselves. They are the
   contributor home and the agent-behavior file. This skill does not edit
   them. When a user-facing page needs to hand a reader off to contributor
   material, link to `CONTRIBUTING.md` with an absolute repo URL.
@@ -148,7 +148,7 @@ Output: a coverage map you carry in your head of the form:
 Commands actually shipped:
   /speckit.improve.run   audits the codebase  writes specs/improves/*.md
 Hooks declared: none
-Version: 0.1.0  Requires: speckit >= 0.2.0
+Version: 0.1.0  Requires: speckit >= 0.12.17
 ```
 
 ### Phase 2: Inventory the user-facing layer
@@ -310,7 +310,7 @@ checks are clean. Do not commit; the user controls commits.
 - Do not edit `commands/`, `templates/`, `extension.yml`, `catalog.json`,
   the workflows under `.github/`, or `.specify/memory/constitution.md`.
   They are canonical.
-- Do not edit `CONTRIBUTING.md` or `AGENTS.md`/`CLAUDE.md`. They are the
+- Do not edit `CONTRIBUTING.md` or `AGENTS.md`. They are the
   contributor and agent-behavior homes.
 - Do not add release, CI, dev-install, repo-tree, or governance content
   to a user-facing page. Route it to `CONTRIBUTING.md`.

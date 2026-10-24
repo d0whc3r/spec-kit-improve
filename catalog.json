@@ -10,8 +10,10 @@
   "documentation": "https://github.com/d0whc3r/spec-kit-improve/wiki",
   "changelog": "https://github.com/d0whc3r/spec-kit-improve/blob/main/CHANGELOG.md",
   "license": "MIT",
+  "category": "process",
+  "effect": "read-write",
   "requires": {
-    "speckit_version": ">=0.2.0"
+    "speckit_version": ">=0.12.17"
   },
   "provides": {
     "commands": 1,
@@ -22,14 +24,10 @@
     "audit",
     "code-quality",
     "code-review",
-    "improvement",
     "performance",
     "planning",
     "refactoring",
     "security",
-    "spec-kit",
-    "spec-kit-extension",
-    "specs",
     "tech-debt",
     "testing"
   ],

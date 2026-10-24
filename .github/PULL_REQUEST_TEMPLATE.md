@@ -8,7 +8,7 @@
 
 - [ ] Bug fix (`fix:`)
 - [ ] New feature, non-breaking (`feat:`)
-- [ ] Breaking change (`feat!:` or `BREAKING CHANGE:` footer)
+- [ ] Breaking change (`BREAKING CHANGE:` footer)
 - [ ] Documentation only (`docs:`)
 - [ ] Internal refactor or chore (`refactor:` / `chore:`)
 - [ ] CI or release tooling (`ci:` / `build:`)

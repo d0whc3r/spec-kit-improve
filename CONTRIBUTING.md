@@ -8,7 +8,8 @@ The repo root IS the extension root, per the canonical Spec Kit extension layout
 
 - `extension.yml`, `README.md`, `LICENSE`, `CHANGELOG.md` at the repo root.
 - `commands/` holds the canonical command prompt; `templates/` holds the references it reads (audit playbook, spec prompt template, closing-the-loop).
-- `catalog.json` is the single-entry catalog file. Pipeline-owned fields (`version`, `download_url`, `requires.speckit_version`, `updated_at`, `created_at`) are updated by CI on every release; do not edit them by hand.
+- `catalog.json` is the single-entry catalog file. Pipeline-owned fields (`version`, `download_url`, `sha256`, `updated_at`, `created_at`) are updated by CI on every release; do not edit them by hand. Change `requires.speckit_version` (now `>=0.12.17`) in `extension.yml` and `catalog.json` together.
+- `.extensionignore` keeps `specify extension add --dev` installs equal to the release zip. Update it together with the `INCLUDE` list in `.github/scripts/build-zip.mjs`.
 - `.github/workflows/release.yml` is the release pipeline.
 - `.github/scripts/` holds pipeline helpers (`validate-manifest.mjs`, `build-zip.mjs`, `sync-metadata.mjs`, `lint-content.mjs`).
 - `docs/` is the user-facing wiki source; `web/` is the GitHub Pages site.
@@ -21,11 +22,11 @@ To dogfood the extension on this repo or any other Spec Kit project, run from th
 specify extension add --dev "$(pwd)"
 ```
 
-The CLI installs the extension under `.specify/extensions/improve/` of the target project and registers it. Re-run after each manifest change.
+The CLI copies the files that `.extensionignore` allows into `.specify/extensions/improve/` of the target project and registers the command. Re-run with `--force` after each change.
 
 ## Iterating on the Commands
 
-The slash command is a markdown prompt at `commands/speckit.improve.run.md`. Edit it, then dogfood:
+The slash command is a markdown prompt at `commands/speckit.improve.run.md`. It names other Spec Kit commands with tokens, such as `__SPECKIT_COMMAND_SPECIFY__`. Spec Kit replaces each token with the host agent's form at install. The templates are copied without changes, so they use the dot form, such as `/speckit.specify`. Edit the command, then dogfood:
 
 1. Run `/speckit.improve.run quick` against a real repository (this one works).
 2. Judge the output against the contract: findings carry `file:line` evidence, the table is leverage-ordered, and every written spec prompt passes the "Quality bar" section of `templates/improve-spec-prompt-template.md`.
@@ -53,7 +54,7 @@ Releases are automatic. The `release` workflow at `.github/workflows/release.yml
 1. Write commits using [Conventional Commits](https://www.conventionalcommits.org/). Examples:
    - `fix: ...` triggers a patch bump.
    - `feat: ...` triggers a minor bump.
-   - `feat!: ...` or any commit body containing `BREAKING CHANGE:` triggers a major bump.
+   - A `BREAKING CHANGE:` footer in the commit body triggers a major bump. The default angular preset ignores a `feat!:` header.
    - `chore:`, `docs:`, `refactor:`, `test:`, `ci:` do not trigger a release.
 2. Land your work on `main` with CI green. The release workflow fires on push.
 3. `semantic-release` runs the plugin chain in `.releaserc.json`:

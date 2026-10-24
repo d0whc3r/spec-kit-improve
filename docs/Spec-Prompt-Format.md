@@ -2,7 +2,7 @@
 
 Every improvement the advisor identifies becomes a **spec prompt**: a markdown
 file written to be processed by the spec-kit lifecycle. The prompt is the
-input `/speckit.specify` uses to generate the feature spec; `/speckit.clarify`,
+input `/speckit.specify` (`/speckit-specify` in skills-based agents, `$speckit-specify` in Codex) uses to generate the feature spec; `/speckit.clarify`,
 `/speckit.plan`, `/speckit.tasks`, and `/speckit.implement` take it from
 there.
 
@@ -46,11 +46,7 @@ specs/improves/<NNN>-<plan-name>.md
   the frontmatter, never contradicts it, and is reassigned on each re-run.
   `depends` references siblings by their `<plan-name>` slug, so renumbering
   never breaks a link.
-- The prefix orders the whole folder (contiguous `001..N`). It is not
-  spec-kit's global `specs/<NNN>-name/` feature number, which
-  `/speckit.specify` assigns from its own sequential counter when a prompt
-  becomes a spec, so it never aligns with the existing spec directories and
-  cannot collide with them.
+- The prefix orders the whole folder (contiguous `001..N`). It is not Spec Kit's global feature prefix. `/speckit.specify` assigns that prefix from its own counter (sequential or timestamp) when a prompt becomes a spec. The two numbers never need to align, and they cannot collide.
 
 There is no central index file. `/speckit.improve.run` discovers the backlog by
 globbing `specs/improves/*.md` and reading frontmatter.

@@ -106,12 +106,22 @@ export function validateManifest({ root = repoRoot } = {}) {
       ok = false;
     }
 
-    const hookCount = manifest.provides?.hooks?.length ?? 0;
+    // hooks is a top-level map keyed by event; an event holds one hook or a list.
+    const hookCount = Object.values(manifest.hooks ?? {}).flat().length;
     if (catalog.provides?.hooks !== hookCount) {
       log.fail(
         `catalog.json provides.hooks ${catalog.provides?.hooks} != extension.yml hook count ${hookCount}`,
       );
       ok = false;
+    }
+
+    for (const key of ["category", "effect"]) {
+      if (catalog[key] !== manifest.extension?.[key]) {
+        log.fail(
+          `catalog.json ${key} ${catalog[key]} != extension.yml ${manifest.extension?.[key]}`,
+        );
+        ok = false;
+      }
     }
 
     const catalogSpeckit = catalog.requires?.speckit_version;

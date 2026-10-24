@@ -65,7 +65,7 @@ catches it before the prompt is processed.
 
 **Objective.** The duplicated logic has already drifted (`search.ts` handles
 the `registries` override map, `view.ts` does not), and the next divergence
-will be user-visible. Written so `/speckit.specify` can derive user scenarios
+will be user-visible. Written so `/speckit.specify` (`/speckit-specify` in skills-based agents, `$speckit-specify` in Codex) can derive user scenarios
 and success criteria directly from it.
 
 **Current context.** Exact files with their roles, a short excerpt of the

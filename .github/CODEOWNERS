@@ -10,7 +10,6 @@
 /commands/                              @d0whc3r
 /.claude/skills/                        @d0whc3r
 /.agents/skills/                        @d0whc3r
-/.specify/integrations/                 @d0whc3r
 
 # Extension manifest, catalog, and release tooling.
 /extension.yml                          @d0whc3r
@@ -24,7 +23,6 @@
 
 # Project-wide policy documents.
 /AGENTS.md                              @d0whc3r
-/CLAUDE.md                              @d0whc3r
 /CONTRIBUTING.md                        @d0whc3r
 /CODE_OF_CONDUCT.md                     @d0whc3r
 /SECURITY.md                            @d0whc3r

@@ -8,7 +8,7 @@ The reverse direction (canonical file → which pages depend on it) is at
 the bottom.
 
 Only user-facing pages appear here. Contributor and tooling docs
-(`CONTRIBUTING.md`, `AGENTS.md`/`CLAUDE.md`) are out of this skill's
+(`CONTRIBUTING.md`, `AGENTS.md`) are out of this skill's
 scope and are intentionally absent.
 
 ## Wiki pages
@@ -41,9 +41,9 @@ Asserts:
 - The command and what it writes.
 - The example output paths under `specs/improves/`.
 
-Scope rule: this page **owns** the install procedure. Both user install paths
-(pinned-version direct install and the community-catalog opt-in) are written
-out here in full, and `README.md`, `WORKFLOW.md`, `docs/Troubleshooting.md`,
+Scope rule: this page **owns** the install procedure. The pinned-version
+direct install, the `--force` update, and the agent-specific command names
+are written out here in full, and `README.md`, `WORKFLOW.md`, `docs/Troubleshooting.md`,
 and `docs/FAQ.md` link here instead of repeating the steps. It does not cover
 the dev install (`specify extension add --dev`); that is a contributor step
 and lives in `CONTRIBUTING.md`.
@@ -128,9 +128,10 @@ Documents: refusals, common breakages, and install errors.
 Asserts:
 
 - The installation-errors section: the catalog `install_allowed: false`
-  error text, why it happens, and the direct-install escape hatch. The two
-  install paths in full belong to `docs/Getting-Started.md`; this page links
-  there.
+  error text, why it happens, and the direct install. Never tell users to set
+  the community catalog to `install_allowed`; Spec Kit advises against it. The
+  install and update commands in full belong to `docs/Getting-Started.md`;
+  this page links there.
 - What to do about a refusal. The refusal table itself lives only in
   `docs/Commands.md`; this page links to it and must not restate it.
 
@@ -212,8 +213,9 @@ Asserts:
 - The "Command / What it does / Writes" table (must be
   byte-equivalent to `docs/Home.md`).
 - The direct-install snippet and its pinned version (must match
-  `extension.yml.extension.version`). The catalog opt-in path is not repeated
-  here; the README links to `docs/Getting-Started.md` for it.
+  `extension.yml.extension.version`). The update step and agent-specific
+  command names are not repeated in full; the README links to
+  `docs/Getting-Started.md` for them.
 - Links to every `docs/*.md` page that exists (as wiki URLs).
 - A single Contributing pointer to `CONTRIBUTING.md` at the repo root.
 
@@ -262,7 +264,7 @@ Asserts:
 
 - The hero purpose paragraph (matches `extension.yml.extension.description`
   and the `README.md` lead).
-- The hero badges: command count, `Requires Spec Kit >= 0.2.0`, license.
+- The hero badges: command count, `Requires Spec Kit >= 0.12.17`, license.
 - The command (same command name and what it writes as
   `docs/Home.md`; HTML form, not byte-equivalent).
 - The install snippets and the pinned release URL (must match the version
@@ -285,7 +287,7 @@ Re-check whenever: a command is added or removed; the description in
   pipeline checks, release procedure, catalog submission, style coupling,
   branch naming. User-facing pages link here for contributor questions;
   the skill does not edit it.
-- `AGENTS.md` / `CLAUDE.md` — agent behavioral guidelines and the
+- `AGENTS.md` — agent behavioral guidelines and the
   advisor boundary rule. Repo governance, not user docs.
 - `SECURITY.md`, `SUPPORT.md`, `CODE_OF_CONDUCT.md` — standard repo
   files. Leave alone unless explicitly asked.

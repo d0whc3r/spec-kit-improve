@@ -4,6 +4,8 @@ Deep reference for the `/speckit.improve.run` command. The canonical command
 definition lives in [`commands/`](../commands/) in the repo; this page
 describes its behavior from the user's side.
 
+Skills-based agents, such as Claude Code and Copilot, name the command `/speckit-improve-run`. Codex names it `$speckit-improve-run`.
+
 ## Rules the command always follows
 
 1. **Never modify source code.** The only files the advisor creates or
@@ -220,11 +222,7 @@ merges, pushes, or commits to your branch.
    `/speckit.improve.run` first to refresh any drifted prompts (see
    [Re-running to refresh the backlog](#re-running-to-refresh-the-backlog)
    below); never hand a stale prompt to `/speckit.specify`.
-2. **Invoke `/speckit.specify`** with the full prompt body (Objective, Current
-   context, Detailed instructions) as its argument. `/speckit.specify` creates
-   the feature branch and `spec.md`. If the host agent cannot invoke another
-   command directly, print the exact invocation with the prompt body inlined
-   for you to run.
+2. **Invoke `/speckit.specify`** with the full prompt body (Objective, Current context, Detailed instructions) as its argument. `/speckit.specify` creates the spec directory and `spec.md`. Spec Kit's optional git extension also creates a feature branch. If the host agent cannot invoke another command directly, the advisor prints the exact invocation with the prompt body inlined for you to run.
 3. **Verify the generated spec.** Read `spec.md` against the prompt: every
    requirement encoded, every acceptance criterion represented in the success
    criteria, scope boundaries respected. The prompt was written so a zero-context

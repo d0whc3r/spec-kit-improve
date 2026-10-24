@@ -4,30 +4,21 @@ Common breakages, refusals that are working as intended, and their fixes.
 
 ## Installation errors
 
-### "installation is not allowed from that catalog"
+### "found in the 'community' catalog, which is discovery-only"
 
 ```text
-Error: 'improve' is available in the 'community' catalog but installation is
-not allowed from that catalog.
+Error: 'improve' was found in the 'community' catalog, which is discovery-only
 ```
 
-This is expected behavior, not a broken release. Spec Kit ships the community
-catalog as **discovery only**. It carries `install_allowed: false` by design,
-so the CLI can list community extensions but will not install one until you
-opt in.
+This is expected behavior. Spec Kit lists community extensions in a discovery-only catalog (`install_allowed: false`) and does not install from it. Spec Kit advises against setting that catalog to `install_allowed`.
 
-The quickest way past it is the direct install, which needs no catalog config
-and is the only way to pin a specific version:
+Install the extension directly from the release archive. This is also how you pin a version:
 
 ```bash
 specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.1.0/improve-1.1.0.zip
 ```
 
-If you would rather install and update by name, approve the catalog once.
-Both paths are written out in
-[Getting Started](Getting-Started.md#step-1-install-the-extension). Community
-extensions are author-maintained and not reviewed by Spec Kit; review the
-source before approving a catalog.
+Community extensions are author-maintained, and Spec Kit does not review them. Review the source before you install.
 
 ### The slash commands do not appear in my assistant
 
@@ -41,9 +32,10 @@ source before approving a catalog.
    ls .specify/extensions/improve
    ```
    You should see `extension.yml`, `commands/`, `templates/`.
-3. Restart the host agent. Some agents cache the slash command surface at
+3. Search for the name your host agent uses. Skills-based agents, such as Claude Code and Copilot, show `/speckit-improve-run`. Codex shows `$speckit-improve-run`. See [Getting Started](Getting-Started.md#step-1-install-the-extension).
+4. Restart the host agent. Some agents cache the slash command surface at
    startup. Open a new chat or reload the agent's window.
-4. If it still does not appear, reinstall with the direct URL above.
+5. If it still does not appear, reinstall with the direct URL above and add `--force`.
 
 ## Refusals that are working as intended
 
@@ -74,8 +66,7 @@ yourself.
 
 `/speckit.improve.run` leans on git for the `planned_at` stamp and the mechanical
 drift check inside every prompt, so without it the staleness contract has
-nothing to anchor to. `/speckit.specify` also creates feature
-branches, which requires git. Fix:
+nothing to anchor to. Fix:
 
 ```bash
 git init

@@ -8,6 +8,8 @@ specs/    ->  specs/improves/001-fix-n-plus-one.md                (self-containe
 spec-kit  ->  /speckit.specify ... /speckit.implement       (the lifecycle executes)
 ```
 
+Skills-based agents, such as Claude Code and Copilot, name these commands in dash form, such as `/speckit-improve-run` and `/speckit-specify`. Codex uses `$speckit-improve-run`.
+
 ## Documentation
 
 The full guide lives in the **[project wiki](https://github.com/d0whc3r/spec-kit-improve/wiki)**. This README is the front door only.
@@ -45,9 +47,9 @@ Each `TODO` prompt is a feature description for `/speckit.specify`: hand it the 
 
 ## Install
 
-Requires Spec Kit `>= 0.2.0` initialized in the project (`specify init`) and a git repository; every prompt stamps the commit it was written against for drift detection.
+Requires Spec Kit `>= 0.12.17` initialized in the project (`specify init`) and a git repository; every prompt stamps the commit it was written against for drift detection.
 
-Install directly from the latest release. This needs no catalog setup and is the recommended path:
+Install directly from the latest release:
 
 ```bash
 specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve/releases/download/v1.1.0/improve-1.1.0.zip
@@ -55,7 +57,7 @@ specify extension add improve --from https://github.com/d0whc3r/spec-kit-improve
 
 Change the version in the URL to pin a different release.
 
-To install and update by name instead (`specify extension add improve`), approve Spec Kit's community catalog once. That path, the prerequisites, and the first-run walkthrough are in [Getting Started](https://github.com/d0whc3r/spec-kit-improve/wiki/Getting-Started).
+To update, run the same command with a newer release URL and add `--force`. Install by name (`specify extension add improve`) does not work, because Spec Kit's community catalog is discovery only. The prerequisites, the command name in skills-based agents (`/speckit-improve-run`), and the first-run walkthrough are in [Getting Started](https://github.com/d0whc3r/spec-kit-improve/wiki/Getting-Started).
 
 ## Credits
 
